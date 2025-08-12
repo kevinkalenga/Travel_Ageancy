@@ -44,15 +44,10 @@ class FrontController extends Controller
         $user->token = $token;
         $user->save();
 
-        // $token = hash('sha256',time());
-
-        // $verification_link = route('registration_verify_email', ['email' => $request->email, 'token'=>$token]);
-        // $subject = "User Account Verification";
-        // $message = "Please click the following link to verify your email address:<br>
-        //     <a href=".'$verification_link'.">Verify Email</a>";
+        
        
          // Préparer le lien de vérification
-       $verification_link = route('registration_email_verify', [
+       $verification_link = route('registration_verify', [
             'email' => $request->email,
             'token' => $token
         ]);
@@ -67,6 +62,24 @@ class FrontController extends Controller
 
          return redirect()->route('login')->with('success', 'Registration successful! Please check your email for verification.');
     }
+    
+    public function registration_verify($email, $token)
+    {
+        
+          $user = User::where('token',$token)->where('email',$email)->first();
+          if(!$user) {
+               return redirect()->route('login');
+           }
+           $user->token = '';
+           $user->status = 1;
+           $user->update();
+
+           return redirect()->route('login')->with('success', 'Your email is verified. You can login now.'); 
+     }
+    
+    
+    
+    
     public function login()
     {
         return view('front.login');

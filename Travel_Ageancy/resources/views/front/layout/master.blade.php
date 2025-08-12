@@ -197,5 +197,16 @@
     @endif
 @endif
 
+@if(session('success'))
+<script>
+    iziToast.show({
+        message: '{{ session("success") }}',
+        color: 'green',
+        position: 'topRight',
+    });
+</script>
+@endif
+
+
     </body>
 </html>
