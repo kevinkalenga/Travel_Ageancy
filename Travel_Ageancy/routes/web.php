@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Front\FrontController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[FrontController::class,'home'])->name('home');
+Route::get('/about',[FrontController::class,'about'])->name('about');
 
 // You must login first before you access
 Route::middleware('admin')->prefix('admin')->group(function() {
