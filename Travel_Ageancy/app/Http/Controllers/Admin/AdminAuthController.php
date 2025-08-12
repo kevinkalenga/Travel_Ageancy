@@ -17,6 +17,10 @@ class AdminAuthController extends Controller
     }
     public function login_submit(Request $request) 
     {
+         // Vérifie si tous les champs sont vides
+        if (empty($request->email) && empty($request->password)) {
+             return back()->with('error', 'All fields are required !');
+        }
         $request->validate([
         'email' => ['required', 'email'],
         'password' => ['required'],
@@ -53,6 +57,9 @@ class AdminAuthController extends Controller
 
 public function profile_submit(Request $request)
 {
+    
+    
+    
     $request->validate([
         'name'  => 'required',
         'email' => 'required|email',

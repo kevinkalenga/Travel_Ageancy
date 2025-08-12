@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Mail\Websitemail;
+use Hash;
 
 class FrontController extends Controller
 {
@@ -14,5 +17,62 @@ class FrontController extends Controller
     public function about()
     {
         return view('front.about');
+    }
+    public function registration()
+    {
+        return view('front.registration');
+    }
+    public function registration_submit(Request $request)
+    {
+        
+       // Validation des champs 
+        $request->validate([
+           'name' => 'required',
+           'email' => 'required|email',
+           'password' => 'required',
+           'retype_password' => 'required|same:password',
+        ]);
+        
+          // Génération du token AVANT l'enregistrement
+        $token = hash('sha256',time());
+        
+        // Création du nouvel utilisateur
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->token = $token;
+        $user->save();
+
+        // $token = hash('sha256',time());
+
+        // $verification_link = route('registration_verify_email', ['email' => $request->email, 'token'=>$token]);
+        // $subject = "User Account Verification";
+        // $message = "Please click the following link to verify your email address:<br>
+        //     <a href=".'$verification_link'.">Verify Email</a>";
+       
+         // Préparer le lien de vérification
+       $verification_link = route('registration_email_verify', [
+            'email' => $request->email,
+            'token' => $token
+        ]);
+
+       $subject = "User Account Verification";
+       $message = "Please click the following link to verify your email address:<br>
+        <a href='{$verification_link}'>Verify Email</a>";
+        
+        
+        
+        \Mail::to($request->email)->send(new Websitemail($subject,$message));
+
+         return redirect()->route('login')->with('success', 'Registration successful! Please check your email for verification.');
+    }
+    public function login()
+    {
+        return view('front.login');
+    }
+    public function forget_password()
+    {
+        return view('front.forget_password');
     }
 }

@@ -7,6 +7,11 @@ use App\Http\Controllers\Front\FrontController;
 
 Route::get('/',[FrontController::class,'home'])->name('home');
 Route::get('/about',[FrontController::class,'about'])->name('about');
+Route::get('/registration',[FrontController::class,'registration'])->name('registration');
+Route::post('/registration',[FrontController::class,'registration_submit'])->name('registration_submit');
+Route::get('/registration-verify-email/{email}/{token}',[FrontController::class,'registration_verify_email'])->name('registration_email_verify');
+Route::get('/login',[FrontController::class,'login'])->name('login');
+Route::get('/forget-password',[FrontController::class,'forget_password'])->name('forget_password');
 
 // You must login first before you access
 Route::middleware('admin')->prefix('admin')->group(function() {
@@ -24,7 +29,7 @@ Route::prefix('admin')->group(function() {
     Route::get('/forget-password',[AdminAuthController::class,'forget_password'])->name('admin_forget_password');
     Route::post('/forget-password',[AdminAuthController::class,'forget_password_submit'])->name('admin_forget_password_submit');
     Route::get('/reset-password/{token}/{email}',[AdminAuthController::class,'reset_password'])->name('admin_reset_password');
-    Route::post('/reset-password/{token}{email}',[AdminAuthController::class,'reset_password_submit'])->name('admin_reset_password_submit');
+    Route::post('/reset-password/{token}/{email}',[AdminAuthController::class,'reset_password_submit'])->name('admin_reset_password_submit');
 
     
 });

@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="{{asset('dist-front/css/select2.min.css')}}">
         <link rel="stylesheet" href="{{asset('dist-front/css/select2-bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('dist-front/css/all.css')}}">
+        <link rel="stylesheet" href="{{asset('dist/css/iziToast.min.css')}}">
         <link rel="stylesheet" href="{{asset('dist-front/css/meanmenu.css')}}">
         <link rel="stylesheet" href="{{asset('dist-front/css/spacing.css')}}">
         <link rel="stylesheet" href="{{asset('dist-front/css/style.css')}}">
@@ -32,6 +33,7 @@
         <script src="{{asset('dist-front/js/jquery.waypoints.min.js')}}"></script>
         <script src="{{asset('dist-front/js/moment.min.js')}}"></script>
         <script src="{{asset('dist-front/js/counterup.min.js')}}"></script>
+        <script src="{{asset('dist/js/iziToast.min.js')}}"></script>
         <script src="{{asset('dist-front/js/multi-countdown.js')}}"></script>
         <script src="{{asset('dist-front/js/jquery.meanmenu.js')}}"></script>
 
@@ -50,10 +52,10 @@
                     <div class="col-md-6 right-side">
                         <ul class="right">
                             <li class="menu">
-                                <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                                <a href="{{route('login')}}"><i class="fas fa-sign-in-alt"></i> Login</a>
                             </li>
                             <li class="menu">
-                                <a href="register.html"><i class="fas fa-user"></i> Sign Up</a>
+                                <a href="{{route('registration')}}"><i class="fas fa-user"></i> Sign Up</a>
                             </li>
                         </ul>
                     </div>
@@ -161,5 +163,39 @@
         </div>
 
         <script src="{{asset('dist-front/js/custom.js')}}"></script>
+    
+@if($errors->any())
+    @php
+        // On récupère tous les champs qui ont une erreur
+        $fieldsWithErrors = collect(['name', 'email', 'password', 'retype_password'])
+            ->filter(fn($field) => $errors->has($field));
+
+        // Vérifie si TOUS ces champs ont une erreur
+        $allFieldsEmpty = $fieldsWithErrors->count() === 4;
+    @endphp
+
+    @if($allFieldsEmpty)
+        {{-- Message global --}}
+        <script>
+            iziToast.show({
+                message: 'Tous les champs sont requis.',
+                color: 'red',
+                position: 'topRight',
+            });
+        </script>
+    @else
+        {{-- Messages séparés --}}
+        @foreach ($fieldsWithErrors as $field)
+            <script>
+                iziToast.show({
+                    message: '{{ $errors->first($field) }}',
+                    color: 'red',
+                    position: 'topRight',
+                });
+            </script>
+        @endforeach
+    @endif
+@endif
+
     </body>
 </html>
