@@ -47,6 +47,60 @@ class AdminAuthController extends Controller
     {
         return view('admin.profile');
     }
+    
+  
+
+
+public function profile_submit(Request $request)
+{
+    $request->validate([
+        'name'  => 'required',
+        'email' => 'required|email',
+    ]);
+
+    $admin = Admin::find(Auth::guard('admin')->id());
+
+    if ($request->hasFile('photo')) {
+        $request->validate([
+            'photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
+        ]);
+
+        // Supprime l'ancienne photo seulement si ce n'est pas une photo par défaut
+        $defaultPhotos = ['user.jpg', 'admin.jpeg', 'default.png'];
+        if ($admin->photo && !in_array($admin->photo, $defaultPhotos) && file_exists(public_path('uploads/' . $admin->photo))) {
+            unlink(public_path('uploads/' . $admin->photo));
+        }
+
+        // Sauvegarde la nouvelle photo
+        $final_name = 'admin_' . time() . '.' . $request->photo->extension();
+        $request->photo->move(public_path('uploads'), $final_name);
+        $admin->photo = $final_name;
+    }
+
+    if ($request->password) {
+        $request->validate([
+            'password'          => 'required',
+            'confirm_password'  => 'required|same:password',
+        ]);
+        $admin->password = Hash::make($request->password);
+    }
+
+    $admin->name  = $request->name;
+    $admin->email = $request->email;
+    $admin->save();
+
+    // Met à jour l'utilisateur connecté dans la session Auth
+    Auth::guard('admin')->setUser($admin->fresh());
+    // dd(Auth::guard('admin')->user()->photo);
+
+    return redirect()->back()->with('success', 'Profile updated successfully.');
+}
+
+
+
+    
+    
+    
     public function forget_password() 
     {
         return view('admin.forget-password');

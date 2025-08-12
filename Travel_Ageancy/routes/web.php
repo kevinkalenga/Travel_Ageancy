@@ -10,8 +10,10 @@ Route::get('/', function () {
 
 // You must login first before you access
 Route::middleware('admin')->prefix('admin')->group(function() {
-    Route::get('/profile',[AdminAuthController::class,'profile'])->name('admin_profile');
     Route::get('/dashboard',[AdminDashboardController::class,'dashboard'])->name('admin_dashboard');
+    Route::get('/profile',[AdminAuthController::class,'profile'])->name('admin_profile');
+    Route::post('/profile',[AdminAuthController::class,'profile_submit'])->name('admin_profile_submit');
+
 });
 
 // Admin
