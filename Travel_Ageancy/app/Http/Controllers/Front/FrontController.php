@@ -71,24 +71,64 @@ class FrontController extends Controller
 
     public function login() { return view('front.login'); }
     
-    // Traitement du formulaire de login
-    public function login_submit(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+   
 
-        $credentials = $request->only('email', 'password');
-        // Tentative de login avec vérification du status
-        if (Auth::attempt($credentials + ['status' => 1])) {
-            $request->session()->regenerate(); // Sécurisation de la session
-            return redirect()->route('user_dashboard')->with('success', 'Login successful!');
-        }
-         
-        // Retour avec message d'erreur si login échoue
-        return back()->with('error', 'Email or password is incorrect!')->withInput();
+//     public function login_submit(Request $request)
+// {
+//     $request->validate([
+//         'email' => 'required|email',
+//         'password' => 'required',
+//     ]);
+
+//     $credentials = $request->only('email', 'password');
+
+//     // Test de debug
+//     if (!Auth::attempt($credentials + ['status' => 1])) {
+//         // On regarde pourquoi ça échoue
+//         $user = User::where('email', $request->email)->first();
+        
+//         if (!$user) {
+//             dd('Utilisateur introuvable');
+//         }
+
+//         if (!Hash::check($request->password, $user->password)) {
+//             dd('Mot de passe incorrect');
+//         }
+
+//         if ($user->status != 1) {
+//             dd('Compte inactif');
+//         }
+
+//         dd('Auth::attempt a échoué pour une autre raison');
+//     }
+
+//     // Si login OK
+//     $request->session()->regenerate();
+//     return redirect()->route('user_dashboard')->with('success', 'Login successful!');
+// }
+
+   public function login_submit(Request $request)
+{
+    // 1️⃣ Validation des données
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    // 2️⃣ Préparer les identifiants
+    $credentials = $request->only('email', 'password');
+
+    // 3️⃣ Tenter la connexion en vérifiant que le compte est actif
+    if (Auth::attempt($credentials + ['status' => 1])) {
+        $request->session()->regenerate(); // Sécurise la session
+        return redirect()->route('user_dashboard')->with('success', 'Login successful!');
     }
+
+    // 4️⃣ Retour avec erreur si la connexion échoue
+    return back()->with('error', 'Email or password is incorrect!')->withInput();
+}
+
+
 
     public function logout(Request $request)
     {
@@ -100,5 +140,75 @@ class FrontController extends Controller
     
       // Page "Mot de passe oublié"
     public function forget_password() { return view('front.forget_password'); }
+    
+    public function forget_password_submit(Request $request)
+    {
+         // Validation du champ email
+       $request->validate([
+        'email' => ['required', 'email'],
+       ]);
+        
+        // Vérifier si l'utilisateur existe
+        $user = User::where('email',$request->email)->first();
+        if(!$user) {
+          return redirect()->back()->with('error','Email is not found');
+        }
+       // Générer un token pour le reset du mot de passe
+      $token = hash('sha256',time());
+      $user->token = $token;
+      $user->save();
+      
+       // Préparer le lien de reset
+      $reset_link = route('reset_password', ['token' => $token, 'email' => $request-> email]);
+      $subject = "Password Reset";
+      $message = "To reset password, please click on the link below:<br>";
+      $message .= "<a href='".$reset_link."'>Click Here</a>";
+      
+      // Envoyer le mail
+      \Mail::to($request->email)->send(new Websitemail($subject,$message));
+       
+       // Rediriger avec message de succès
+       return redirect()->back()->with('success','We have sent a password reset link to your email. Please check your email. If you do not find the email in your inbox, please check your spam folder.');
+    }
+
+    
+    
+    
+    public function reset_password($token, $email) 
+    {
+         $user = User::where('email',$email)->where('token',$token)->first();
+         if(!$user) {
+             return redirect()->route('login')->with('error','Token or email is not correct');
+         }
+          return view('front.reset-password', compact('token','email'));
+        
+       
+    }
+
+    public function reset_password_submit(Request $request, $token, $email)
+   {
+    $request->validate([
+        'password' => ['required'],
+        'retype_password' => ['required', 'same:password'],
+    ]);
+
+    $user = User::where('email', $email)
+                ->where('token', $token)
+                ->first();
+
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'Invalid token or email.');
+    }
+
+    $user->password = \Hash::make($request->password);
+    $user->token = '';
+    $user->status = 1; // 🔹 On active le compte
+    $user->save();
+
+    return redirect()->route('login')->with('success', 'Password reset is successful. You can login now.');
+  }
+
+
+
     
 }

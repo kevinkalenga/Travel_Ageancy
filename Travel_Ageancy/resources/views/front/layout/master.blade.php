@@ -164,20 +164,23 @@
 
         <script src="{{asset('dist-front/js/custom.js')}}"></script>
     
+
+
+    {{-- Gestion des messages et validations --}}
 @if($errors->any())
     @php
-         // On détecte quel formulaire est soumis
-      $loginFields = ['email', 'password'];
-      $registerFields = ['name', 'email', 'password', 'retype_password'];
+        // Détection du formulaire
+        $loginFields = ['email', 'password'];
+        $registerFields = ['name', 'email', 'password', 'retype_password'];
 
-      // Choisir la bonne liste
-      $fieldsList = request()->routeIs('login') ? $loginFields : $registerFields;
+        // Choisir la bonne liste selon la route
+        $fieldsList = request()->routeIs('login') ? $loginFields : $registerFields;
 
-      $fieldsWithErrors = collect($fieldsList)
-        ->filter(fn($field) => $errors->has($field));
+        $fieldsWithErrors = collect($fieldsList)
+            ->filter(fn($field) => $errors->has($field));
 
-      $allFieldsEmpty = $fieldsWithErrors->count() === count($fieldsList);
-      @endphp
+        $allFieldsEmpty = $fieldsWithErrors->count() === count($fieldsList);
+    @endphp
 
     @if($allFieldsEmpty)
         {{-- Message global --}}
@@ -202,6 +205,7 @@
     @endif
 @endif
 
+{{-- Message de succès --}}
 @if(session('success'))
 <script>
     iziToast.show({
@@ -211,6 +215,18 @@
     });
 </script>
 @endif
+
+{{-- Message d'erreur flash --}}
+@if(session('error'))
+<script>
+    iziToast.show({
+        message: '{{ session("error") }}',
+        color: 'red',
+        position: 'topRight',
+    });
+</script>
+@endif
+
 
 
     </body>

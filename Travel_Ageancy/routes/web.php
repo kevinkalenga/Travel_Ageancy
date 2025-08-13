@@ -17,7 +17,10 @@ Route::get('/registration-verify/{email}/{token}', [FrontController::class, 'reg
 Route::get('/login', [FrontController::class, 'login'])->name('login');
 Route::post('/login', [FrontController::class, 'login_submit'])->name('login_submit');
 Route::get('/forget-password', [FrontController::class, 'forget_password'])->name('forget_password');
+Route::get('/reset-password/{token}/{email}', [FrontController::class, 'reset_password'])->name('reset_password');
+Route::post('/reset-password/{token}/{email}', [FrontController::class, 'reset_password_submit'])->name('reset_password_submit');
 Route::get('/logout', [FrontController::class, 'logout'])->name('logout'); // logout user
+Route::post('/forget-password', [FrontController::class, 'forget_password_submit'])->name('forget_password_submit');
 
 // Dashboard utilisateur (auth middleware pour guard web)
 Route::middleware('auth')->prefix('user')->group(function () {
