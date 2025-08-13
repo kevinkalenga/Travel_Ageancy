@@ -166,13 +166,18 @@
     
 @if($errors->any())
     @php
-        // On récupère tous les champs qui ont une erreur
-        $fieldsWithErrors = collect(['name', 'email', 'password', 'retype_password'])
-            ->filter(fn($field) => $errors->has($field));
+         // On détecte quel formulaire est soumis
+      $loginFields = ['email', 'password'];
+      $registerFields = ['name', 'email', 'password', 'retype_password'];
 
-        // Vérifie si TOUS ces champs ont une erreur
-        $allFieldsEmpty = $fieldsWithErrors->count() === 4;
-    @endphp
+      // Choisir la bonne liste
+      $fieldsList = request()->routeIs('login') ? $loginFields : $registerFields;
+
+      $fieldsWithErrors = collect($fieldsList)
+        ->filter(fn($field) => $errors->has($field));
+
+      $allFieldsEmpty = $fieldsWithErrors->count() === count($fieldsList);
+      @endphp
 
     @if($allFieldsEmpty)
         {{-- Message global --}}

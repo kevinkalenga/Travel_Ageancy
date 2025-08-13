@@ -23,15 +23,22 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
                         <div class="login-form">
-                            <form action="user-dashboard.html" method="post">
+                            @if(session('success'))
+                             <div class="alert alert-success">{{ session('success') }}</div>
+                            @endif
+
+                             @if(session('error'))
+                               <div class="alert alert-danger">{{ session('error') }}</div>
+                             @endif
+                            <form action="{{route('login_submit')}}" method="post">
                                   @csrf
                                 <div class="mb-3">
                                     <label for="" class="form-label">Email Address</label>
-                                    <input type="text" class="form-control">
+                                    <input type="email" class="form-control" name="email" value="{{old('email')}}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="" class="form-label">Password</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" class="form-control" name="password">
                                 </div>
                                 <div class="mb-3">
                                     <button type="submit" class="btn btn-primary bg-website">

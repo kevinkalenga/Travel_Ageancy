@@ -10,15 +10,15 @@
             <div class="main-nav">
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
-                        <a class="navbar-brand" href="{{route('home')}}">
-                            <img src="{{asset('uploads/logo.png')}}" alt="">
+                        <a class="navbar-brand" href="{{ route('home') }}">
+                            <img src="{{asset('uploads/logo_1.png')}}" alt="">
                         </a>
                         <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto">
-                                <li class="nav-item {{Route::is('home') ? 'active' : '' }}">
+                                <li class="nav-item {{ Route::is('home') ? 'active' : '' }}">
                                     <a href="{{route('home')}}" class="nav-link">Home</a>
                                 </li>
-                                <li class="nav-item {{Route::is('about') ? 'active' : '' }}">
+                                <li class="nav-item {{ Route::is('about') ? 'active' : '' }}">
                                     <a href="{{route('about')}}" class="nav-link">About</a>
                                 </li>
                                 <li class="nav-item">
