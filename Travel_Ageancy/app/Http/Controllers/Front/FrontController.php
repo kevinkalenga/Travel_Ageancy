@@ -23,7 +23,7 @@ class FrontController extends Controller
         // Validation des champs
         $request->validate([
            'name' => 'required',
-           'email' => 'required|email',
+           'email' => 'required|email|unique:users,email,' . Auth::id(),
            'password' => 'required',
            'retype_password' => 'required|same:password',
         ]);

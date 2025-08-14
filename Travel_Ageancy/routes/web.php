@@ -25,6 +25,8 @@ Route::post('/forget-password', [FrontController::class, 'forget_password_submit
 // Dashboard utilisateur (auth middleware pour guard web)
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user_dashboard');
+    Route::get('/profile', [UserController::class, 'profile'])->name('user_profile');
+    Route::post('/profile', [UserController::class, 'profile_submit'])->name('user_profile_submit');
 });
 
 // Admin routes
