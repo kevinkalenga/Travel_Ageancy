@@ -9,7 +9,7 @@
                 <div class="section-header justify-content-between">
                     <h1>Sliders</h1>
                     <div>
-                        <a href="" class="btn btn-primary">
+                        <a href="{{route('admin_slider_create')}}" class="btn btn-primary">
                             <i class="fas fa-plus"></i>
                             Add New
                         </a>
