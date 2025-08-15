@@ -37,11 +37,13 @@
                                                     <td>
                                                        <img class="w_200" src="{{asset('uploads/'.$slider->photo)}}" alt=""> 
                                                     </td>
-            
+                                                     <td>
+                                                        {{$slider->heading}}
+                                                     </td>
                                                     <td class="pt_10 pb_10">
                                                         
-                                                        <a href="" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                                        <a href="" class="btn btn-danger" onClick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
+                                                        <a href="{{route('admin_slider_edit', $slider->id)}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                                        <a href="{{route('admin_slider_delete', $slider->id)}}" class="btn btn-danger" onClick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
                                                     </td>
                                                    
                                                 </tr>
