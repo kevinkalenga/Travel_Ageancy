@@ -8,11 +8,16 @@ use App\Models\User;
 use App\Mail\Websitemail;
 use Hash;
 use Auth;
+use App\Models\Slider;
 
 class FrontController extends Controller
 {
     // Page d'accueil
-    public function home() { return view('front.home'); }
+    public function home() 
+    { 
+        $sliders = Slider::get();
+        return view('front.home', compact('sliders')); 
+    }
      // Page "à propos"
     public function about() { return view('front.about'); }
      // Page d'inscription
@@ -208,7 +213,7 @@ class FrontController extends Controller
     return redirect()->route('login')->with('success', 'Password reset is successful. You can login now.');
   }
 
-
+  
 
     
 }
