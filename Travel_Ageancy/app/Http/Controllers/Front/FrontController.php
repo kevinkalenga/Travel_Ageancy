@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\WelcomeItem;
 use App\Mail\Websitemail;
 use Hash;
 use Auth;
@@ -16,10 +17,16 @@ class FrontController extends Controller
     public function home() 
     { 
         $sliders = Slider::get();
-        return view('front.home', compact('sliders')); 
+        $welcome_item = WelcomeItem::where('id', 1)->first();
+        // pass to the front
+        return view('front.home', compact('sliders', 'welcome_item')); 
     }
      // Page "à propos"
-    public function about() { return view('front.about'); }
+    public function about() 
+    { 
+        $welcome_item = WelcomeItem::where('id', 1)->first();
+        return view('front.about', compact('welcome_item')); 
+    }
      // Page d'inscription
     public function registration() { return view('front.registration'); }
      // Traitement du formulaire d'inscription
