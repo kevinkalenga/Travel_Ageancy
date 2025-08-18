@@ -7,9 +7,9 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-header justify-content-between">
-                    <h1>Edit Slider</h1>
+                    <h1>Edit Feature</h1>
                     <div>
-                        <a href="{{route('admin_slider_index')}}" class="btn btn-primary">
+                        <a href="{{route('admin_feature_index')}}" class="btn btn-primary">
                             <i class="fas fa-plus"></i>
                             View All
                         </a>
@@ -20,39 +20,31 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="{{route('admin_slider_edit_submit', $slider->id)}}" method="post"
-                                        enctype="multipart/form-data">
+                                    <form action="{{route('admin_feature_edit_submit', $feature->id)}}" method="post">
                                         @csrf
                                         <div class="mb-3">
-                                             <label class="form-label">Existing Photo</label>
+                                             <label class="form-label">Existing Icon</label>
                                              <div>
-                                              <img class="w_200" src="{{asset('uploads/'.$slider->photo)}}" alt="">
+                                                     <i class="{{$feature->icon}} fz_30"></i>
                                              </div>
                                         </div>
                                         <div class="mb-3">
-                                             <label class="form-label">Change Photo </label>
+                                             <label class="form-label">Change Icon </label>
                                              <div>
-                                                <input type="file" name="photo">
+                                                <input type="text" class="form-control" name="icon" value="{{$feature->icon}}">
                                              </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Heading *</label>
-                                            <input type="text" class="form-control" name="heading" value="{{$slider->heading}}">
+                                            <input type="text" class="form-control" name="heading" value="{{$feature->heading}}">
                                         </div>
                                 
                                         <div class="mb-3">
-                                            <label class="form-label">Text *</label>
-                                             <textarea name="text" class="form-control h_100" cols="30" rows="10">{{ $slider->text }}</textarea>
+                                            <label class="form-label">Description *</label>
+                                             <textarea name="description" class="form-control h_100" cols="30" rows="10">{{ $feature->description }}</textarea>
 
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Button Text </label>
-                                             <input type="text" class="form-control" name="button_text" value="{{$slider->button_text}}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Button Link </label>
-                                            <input type="text" class="form-control" name="button_link" value="{{$slider->button_link}}">
-                                        </div>
+                                        
                                         <div class="mb-3">
                                             <label class="form-label"></label>
                                             <button type="submit" class="btn btn-primary">Submit</button>

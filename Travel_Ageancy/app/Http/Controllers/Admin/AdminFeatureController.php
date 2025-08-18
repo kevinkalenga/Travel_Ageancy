@@ -43,49 +43,35 @@ class AdminFeatureController extends Controller
 
     public function edit($id)
     {
-        $slider = Slider::where('id', $id)->first();
-        return view('admin.slider.edit', compact('slider'));
+        $feature = Feature::where('id', $id)->first();
+        return view('admin.feature.edit', compact('feature'));
     }
 
     public function edit_submit(Request $request, $id)
     {
-        $slider = Slider::where('id', $id)->first();  
+        $obj = Feature::where('id', $id)->first();  
         
         $request->validate([
+            'icon' => 'required',
             'heading' => 'required',
-            'text' => 'required',
+            'description' => 'required',
            
         ]);
 
-        if($request->hasFile('photo')) 
-        {
-            $request->validate([
-           
-                'photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
-            ]);
+        $obj->icon = $request->icon;
+        $obj->heading = $request->heading;
+        $obj->description = $request->description;
+        
+        $obj->save();
 
-            unlink(public_path('uploads/'.$slider->photo));
-
-            $finale_name = 'slider_'.time().'.'.$request->photo->extension();
-            $request->photo->move(public_path('uploads'), $finale_name);
-            $slider->photo = $finale_name;
-        }
-
-        $slider->heading = $request->heading;
-        $slider->text = $request->text;
-        $slider->button_text = $request->button_text;
-        $slider->button_link = $request->button_link;
-        $slider->save();
-
-        return redirect()->route('admin_slider_index')->with('success', 'Slider Updated Successfully');
+        return redirect()->route('admin_feature_index')->with('success', 'Feature is Updated Successfully');
     }
 
     public function delete($id) 
     {
-        $slider = Slider::where('id', $id)->first();
-        unlink(public_path('uploads/'.$slider->photo));
-        $slider->delete();
+        $obj = Feature::where('id', $id)->first();
+        $obj->delete();
 
-        return redirect()->route('admin_slider_index')->with('success', 'Slider Deleted Successfully');
+        return redirect()->route('admin_feature_index')->with('success', 'Feature is Deleted Successfully');
     }
 }
