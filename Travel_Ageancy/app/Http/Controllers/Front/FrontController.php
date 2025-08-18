@@ -11,6 +11,7 @@ use Hash;
 use Auth;
 use App\Models\Slider;
 use App\Models\Feature;
+use App\Models\CounterItem;
 
 class FrontController extends Controller
 {
@@ -20,6 +21,7 @@ class FrontController extends Controller
         $sliders = Slider::get();
         $welcome_item = WelcomeItem::where('id', 1)->first();
         $features = Feature::get();
+        
         // pass to the front
         return view('front.home', compact('sliders', 'welcome_item', 'features')); 
     }
@@ -28,7 +30,8 @@ class FrontController extends Controller
     { 
         $welcome_item = WelcomeItem::where('id', 1)->first();
         $features = Feature::get();
-        return view('front.about', compact('welcome_item', 'features')); 
+        $counter_item = CounterItem::where('id', 1)->first();;
+        return view('front.about', compact('welcome_item', 'features', 'counter_item')); 
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }
