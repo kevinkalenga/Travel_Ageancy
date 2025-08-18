@@ -44,17 +44,18 @@ class AdminTestimonialController extends Controller
 
     public function edit($id)
     {
-        $slider = Slider::where('id', $id)->first();
-        return view('admin.slider.edit', compact('slider'));
+        $testimonial = Testimonial::where('id', $id)->first();
+        return view('admin.testimonial.edit', compact('testimonial'));
     }
 
     public function edit_submit(Request $request, $id)
     {
-        $slider = Slider::where('id', $id)->first();  
+        $testimonial = Testimonial::where('id', $id)->first();  
         
         $request->validate([
-            'heading' => 'required',
-            'text' => 'required',
+            'name' => 'required',
+            'designation' => 'required',
+            'comment' => 'required',
            
         ]);
 
@@ -65,29 +66,29 @@ class AdminTestimonialController extends Controller
                 'photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
             ]);
 
-            unlink(public_path('uploads/'.$slider->photo));
+            unlink(public_path('uploads/'.$testimonial->photo));
 
-            $finale_name = 'slider_'.time().'.'.$request->photo->extension();
+            $finale_name = 'testimonial_'.time().'.'.$request->photo->extension();
             $request->photo->move(public_path('uploads'), $finale_name);
-            $slider->photo = $finale_name;
+            $testimonial->photo = $finale_name;
         }
 
-        $slider->heading = $request->heading;
-        $slider->text = $request->text;
-        $slider->button_text = $request->button_text;
-        $slider->button_link = $request->button_link;
-        $slider->save();
+        $testimonial->name = $request->name;
+        $testimonial->designation = $request->designation;
+        $testimonial->comment = $request->comment;
+       
+        $testimonial->save();
 
-        return redirect()->route('admin_slider_index')->with('success', 'Slider Updated Successfully');
+        return redirect()->route('admin_testimonial_index')->with('success', 'Testimonial is Updated Successfully');
     }
 
     public function delete($id) 
     {
-        $slider = Slider::where('id', $id)->first();
-        unlink(public_path('uploads/'.$slider->photo));
-        $slider->delete();
+        $testimonial = Testimonial::where('id', $id)->first();
+        unlink(public_path('uploads/'.$testimonial->photo));
+        $testimonial->delete();
 
-        return redirect()->route('admin_slider_index')->with('success', 'Slider Deleted Successfully');
+        return redirect()->route('admin_testimonial_index')->with('success', 'Testimonial is Deleted Successfully');
     }
 
 }
