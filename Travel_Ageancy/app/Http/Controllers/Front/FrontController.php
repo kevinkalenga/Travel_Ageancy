@@ -12,6 +12,7 @@ use Auth;
 use App\Models\Slider;
 use App\Models\Feature;
 use App\Models\CounterItem;
+use App\Models\Testimonial;
 
 class FrontController extends Controller
 {
@@ -21,9 +22,10 @@ class FrontController extends Controller
         $sliders = Slider::get();
         $welcome_item = WelcomeItem::where('id', 1)->first();
         $features = Feature::get();
+        $testimonials = Testimonial::get();
         
         // pass to the front
-        return view('front.home', compact('sliders', 'welcome_item', 'features')); 
+        return view('front.home', compact('sliders', 'welcome_item', 'features', 'testimonials')); 
     }
      // Page "à propos"
     public function about() 
