@@ -10,6 +10,7 @@ use App\Mail\Websitemail;
 use Hash;
 use Auth;
 use App\Models\Slider;
+use App\Models\Feature;
 
 class FrontController extends Controller
 {
@@ -18,14 +19,16 @@ class FrontController extends Controller
     { 
         $sliders = Slider::get();
         $welcome_item = WelcomeItem::where('id', 1)->first();
+        $features = Feature::get();
         // pass to the front
-        return view('front.home', compact('sliders', 'welcome_item')); 
+        return view('front.home', compact('sliders', 'welcome_item', 'features')); 
     }
      // Page "à propos"
     public function about() 
     { 
         $welcome_item = WelcomeItem::where('id', 1)->first();
-        return view('front.about', compact('welcome_item')); 
+        $features = Feature::get();
+        return view('front.about', compact('welcome_item', 'features')); 
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }
