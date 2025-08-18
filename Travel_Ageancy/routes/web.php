@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminSliderController;
 use App\Http\Controllers\Admin\AdminWelcomeItemController;
+use App\Http\Controllers\Admin\AdminFeatureController;
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\User\UserController;
 
@@ -33,18 +34,29 @@ Route::middleware('auth')->prefix('user')->group(function () {
 
 // Admin routes
 Route::middleware('admin')->prefix('admin')->group(function () {
+    // Dashboard section
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin_dashboard');
+    // Profile section
     Route::get('/profile', [AdminAuthController::class, 'profile'])->name('admin_profile');
     Route::post('/profile', [AdminAuthController::class, 'profile_submit'])->name('admin_profile_submit');
+    // Slider section
     Route::get('/slider/index', [AdminSliderController::class, 'index'])->name('admin_slider_index');
     Route::get('/slider/create', [AdminSliderController::class, 'create'])->name('admin_slider_create');
     Route::post('/slider/create', [AdminSliderController::class, 'create_submit'])->name('admin_slider_create_submit');
     Route::get('/slider/edit/{id}', [AdminSliderController::class, 'edit'])->name('admin_slider_edit');
     Route::post('/slider/edit/{id}', [AdminSliderController::class, 'edit_submit'])->name('admin_slider_edit_submit');
     Route::get('/slider/delete/{id}', [AdminSliderController::class, 'delete'])->name('admin_slider_delete');
+    // Welcome section
     Route::get('/welcome-item/index', [AdminWelcomeItemController::class, 'index'])->name('admin_welcome_item_index');
     Route::post('/welcome-item/update', [AdminWelcomeItemController::class, 'update'])->name('admin_welcome_item_update');
-
+     
+    // Feature section
+    Route::get('/feature/index', [AdminFeatureController::class, 'index'])->name('admin_feature_index');
+    Route::get('/feature/create', [AdminFeatureController::class, 'create'])->name('admin_feature_create');
+    Route::post('/feature/create', [AdminFeatureController::class, 'create_submit'])->name('admin_feature_create_submit');
+    Route::get('/feature/edit/{id}', [AdminFeatureController::class, 'edit'])->name('admin_feature_edit');
+    Route::post('/feature/edit/{id}', [AdminFeatureController::class, 'edit_submit'])->name('admin_feature_edit_submit');
+    Route::get('/feature/delete/{id}', [AdminFeatureController::class, 'delete'])->name('admin_feature_delete');
 });
 
 Route::prefix('admin')->group(function () {
