@@ -18,6 +18,7 @@ use App\Http\Controllers\User\UserController;
 Route::get('/', [FrontController::class, 'home'])->name('home');
 Route::get('/about', [FrontController::class, 'about'])->name('about');
 Route::get('/team-members', [FrontController::class, 'team_members'])->name('team_members');
+Route::get('/team-member/{slug}', [FrontController::class, 'team_member'])->name('team_member');
 Route::get('/registration', [FrontController::class, 'registration'])->name('registration');
 Route::post('/registration', [FrontController::class, 'registration_submit'])->name('registration_submit');
 Route::get('/registration-verify/{email}/{token}', [FrontController::class, 'registration_verify'])->name('registration_verify');

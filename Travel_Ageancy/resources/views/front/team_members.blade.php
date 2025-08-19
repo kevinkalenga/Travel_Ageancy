@@ -26,10 +26,12 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="item pb_50">
                             <div class="photo">
-                                <img src="{{asset('uploads/'.$team_member->photo)}}" alt="" />
+                                <a href="{{route('team_member', $team_member->slug)}}">
+                                    <img src="{{asset('uploads/'.$team_member->photo)}}" alt="" />
+                                </a>
                             </div>
                             <div class="text">
-                                <h2><a href="#">{{$team_member->name}}</a></h2>
+                                <h2><a href="{{route('team_member', $team_member->slug)}}">{{$team_member->name}}</a></h2>
                                 <div class="designation">{{$team_member->designation}}</div>
                               @if($team_member->facebook != '' || $team_member->twitter != '' || $team_member->linkedin != '' || $team_member->instagram != '')
                                 <div class="social">
@@ -55,8 +57,15 @@
                     </div>
                  @endforeach
                 </div>
+               
             </div>
         </div>
-
+<div class="container pb_50">
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center">
+            {{$team_members->links()}}
+        </div>
+    </div>
+</div>
 
 @endsection
