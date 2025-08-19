@@ -7,9 +7,9 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-header justify-content-between">
-                    <h1>Edit Testimonial</h1>
+                    <h1>Edit Team Member</h1>
                     <div>
-                        <a href="{{route('admin_testimonial_index')}}" class="btn btn-primary">
+                        <a href="{{route('admin_team_member_index')}}" class="btn btn-primary">
                             <i class="fas fa-plus"></i>
                             View All
                         </a>
@@ -20,13 +20,13 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="{{route('admin_testimonial_edit_submit', $testimonial->id)}}" method="post"
+                                    <form action="{{route('admin_team_member_edit_submit', $team_member->id)}}" method="post"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <div class="mb-3">
                                              <label class="form-label">Existing Photo</label>
                                              <div>
-                                              <img class="w_100" src="{{asset('uploads/'.$testimonial->photo)}}" alt="">
+                                              <img class="w_100" src="{{asset('uploads/'.$team_member->photo)}}" alt="">
                                              </div>
                                         </div>
                                         <div class="mb-3">
@@ -35,20 +35,83 @@
                                                 <input type="file" name="photo">
                                              </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Name *</label>
-                                            <input type="text" class="form-control" name="name" value="{{$testimonial->name}}">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                  <div class="mb-3">
+                                                     <label class="form-label">Name *</label>
+                                                      <input type="text" class="form-control" name="name" value="{{$team_member->name}}">
+                                                  </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                  <div class="mb-3">
+                                                     <label class="form-label">Slug *</label>
+                                                      <input type="text" class="form-control" name="slug" value="{{$team_member->name}}">
+                                                  </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                  <div class="mb-3">
+                                                      <label class="form-label">Designation *</label>
+                                                       <input type="text" class="form-control" name="designation" value="{{$team_member->designation}}">
+                                                  </div>
+                                            </div>
+                                        
+                                        
+                                            <div class="col-md-6">
+                                                 <div class="mb-3">
+                                                    <label class="form-label">Address *</label>
+                                                    <input type="text" class="form-control" name="address" value="{{$team_member->address}}">
+                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                  <div class="mb-3">
+                                                     <label class="form-label">Email *</label>
+                                                     <input type="email" class="form-control" name="email" value="{{$team_member->email}}">
+                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                       <label class="form-label">Phone *</label>
+                                                        <input type="text" class="form-control" name="phone" value="{{$team_member->phone}}">
+                                                    </div>
+                                            </div>
+                                         
+                                        
+                                       
+                                        
+                                       
+                                        
+                                            <div class="col-md-6">
+                                                 <div class="mb-3">
+                                                    <label class="form-label">Facebook</label>
+                                                    <input type="text" class="form-control" name="facebook" value="{{$team_member->facebook}}">
+                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                       <label class="form-label">Twitter</label>
+                                                       <input type="text" class="form-control" name="twitter" value="{{$team_member->twitter}}">
+                                                    </div>
+                                            </div>
+                                        
+                                        
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                   <label class="form-label">Linkedin *</label>
+                                                   <input type="text" class="form-control" name="linkedin" value="{{$team_member->linkedin}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                     <label class="form-label">Instagram</label>
+                                                    <input type="text" class="form-control" name="instagram" value="{{$team_member->instagram}}">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Designation *</label>
-                                            <input type="text" class="form-control" name="designation" value="{{$testimonial->designation}}">
-                                        </div>
-                                
-                                        <div class="mb-3">
-                                            <label class="form-label">Comment *</label>
-                                             <textarea name="comment" class="form-control h_100" cols="30" rows="10">{{ $testimonial->comment }}</textarea>
+                                          <div class="mb-3">
+                                                  <label class="form-label">Biography</label>
+                                                 <textarea name="biography" class="form-control editor" cols="30" rows="10">{{ $team_member->biography}}</textarea>
 
-                                        </div>
+                                          </div>
                                         
                                         <div class="mb-3">
                                             <label class="form-label"></label>
