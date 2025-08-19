@@ -13,6 +13,7 @@ use App\Models\Slider;
 use App\Models\Feature;
 use App\Models\CounterItem;
 use App\Models\Testimonial;
+use App\Models\TeamMember;
 
 class FrontController extends Controller
 {
@@ -34,6 +35,12 @@ class FrontController extends Controller
         $features = Feature::get();
         $counter_item = CounterItem::where('id', 1)->first();;
         return view('front.about', compact('welcome_item', 'features', 'counter_item')); 
+    }
+
+    public function team_members() 
+    {
+        $team_members = TeamMember::get();
+       return view('front.team_members', compact('team_members')); 
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }
