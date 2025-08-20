@@ -41,36 +41,35 @@ class AdminFaqController extends Controller
 
     public function edit($id)
     {
-        $feature = Feature::where('id', $id)->first();
-        return view('admin.feature.edit', compact('feature'));
+        $faq = Faq::where('id', $id)->first();
+        return view('admin.faq.edit', compact('faq'));
     }
 
     public function edit_submit(Request $request, $id)
     {
-        $obj = Feature::where('id', $id)->first();  
+        $obj = Faq::where('id', $id)->first();  
         
         $request->validate([
-            'icon' => 'required',
-            'heading' => 'required',
-            'description' => 'required',
+            'question' => 'required',
+            'answer' => 'required',
            
         ]);
 
-        $obj->icon = $request->icon;
-        $obj->heading = $request->heading;
-        $obj->description = $request->description;
+        
+        $obj->question = $request->question;
+        $obj->answer = $request->answer;
         
         $obj->save();
 
-        return redirect()->route('admin_feature_index')->with('success', 'Feature is Updated Successfully');
+        return redirect()->route('admin_faq_index')->with('success', 'FAQ is Updated Successfully');
     }
 
     public function delete($id) 
     {
-        $obj = Feature::where('id', $id)->first();
-        $obj->delete();
+        $faq = Faq::where('id', $id)->first();
+        $faq->delete();
 
-        return redirect()->route('admin_feature_index')->with('success', 'Feature is Deleted Successfully');
+        return redirect()->route('admin_faq_index')->with('success', 'FAQ is Deleted Successfully');
     }
 
 }

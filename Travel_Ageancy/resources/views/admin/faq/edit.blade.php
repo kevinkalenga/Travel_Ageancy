@@ -7,9 +7,9 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-header justify-content-between">
-                    <h1>Edit Feature</h1>
+                    <h1>Edit FAQ</h1>
                     <div>
-                        <a href="{{route('admin_feature_index')}}" class="btn btn-primary">
+                        <a href="{{route('admin_faq_index')}}" class="btn btn-primary">
                             <i class="fas fa-plus"></i>
                             View All
                         </a>
@@ -20,28 +20,17 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="{{route('admin_feature_edit_submit', $feature->id)}}" method="post">
+                                    <form action="{{route('admin_faq_edit_submit', $faq->id)}}" method="post">
                                         @csrf
+                                        
                                         <div class="mb-3">
-                                             <label class="form-label">Existing Icon</label>
-                                             <div>
-                                                     <i class="{{$feature->icon}} fz_30"></i>
-                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                             <label class="form-label">Change Icon </label>
-                                             <div>
-                                                <input type="text" class="form-control" name="icon" value="{{$feature->icon}}">
-                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Heading *</label>
-                                            <input type="text" class="form-control" name="heading" value="{{$feature->heading}}">
+                                            <label class="form-label">Question *</label>
+                                            <input type="text" class="form-control" name="question" value="{{$faq->question}}">
                                         </div>
                                 
                                         <div class="mb-3">
-                                            <label class="form-label">Description *</label>
-                                             <textarea name="description" class="form-control h_100" cols="30" rows="10">{{ $feature->description }}</textarea>
+                                            <label class="form-label">Answer *</label>
+                                             <textarea name="answer" class="form-control h_200" cols="30" rows="10">{{ $faq->answer }}</textarea>
 
                                         </div>
                                         
