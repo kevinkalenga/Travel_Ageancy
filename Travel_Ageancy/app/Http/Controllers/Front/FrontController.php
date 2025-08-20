@@ -14,6 +14,7 @@ use App\Models\Feature;
 use App\Models\CounterItem;
 use App\Models\Testimonial;
 use App\Models\TeamMember;
+use App\Models\Faq;
 
 class FrontController extends Controller
 {
@@ -47,6 +48,12 @@ class FrontController extends Controller
     {
           $team_member = TeamMember::where('slug', $slug)->first();
           return view('front.team_member', compact('team_member')); 
+    }
+
+    public function faq() 
+    {
+        $faqs = Faq::get();
+        return view('front.faq', compact('faqs'));
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }
