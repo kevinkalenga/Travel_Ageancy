@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminSliderController;
 use App\Http\Controllers\Admin\AdminWelcomeItemController;
 use App\Http\Controllers\Admin\AdminFeatureController;
+use App\Http\Controllers\Admin\AdminFaqController;
 use App\Http\Controllers\Admin\AdminCounterItemController;
 use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\AdminTeamMemberController;
@@ -81,6 +82,14 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/team-member/edit/{id}', [AdminTeamMemberController::class, 'edit'])->name('admin_team_member_edit');
     Route::post('/team-member/edit/{id}', [AdminTeamMemberController::class, 'edit_submit'])->name('admin_team_member_edit_submit');
     Route::get('/team-member/delete/{id}', [AdminTeamMemberController::class, 'delete'])->name('admin_team_member_delete');
+
+    // Faq section
+    Route::get('/faq/index', [AdminFaqController::class, 'index'])->name('admin_faq_index');
+    Route::get('/faq/create', [AdminFaqController::class, 'create'])->name('admin_faq_create');
+    Route::post('/faq/create', [AdminFaqController::class, 'create_submit'])->name('admin_faq_create_submit');
+    Route::get('/faq/edit/{id}', [AdminFaqController::class, 'edit'])->name('admin_faq_edit');
+    Route::post('/faq/edit/{id}', [AdminFaqController::class, 'edit_submit'])->name('admin_faq_edit_submit');
+    Route::get('/faq/delete/{id}', [AdminFaqController::class, 'delete'])->name('admin_faq_delete');
 });
 
 Route::prefix('admin')->group(function () {
