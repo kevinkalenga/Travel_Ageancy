@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BlogCategory;
+use Illuminate\Validation\Rule;
 
 class AdminBlogCategoryController extends Controller
 {
@@ -41,35 +42,39 @@ class AdminBlogCategoryController extends Controller
 
     public function edit($id)
     {
-        $faq = Faq::where('id', $id)->first();
-        return view('admin.faq.edit', compact('faq'));
+        $blog_category = BlogCategory::findOrFail($id);
+        return view('admin.blog_category.edit', compact('blog_category'));
     }
 
     public function edit_submit(Request $request, $id)
     {
-        $obj = Faq::where('id', $id)->first();  
+        $blog_category = BlogCategory::findOrFail($id);
         
         $request->validate([
-            'question' => 'required',
-            'answer' => 'required',
-           
+            'name' => 'required|string|max:255',
+            'slug' => [
+                'required',
+                'alpha_dash',
+                Rule::unique('blog_categories', 'slug')->ignore($blog_category->id),
+            ],
         ]);
 
-        
-        $obj->question = $request->question;
-        $obj->answer = $request->answer;
-        
-        $obj->save();
+        $blog_category->name = $request->name;
+        $blog_category->slug = $request->slug;
+        $blog_category->save();
 
-        return redirect()->route('admin_faq_index')->with('success', 'FAQ is Updated Successfully');
+        return redirect()->route('admin_blog_category_index')
+                         ->with('success', 'Blog Category is Updated Successfully');
     }
 
     public function delete($id) 
     {
-        $faq = Faq::where('id', $id)->first();
-        $faq->delete();
+        $blog_category = BlogCategory::findOrFail($id);
+        $blog_category->delete();
 
-        return redirect()->route('admin_faq_index')->with('success', 'FAQ is Deleted Successfully');
+        return redirect()->route('admin_blog_category_index')
+                         ->with('success', 'Blog Category is Deleted Successfully');
     }
+
 
 }

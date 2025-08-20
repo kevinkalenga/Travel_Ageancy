@@ -7,9 +7,9 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-header justify-content-between">
-                    <h1>Edit FAQ</h1>
+                    <h1>Edit Blog Category</h1>
                     <div>
-                        <a href="{{route('admin_faq_index')}}" class="btn btn-primary">
+                        <a href="{{route('admin_blog_category_index')}}" class="btn btn-primary">
                             <i class="fas fa-plus"></i>
                             View All
                         </a>
@@ -20,23 +20,23 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="{{route('admin_faq_edit_submit', $faq->id)}}" method="post">
+                                    <form action="{{route('admin_blog_category_edit_submit', $blog_category->id)}}" method="post">
                                         @csrf
                                         
                                         <div class="mb-3">
-                                            <label class="form-label">Question *</label>
-                                            <input type="text" class="form-control" name="question" value="{{$faq->question}}">
+                                            <label class="form-label">Name *</label>
+                                            <input type="text" class="form-control" name="name" value="{{$blog_category->name}}">
                                         </div>
                                 
                                         <div class="mb-3">
-                                            <label class="form-label">Answer *</label>
-                                             <textarea name="answer" class="form-control h_200" cols="30" rows="10">{{ $faq->answer }}</textarea>
+                                            <label class="form-label">Slug *</label>
+                                             <input type="text" class="form-control" name="slug" value="{{$blog_category->slug}}">
 
                                         </div>
                                         
                                         <div class="mb-3">
                                             <label class="form-label"></label>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-primary">Update</button>
                                         </div>
                                     </form>
                                 </div>
