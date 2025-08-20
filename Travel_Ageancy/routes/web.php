@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminSliderController;
 use App\Http\Controllers\Admin\AdminWelcomeItemController;
 use App\Http\Controllers\Admin\AdminFeatureController;
 use App\Http\Controllers\Admin\AdminFaqController;
+use App\Http\Controllers\Admin\AdminBlogCategoryController;
 use App\Http\Controllers\Admin\AdminCounterItemController;
 use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\AdminTeamMemberController;
@@ -92,6 +93,13 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/faq/edit/{id}', [AdminFaqController::class, 'edit'])->name('admin_faq_edit');
     Route::post('/faq/edit/{id}', [AdminFaqController::class, 'edit_submit'])->name('admin_faq_edit_submit');
     Route::get('/faq/delete/{id}', [AdminFaqController::class, 'delete'])->name('admin_faq_delete');
+    // Blog Category section
+    Route::get('/blog_category/index', [AdminBlogCategoryController::class, 'index'])->name('admin_blog_category_index');
+    Route::get('/blog_category/create', [AdminBlogCategoryController::class, 'create'])->name('admin_blog_category_create');
+    Route::post('/blog_category/create', [AdminBlogCategoryController::class, 'create_submit'])->name('admin_blog_category_create_submit');
+    Route::get('/blog_category/edit/{id}', [AdminBlogCategoryController::class, 'edit'])->name('admin_blog_category_edit');
+    Route::post('/blog_category/edit/{id}', [AdminBlogCategoryController::class, 'edit_submit'])->name('admin_blog_category_edit_submit');
+    Route::get('/blog_category/delete/{id}', [AdminBlogCategoryController::class, 'delete'])->name('admin_blog_category_delete');
 });
 
 Route::prefix('admin')->group(function () {

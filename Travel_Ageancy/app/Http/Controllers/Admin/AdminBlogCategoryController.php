@@ -4,39 +4,39 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Faq;
+use App\Models\BlogCategory;
 
-class AdminFaqController extends Controller
+class AdminBlogCategoryController extends Controller
 {
     public function index() 
     {
         // Show the feature section in the home page
-        $faqs = Faq::get();
-        return view('admin.faq.index', compact('faqs'));
+        $blog_categories = BlogCategory::get();
+        return view('admin.blog_category.index', compact('blog_categories'));
     }
 
     public function create() 
     {
-        return view('admin.faq.create');
+        return view('admin.blog_category.create');
     }
 
     public function create_submit(Request $request)
     {
         $request->validate([
-            'question' => 'required',
-            'answer' => 'required',
+            'name' => 'required',
+            'slug' => 'required|alpha_dash|unique:blog_categories',
             
             
         ]);
 
        
 
-        $obj = new Faq();
-        $obj->question = $request->question;
-        $obj->answer = $request->answer;
+        $obj = new BlogCategory();
+        $obj->name = $request->name;
+        $obj->slug = $request->slug;
         $obj->save();
 
-        return redirect()->route('admin_faq_index')->with('success', 'FAQ is Created Successfully');
+        return redirect()->route('admin_blog_category_index')->with('success', 'Blog Category is Created Successfully');
     }
 
     public function edit($id)
