@@ -15,6 +15,8 @@ use App\Models\CounterItem;
 use App\Models\Testimonial;
 use App\Models\TeamMember;
 use App\Models\Faq;
+use App\Models\Post;
+use App\Models\BlogCategory;
 
 class FrontController extends Controller
 {
@@ -24,10 +26,11 @@ class FrontController extends Controller
         $sliders = Slider::get();
         $welcome_item = WelcomeItem::where('id', 1)->first();
         $features = Feature::get();
+        $posts = Post::with('blog_category')->orderBy('id', 'desc')->get()->take(3);
         $testimonials = Testimonial::get();
         
         // pass to the front
-        return view('front.home', compact('sliders', 'welcome_item', 'features', 'testimonials')); 
+        return view('front.home', compact('sliders', 'welcome_item', 'features', 'testimonials', 'posts')); 
     }
      // Page "à propos"
     public function about() 
@@ -54,6 +57,19 @@ class FrontController extends Controller
     {
         $faqs = Faq::get();
         return view('front.faq', compact('faqs'));
+    }
+
+    public function blog()
+    {
+        $posts = Post::with('blog_category')->paginate(9);
+        return view('front.blog', compact('posts'));
+    }
+    public function post($slug)
+    {
+        $categories = BlogCategory::orderBy('name', 'asc')->get();
+        $post = Post::with('blog_category')->where('slug', $slug)->first();
+        $latest_posts = Post::with('blog_category')->orderBy('id', 'desc')->get()->take(5);
+        return view('front.post', compact('post', 'categories', 'latest_posts'));
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }
