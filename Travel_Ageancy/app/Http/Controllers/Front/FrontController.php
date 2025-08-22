@@ -71,6 +71,13 @@ class FrontController extends Controller
         $latest_posts = Post::with('blog_category')->orderBy('id', 'desc')->get()->take(5);
         return view('front.post', compact('post', 'categories', 'latest_posts'));
     }
+    public function category($slug)
+    {
+        $category = BlogCategory::where('slug', $slug)->first();
+        $posts = Post::with('blog_category')
+        ->where('blog_category_id', $category->id)->orderBy('id', 'desc')->paginate(9);
+        return view('front.category', compact('posts', 'category'));
+    }
      // Page d'inscription
     public function registration() { return view('front.registration'); }
      // Traitement du formulaire d'inscription

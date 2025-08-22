@@ -35,6 +35,7 @@ Route::post('/forget-password', [FrontController::class, 'forget_password_submit
 Route::get('/faq', [FrontController::class, 'faq'])->name('faq');
 Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
 Route::get('/post/{slug}', [FrontController::class, 'post'])->name('post');
+Route::get('/category/{slug}', [FrontController::class, 'category'])->name('category');
 
 
 // Dashboard utilisateur (auth middleware pour guard web)
