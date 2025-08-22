@@ -7,9 +7,9 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-header justify-content-between">
-                    <h1>Edit Testimonial</h1>
+                    <h1>Edit Post</h1>
                     <div>
-                        <a href="{{route('admin_testimonial_index')}}" class="btn btn-primary">
+                        <a href="{{route('admin_post_index')}}" class="btn btn-primary">
                             <i class="fas fa-plus"></i>
                             View All
                         </a>
@@ -20,13 +20,13 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="{{route('admin_testimonial_edit_submit', $testimonial->id)}}" method="post"
+                                    <form action="{{route('admin_post_edit_submit', $post->id)}}" method="post"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <div class="mb-3">
                                              <label class="form-label">Existing Photo</label>
                                              <div>
-                                              <img class="w_100" src="{{asset('uploads/'.$testimonial->photo)}}" alt="">
+                                              <img class="w_100" src="{{asset('uploads/'.$post->photo)}}" alt="">
                                              </div>
                                         </div>
                                         <div class="mb-3">
@@ -36,18 +36,34 @@
                                              </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Name *</label>
-                                            <input type="text" class="form-control" name="name" value="{{$testimonial->name}}">
+                                            <label class="form-label">Title *</label>
+                                            <input type="text" class="form-control" name="title" value="{{$post->title}}">
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Designation *</label>
-                                            <input type="text" class="form-control" name="designation" value="{{$testimonial->designation}}">
+                                            <label class="form-label">Slug *</label>
+                                            <input type="text" class="form-control" name="slug" value="{{$post->slug}}">
                                         </div>
                                 
                                         <div class="mb-3">
-                                            <label class="form-label">Comment *</label>
-                                             <textarea name="comment" class="form-control h_100" cols="30" rows="10">{{ $testimonial->comment }}</textarea>
+                                            <label class="form-label">Description *</label>
+                                             <textarea name="description" class="form-control editor" cols="30" rows="10">{{ $post->description }}</textarea>
 
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Short Description *</label>
+                                             <textarea name="short_description" class="form-control h_100" cols="30" rows="10">{{ $post->short_description }}</textarea>
+
+                                        </div>
+                                         <div class="mb-3">
+                                            <label class="form-label">Category *</label>
+                                             <select name="blog_category_id" class="form-select">
+                                                @foreach($categories as $category)
+                                                   <option value="{{$category->id}}"
+                                                    @if($category->id == $post->blog_category_id) selected @endif>
+                                                    {{$category->name}}
+                                                </option>
+                                                @endforeach
+                                             </select>
                                         </div>
                                         
                                         <div class="mb-3">

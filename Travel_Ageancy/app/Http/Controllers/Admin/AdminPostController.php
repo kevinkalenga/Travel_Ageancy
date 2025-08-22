@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\BlogCategory;
+use Illuminate\Validation\Rule;
 
 class AdminPostController extends Controller
 {
@@ -48,18 +49,23 @@ class AdminPostController extends Controller
 
     public function edit($id)
     {
-        $testimonial = Testimonial::where('id', $id)->first();
-        return view('admin.testimonial.edit', compact('testimonial'));
+        $categories = BlogCategory::get();
+        $post = Post::where('id', $id)->first();
+        return view('admin.post.edit', compact('post', 'categories'));
     }
 
     public function edit_submit(Request $request, $id)
     {
-        $testimonial = Testimonial::where('id', $id)->first();  
+        $obj = Post::where('id', $id)->first();  
         
         $request->validate([
-            'name' => 'required',
-            'designation' => 'required',
-            'comment' => 'required',
+            'title' => 'required',
+            'slug' => [
+                'required',
+                  Rule::unique('team_members', 'slug')->ignore($obj->id),
+            ],
+            'description' => 'required',
+            'short_description' => 'required',
            
         ]);
 
@@ -70,29 +76,31 @@ class AdminPostController extends Controller
                 'photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
             ]);
 
-            unlink(public_path('uploads/'.$testimonial->photo));
+            unlink(public_path('uploads/'.$obj->photo));
 
-            $finale_name = 'testimonial_'.time().'.'.$request->photo->extension();
+            $finale_name = 'post_'.time().'.'.$request->photo->extension();
             $request->photo->move(public_path('uploads'), $finale_name);
-            $testimonial->photo = $finale_name;
+            $obj->photo = $finale_name;
         }
 
-        $testimonial->name = $request->name;
-        $testimonial->designation = $request->designation;
-        $testimonial->comment = $request->comment;
+        $obj->blog_category_id = $request->blog_category_id;
+        $obj->title = $request->title;
+        $obj->slug = $request->slug;
+        $obj->description = $request->description;
+        $obj->short_description = $request->short_description;
        
-        $testimonial->save();
+        $obj->save();
 
-        return redirect()->route('admin_testimonial_index')->with('success', 'Testimonial is Updated Successfully');
+        return redirect()->route('admin_post_index')->with('success', 'Post is Updated Successfully');
     }
 
     public function delete($id) 
     {
-        $testimonial = Testimonial::where('id', $id)->first();
-        unlink(public_path('uploads/'.$testimonial->photo));
-        $testimonial->delete();
+        $obj = Post::where('id', $id)->first();
+        unlink(public_path('uploads/'.$obj->photo));
+        $obj->delete();
 
-        return redirect()->route('admin_testimonial_index')->with('success', 'Testimonial is Deleted Successfully');
+        return redirect()->route('admin_post_index')->with('success', 'Post is Deleted Successfully');
     }
 
 }
