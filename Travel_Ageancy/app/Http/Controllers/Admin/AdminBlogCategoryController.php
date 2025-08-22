@@ -11,7 +11,7 @@ class AdminBlogCategoryController extends Controller
 {
     public function index() 
     {
-        // Show the feature section in the home page
+        // Show the categories section in the home page
         $blog_categories = BlogCategory::get();
         return view('admin.blog_category.index', compact('blog_categories'));
     }

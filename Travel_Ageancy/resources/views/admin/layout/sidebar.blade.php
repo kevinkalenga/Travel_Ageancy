@@ -20,11 +20,11 @@
                     
                     
 
-                    <li class="nav-item dropdown {{ Request::is('admin/blog-category/*') ? 'active': '' }}">
+                    <li class="nav-item dropdown {{ Request::is('admin/blog-category/*') || Request::is('admin/post/*') ? 'active': '' }}">
                         <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i><span>Blog Section</span></a>
                         <ul class="dropdown-menu">
                             <li class="{{ Request::is('admin/blog-category/*') ? 'active': '' }}"><a class="nav-link" href="{{route('admin_blog_category_index')}}"><i class="fas fa-angle-right"></i>Category</a></li>
-                            <li class=""><a class="nav-link" href=""><i class="fas fa-angle-right"></i>Blog</a></li>
+                            <li class="{{ Request::is('admin/post/*') ? 'active': '' }}"><a class="nav-link" href="{{route('admin_post_index')}}"><i class="fas fa-angle-right"></i>Post</a></li>
                         </ul>
                     </li>
 
