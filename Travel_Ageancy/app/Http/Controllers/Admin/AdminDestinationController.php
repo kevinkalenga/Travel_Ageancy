@@ -54,50 +54,59 @@ class AdminDestinationController extends Controller
 
     public function edit($id)
     {
-        $testimonial = Testimonial::where('id', $id)->first();
-        return view('admin.testimonial.edit', compact('testimonial'));
+        $destination = Destination::where('id', $id)->first();
+        return view('admin.destination.edit', compact('destination'));
     }
 
     public function edit_submit(Request $request, $id)
     {
-        $testimonial = Testimonial::where('id', $id)->first();  
+        $destination = Destination::where('id', $id)->first();  
         
         $request->validate([
-            'name' => 'required',
-            'designation' => 'required',
-            'comment' => 'required',
+               'name' => 'required|unique:destinations,name,'.$id,
+               'slug' => 'required|alpha_dash|unique:destinations,slug,'.$id,
+               'description' => 'required',
            
         ]);
 
-        if($request->hasFile('photo')) 
+        if($request->hasFile('featured_photo')) 
         {
             $request->validate([
            
-                'photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
+                'featured_photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
             ]);
 
-            unlink(public_path('uploads/'.$testimonial->photo));
+            unlink(public_path('uploads/'.$destination->featured_photo));
 
-            $finale_name = 'testimonial_'.time().'.'.$request->photo->extension();
-            $request->photo->move(public_path('uploads'), $finale_name);
-            $testimonial->photo = $finale_name;
+            $finale_name = 'destination_featured_'.time().'.'.$request->featured_photo->extension();
+            $request->featured_photo->move(public_path('uploads'), $finale_name);
+            $destination->featured_photo = $finale_name;
         }
 
-        $testimonial->name = $request->name;
-        $testimonial->designation = $request->designation;
-        $testimonial->comment = $request->comment;
+        $destination->name = $request->name;
+        $destination->slug = $request->slug;
+        $destination->description = $request->description;
+        $destination->country = $request->country;
+        $destination->language = $request->language;
+        $destination->currency = $request->currency;
+        $destination->area = $request->area;
+        $destination->timezone = $request->timezone;
+        $destination->visa_requirement = $request->visa_requirement;
+        $destination->best_time = $request->best_time;
+        $destination->health_safety = $request->health_safety;
+        $destination->map = $request->map;
        
-        $testimonial->save();
+        $destination->save();
 
-        return redirect()->route('admin_testimonial_index')->with('success', 'Testimonial is Updated Successfully');
+        return redirect()->route('admin_destination_index')->with('success', 'Destination is Updated Successfully');
     }
 
     public function delete($id) 
     {
-        $testimonial = Testimonial::where('id', $id)->first();
-        unlink(public_path('uploads/'.$testimonial->photo));
-        $testimonial->delete();
+        $destination = Destination::where('id', $id)->first();
+        unlink(public_path('uploads/'.$destination->featured_photo));
+        $destination->delete();
 
-        return redirect()->route('admin_testimonial_index')->with('success', 'Testimonial is Deleted Successfully');
+        return redirect()->route('admin_destination_index')->with('success', 'Destination is Deleted Successfully');
     }
 }

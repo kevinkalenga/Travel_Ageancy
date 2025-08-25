@@ -35,7 +35,7 @@
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>
-                                                       <img class="w_100" src="{{asset('uploads/'.$destination->featured_photo)}}" alt=""> 
+                                                       <img class="w_200" src="{{asset('uploads/'.$destination->featured_photo)}}" alt=""> 
                                                     </td>
                                                      <td>
                                                         {{$destination->name}}
