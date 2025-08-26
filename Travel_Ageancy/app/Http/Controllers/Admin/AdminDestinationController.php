@@ -42,6 +42,7 @@ class AdminDestinationController extends Controller
         $obj->area = $request->area;
         $obj->timezone = $request->timezone;
         $obj->visa_requirement = $request->visa_requirement;
+        $obj->activity = $request->activity;
         $obj->best_time = $request->best_time;
         $obj->health_safety = $request->health_safety;
         $obj->map = $request->map;
@@ -92,6 +93,7 @@ class AdminDestinationController extends Controller
         $destination->area = $request->area;
         $destination->timezone = $request->timezone;
         $destination->visa_requirement = $request->visa_requirement;
+        $destination->activity = $request->activity;
         $destination->best_time = $request->best_time;
         $destination->health_safety = $request->health_safety;
         $destination->map = $request->map;

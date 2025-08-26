@@ -22,7 +22,7 @@
                                     <a href="{{route('about')}}" class="nav-link">About</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="destinations.html" class="nav-link">Destinations</a>
+                                    <a href="{{route('destinations')}}" class="nav-link">Destinations</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="packages.html" class="nav-link">Packages</a>

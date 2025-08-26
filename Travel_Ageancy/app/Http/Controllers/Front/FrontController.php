@@ -16,6 +16,7 @@ use App\Models\Testimonial;
 use App\Models\TeamMember;
 use App\Models\Faq;
 use App\Models\Post;
+use App\Models\Destination;
 use App\Models\BlogCategory;
 
 class FrontController extends Controller
@@ -26,11 +27,12 @@ class FrontController extends Controller
         $sliders = Slider::get();
         $welcome_item = WelcomeItem::where('id', 1)->first();
         $features = Feature::get();
+        $destinations = Destination::orderBy('view_count', 'desc')->get()->take(8);
         $posts = Post::with('blog_category')->orderBy('id', 'desc')->get()->take(3);
         $testimonials = Testimonial::get();
         
         // pass to the front
-        return view('front.home', compact('sliders', 'welcome_item', 'features', 'testimonials', 'posts')); 
+        return view('front.home', compact('sliders', 'welcome_item', 'features', 'testimonials', 'posts', 'destinations')); 
     }
      // Page "à propos"
     public function about() 
@@ -77,6 +79,21 @@ class FrontController extends Controller
         $posts = Post::with('blog_category')
         ->where('blog_category_id', $category->id)->orderBy('id', 'desc')->paginate(9);
         return view('front.category', compact('posts', 'category'));
+    }
+    public function destinations()
+    {
+        $destinations = Destination::orderBy('id', 'asc')->paginate(20);
+       
+        return view('front.destinations', compact('destinations'));
+    }
+
+    public function destination($slug)
+    {
+        $destination = Destination::where('slug', $slug)->first();
+        $destination->view_count = $destination->view_count + 1;
+        $destination->update();
+
+         return view('front.destination', compact('destination'));
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }
