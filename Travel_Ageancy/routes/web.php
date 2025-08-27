@@ -41,6 +41,7 @@ Route::get('/destinations', [FrontController::class, 'destinations'])->name('des
 Route::get('/destination/{slug}', [FrontController::class, 'destination'])->name('destination');
 
 
+
 // Dashboard utilisateur (auth middleware pour guard web)
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user_dashboard');
@@ -99,6 +100,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/destination/edit/{id}', [AdminDestinationController::class, 'edit'])->name('admin_destination_edit');
     Route::post('/destination/edit/{id}', [AdminDestinationController::class, 'edit_submit'])->name('admin_destination_edit_submit');
     Route::get('/destination/delete/{id}', [AdminDestinationController::class, 'delete'])->name('admin_destination_delete');
+    Route::get('/destination-photos/{id}', [AdminDestinationController::class, 'destination_photos'])->name('admin_destination_photos');
+    Route::post('/destination-photo-submit/{id}', [AdminDestinationController::class, 'destination_photo_submit'])->name('admin_destination_photo_submit');
+    Route::get('/destination-photo-delete/{id}', [AdminDestinationController::class, 'destination_photo_delete'])->name('admin_destination_photo_delete');
     // Team Member section
     Route::get('/team-member/index', [AdminTeamMemberController::class, 'index'])->name('admin_team_member_index');
     Route::get('/team-member/create', [AdminTeamMemberController::class, 'create'])->name('admin_team_member_create');

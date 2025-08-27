@@ -20,13 +20,14 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                         <div class="table-responsive">
+                                    <div class="table-responsive">
                                         <table class="table table-bordered" id="example1">
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
                                                     <th>Featured Photo</th>
                                                     <th>Name</th>
+                                                    <th>Gallery</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -39,6 +40,10 @@
                                                     </td>
                                                      <td>
                                                         {{$destination->name}}
+                                                     </td>
+                                                     <td>
+                                                        <a href="{{route('admin_destination_photos', $destination->id)}}" class="btn btn-success">Photo Gallery</a>
+                                                        <a href="" class="btn btn-success">Video Gallery</a>
                                                      </td>
                                                  
                                                     <td class="pt_10 pb_10">

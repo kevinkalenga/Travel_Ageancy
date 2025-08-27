@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Destination;
+use App\Models\DestinationPhoto;
 
 class AdminDestinationController extends Controller
 {
@@ -111,4 +112,46 @@ class AdminDestinationController extends Controller
 
         return redirect()->route('admin_destination_index')->with('success', 'Destination is Deleted Successfully');
     }
+
+    public function destination_photos($id)
+    {
+        $destination = Destination::where('id', $id)->first();
+        $destination_photos = DestinationPhoto::where('destination_id', $id)->get();
+        return view('admin.destination.photos', compact('destination', 'destination_photos'));
+    }
+    public function destination_photo_submit(Request $request, $id)
+{
+    // Vérifie qu'un fichier a été sélectionné
+    if (!$request->hasFile('photo')) {
+        return redirect()->back()->with('error', 'Veuillez sélectionner un fichier.');
+    }
+
+    // Validation du fichier
+    $request->validate([
+        'photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
+    ]);
+
+    // Crée un nom unique pour le fichier
+    $finale_name = 'destination_' . time() . '.' . $request->photo->extension();
+
+    // Déplace le fichier dans le dossier uploads
+    $request->photo->move(public_path('uploads'), $finale_name);
+
+    // Sauvegarde dans la base
+    $obj = new DestinationPhoto;
+    $obj->destination_id = $id;
+    $obj->photo = $finale_name;
+    $obj->save();
+
+    return redirect()->back()->with('success', 'Photo insérée avec succès');
+}
+
+public function destination_photo_delete($id)
+{
+    $destination_photo = DestinationPhoto::where('id', $id)->first();
+    unlink(public_path('uploads/'.$destination_photo->photo));
+    $destination_photo->delete();
+    return redirect()->back()->with('Success', 'Photo is deleted successfully');
+}
+
 }
