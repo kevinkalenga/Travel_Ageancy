@@ -17,6 +17,7 @@ use App\Models\TeamMember;
 use App\Models\Faq;
 use App\Models\Post;
 use App\Models\Destination;
+use App\Models\DestinationPhoto;
 use App\Models\BlogCategory;
 
 class FrontController extends Controller
@@ -93,7 +94,9 @@ class FrontController extends Controller
         $destination->view_count = $destination->view_count + 1;
         $destination->update();
 
-         return view('front.destination', compact('destination'));
+        $destination_photos = DestinationPhoto::where('destination_id', $destination->id)->get();
+
+         return view('front.destination', compact('destination', 'destination_photos'));
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }

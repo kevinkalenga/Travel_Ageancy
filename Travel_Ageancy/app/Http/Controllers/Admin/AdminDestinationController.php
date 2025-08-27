@@ -106,6 +106,10 @@ class AdminDestinationController extends Controller
 
     public function delete($id) 
     {
+        $total = DestinationPhoto::where('destination_id', $id)->count();
+        if($total > 0) {
+            return redirect()->back()->with('error', 'First Delete All Photos of This Destination');
+        }
         $destination = Destination::where('id', $id)->first();
         unlink(public_path('uploads/'.$destination->featured_photo));
         $destination->delete();

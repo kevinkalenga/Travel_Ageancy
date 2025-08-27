@@ -243,62 +243,15 @@
                             </h2>
                             <div class="photo-all">
                                 <div class="row">
+                                  @foreach($destination_photos as $photo)
                                     <div class="col-md-6 col-lg-3">
                                         <div class="item">
-                                            <a href="uploads/australia-1.jpg" class="magnific">
-                                                <img src="uploads/australia-1.jpg" alt="">
+                                            <a href="{{asset('uploads/'.$photo->photo)}}" class="magnific">
+                                                <img src="{{asset('uploads/'.$photo->photo)}}" alt="">
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-3">
-                                        <div class="item">
-                                            <a href="uploads/australia-2.jpg" class="magnific">
-                                                <img src="uploads/australia-2.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-3">
-                                        <div class="item">
-                                            <a href="uploads/australia-3.jpg" class="magnific">
-                                                <img src="uploads/australia-3.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-3">
-                                        <div class="item">
-                                            <a href="uploads/australia-4.jpg" class="magnific">
-                                                <img src="uploads/australia-4.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-3">
-                                        <div class="item">
-                                            <a href="uploads/australia-5.jpg" class="magnific">
-                                                <img src="uploads/australia-5.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-3">
-                                        <div class="item">
-                                            <a href="uploads/australia-6.jpg" class="magnific">
-                                                <img src="uploads/australia-6.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-3">
-                                        <div class="item">
-                                            <a href="uploads/australia-7.jpg" class="magnific">
-                                                <img src="uploads/australia-7.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-3">
-                                        <div class="item">
-                                            <a href="uploads/australia-8.jpg" class="magnific">
-                                                <img src="uploads/australia-8.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
+                                  @endforeach
                                 </div>
                             </div>
                         </div>
