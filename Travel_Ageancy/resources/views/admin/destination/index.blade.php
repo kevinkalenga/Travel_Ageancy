@@ -43,7 +43,8 @@
                                                      </td>
                                                      <td>
                                                         <a href="{{route('admin_destination_photos', $destination->id)}}" class="btn btn-success">Photo Gallery</a>
-                                                        <a href="" class="btn btn-success">Video Gallery</a>
+                                                        <a href="{{route('admin_destination_videos', $destination->id)}}" class="btn btn-success">Video Gallery</a>
+                                           
                                                      </td>
                                                  
                                                     <td class="pt_10 pb_10">

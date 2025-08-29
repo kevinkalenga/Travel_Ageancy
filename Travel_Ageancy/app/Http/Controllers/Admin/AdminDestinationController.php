@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Destination;
 use App\Models\DestinationPhoto;
+use App\Models\DestinationVideo;
 
 class AdminDestinationController extends Controller
 {
@@ -123,7 +124,7 @@ class AdminDestinationController extends Controller
         $destination_photos = DestinationPhoto::where('destination_id', $id)->get();
         return view('admin.destination.photos', compact('destination', 'destination_photos'));
     }
-    public function destination_photo_submit(Request $request, $id)
+public function destination_photo_submit(Request $request, $id)
 {
     // Vérifie qu'un fichier a été sélectionné
     if (!$request->hasFile('photo')) {
@@ -157,5 +158,39 @@ public function destination_photo_delete($id)
     $destination_photo->delete();
     return redirect()->back()->with('Success', 'Photo is deleted successfully');
 }
+
+    public function destination_videos($id)
+    {
+        $destination = Destination::where('id', $id)->first();
+        $destination_videos = DestinationVideo::where('destination_id', $id)->get();
+        return view('admin.destination.videos', compact('destination', 'destination_videos'));
+    }
+public function destination_video_submit(Request $request, $id)
+{
+    
+
+    // Validation du fichier
+    $request->validate([
+        'video' => "required",
+    ]);
+
+    // Sauvegarde dans la base
+    $obj = new DestinationVideo;
+    $obj->destination_id = $id;
+    $obj->video = $request->video;
+    $obj->save();
+
+    return redirect()->back()->with('success', 'Video insérée avec succès');
+}
+
+public function destination_video_delete($id)
+{
+    $destination_video = DestinationVideo::where('id', $id)->first();
+    $destination_video->delete();
+    return redirect()->back()->with('Success', 'Video is deleted successfully');
+}
+
+
+
 
 }

@@ -103,6 +103,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/destination-photos/{id}', [AdminDestinationController::class, 'destination_photos'])->name('admin_destination_photos');
     Route::post('/destination-photo-submit/{id}', [AdminDestinationController::class, 'destination_photo_submit'])->name('admin_destination_photo_submit');
     Route::get('/destination-photo-delete/{id}', [AdminDestinationController::class, 'destination_photo_delete'])->name('admin_destination_photo_delete');
+    Route::get('/destination-videos/{id}', [AdminDestinationController::class, 'destination_videos'])->name('admin_destination_videos');
+    Route::post('/destination-video-submit/{id}', [AdminDestinationController::class, 'destination_video_submit'])->name('admin_destination_video_submit');
+    Route::get('/destination-video-delete/{id}', [AdminDestinationController::class, 'destination_video_delete'])->name('admin_destination_video_delete');
     // Team Member section
     Route::get('/team-member/index', [AdminTeamMemberController::class, 'index'])->name('admin_team_member_index');
     Route::get('/team-member/create', [AdminTeamMemberController::class, 'create'])->name('admin_team_member_create');
