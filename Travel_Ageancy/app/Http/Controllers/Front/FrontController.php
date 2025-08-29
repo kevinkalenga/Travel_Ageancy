@@ -18,6 +18,7 @@ use App\Models\Faq;
 use App\Models\Post;
 use App\Models\Destination;
 use App\Models\DestinationPhoto;
+use App\Models\DestinationVideo;
 use App\Models\BlogCategory;
 
 class FrontController extends Controller
@@ -95,8 +96,9 @@ class FrontController extends Controller
         $destination->update();
 
         $destination_photos = DestinationPhoto::where('destination_id', $destination->id)->get();
+        $destination_videos = DestinationVideo::where('destination_id', $destination->id)->get();
 
-         return view('front.destination', compact('destination', 'destination_photos'));
+         return view('front.destination', compact('destination', 'destination_photos', 'destination_videos'));
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }

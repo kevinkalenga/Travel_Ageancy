@@ -171,7 +171,10 @@
                             </div>
                         </div>
 
-
+                        @if($destination->country != '' || $destination->language != '' || 
+                         $destination->currency != '' || $destination->area != '' 
+                          || $destination->timezone != '' || $destination->visa_requirement != '' ||
+                           $destination->activity != '' || $destination->best_time != '' || $destination->health_safety != '')
                         <div class="main-item mb_50">
                             <h2>
                                 Information
@@ -179,64 +182,80 @@
                             <div class="summary">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
+
+                                      @if($destination->country != '')
                                         <tr>
                                             <td><b>Country</b></td>
                                             <td>{{$destination->country}}</td>
                                         </tr>
-                                        
-                                       
+                                      @endif  
+                                      @if($destination->language != '')
                                         <tr>
                                             <td><b>Languages Spoken</b></td>
                                             <td>{{$destination->language}}</td>
                                         </tr>
+                                      @endif
+                                      @if($destination->currency != '')
                                         <tr>
                                             <td><b>Currency Used</b></td>
                                             <td>{{$destination->currency}}</td>
                                         </tr>
+                                      @endif
+                                      @if($destination->area != '')
                                         <tr>
                                             <td><b>Area</b></td>
                                             <td>
                                                 {{$destination->area}}
                                             </td>
                                         </tr>
+                                      @endif
+                                      @if($destination->timezone != '')
                                         <tr>
                                             <td><b>Time Zone</b></td>
                                             <td>
                                                 {{$destination->timezone}}
                                             </td>
                                         </tr>
+                                      @endif
+                                      @if($destination->visa_requirement != '')
                                         <tr>
                                             <td><b>Visa Requirement</b></td>
                                             <td>
                                                 {!! $destination->visa_requirement !!}
                                             </td>
                                         </tr>
+                                      @endif
+                                      @if($destination->activity != '')
                                         <tr>
                                             <td><b>Activities</b></td>
                                             <td>
                                                {!! $destination->activity !!}
                                             </td>
                                         </tr>
+                                       @endif
+                                       @if($destination->best_time != '')
                                         <tr>
                                             <td><b>Best Time to Visit</b></td>
                                             <td>
                                                 {!! $destination->best_time !!}
                                             </td>
                                         </tr>
+                                        @endif
+                                        @if($destination->health_safety != '')
                                         <tr>
                                             <td><b>Health and Safety</b></td>
                                             <td>
                                                {!! $destination->health_safety !!}
                                             </td>
                                         </tr>
-                                        
+                                        @endif
                                     </table>
                                 </div>
                             </div>
                         </div>
 
-
-
+                        @endif
+                        @if($destination_photos->count() > 0)
                         <div class="main-item mb_50">
                             <h2>
                                 Photos
@@ -255,16 +274,19 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
+                        @if($destination_videos->count() > 0)
                         <div class="main-item mb_50">
                             <h2>
                                 Videos
                             </h2>
                             <div class="video-all">
                                 <div class="row">
+                                  @foreach($destination_videos as $video)
                                     <div class="col-md-6 col-lg-6">
                                         <div class="item">
-                                            <a class="video-button" href="http://www.youtube.com/watch?v=kLuqCtnKr_8">
-                                                <img src="http://img.youtube.com/vi/kLuqCtnKr_8/0.jpg" alt="">
+                                            <a class="video-button" href="http://www.youtube.com/watch?v={{$video->video}}">
+                                                <img src="http://img.youtube.com/vi/{{$video->video}}/0.jpg" alt="">
                                                 <div class="icon">
                                                     <i class="far fa-play-circle"></i>
                                                 </div>
@@ -272,29 +294,22 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-6">
-                                        <div class="item">
-                                            <a class="video-button" href="http://www.youtube.com/watch?v=HRg1gJi6yqc">
-                                                <img src="http://img.youtube.com/vi/HRg1gJi6yqc/0.jpg" alt="">
-                                                <div class="icon">
-                                                    <i class="far fa-play-circle"></i>
-                                                </div>
-                                                <div class="bg"></div>
-                                            </a>
-                                        </div>
-                                    </div>
+                                  @endforeach
+                                   
                                 </div>
                             </div>
                         </div>
-
-
-                        <div class="main-item">
+                        @endif
+                        
+                        @if($destination->map != '')
+                         <div class="main-item">
                             <h2>Map</h2>
                             <div class="location-map">
                                 {!! $destination->map !!}
                             </div>
 
-                        </div>
+                         </div>
+                        @endif
                 </div>
             </div>
         </div>
