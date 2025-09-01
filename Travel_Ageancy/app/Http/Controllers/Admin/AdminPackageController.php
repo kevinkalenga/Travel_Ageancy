@@ -28,6 +28,7 @@ class AdminPackageController extends Controller
             'slug' => 'required|alpha_dash|unique:packages',
             'description' => 'required',
             'price' => 'required|numeric',
+            'old_price' => 'numeric',
             'featured_photo' => ['required','image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
             'banner' => ['required','image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
         ]);
@@ -57,69 +58,87 @@ class AdminPackageController extends Controller
 
     public function edit($id)
     {
-        $destination = Destination::where('id', $id)->first();
-        return view('admin.destination.edit', compact('destination'));
+        $package = Package::where('id', $id)->first();
+        $destinations = Destination::orderBy('name', 'asc')->get();
+        return view('admin.package.edit', compact('package', 'destinations'));
     }
 
     public function edit_submit(Request $request, $id)
     {
-        $destination = Destination::where('id', $id)->first();  
+        $package = Package::where('id', $id)->first();  
         
         $request->validate([
-               'name' => 'required|unique:destinations,name,'.$id,
-               'slug' => 'required|alpha_dash|unique:destinations,slug,'.$id,
+               'name' => 'required|unique:packages,name,'.$id,
+               'slug' => 'required|alpha_dash|unique:packages,slug,'.$id,
                'description' => 'required',
+               'price' => 'required|numeric',
+               'old_price' => 'numeric',
+               
            
         ]);
 
-        if($request->hasFile('featured_photo')) 
+        if ($request->hasFile('featured_photo')) {
+             $request->validate([
+               'featured_photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
+             ]);
+
+            // Supprimer l'ancienne photo si elle existe
+           if ($package->featured_photo && file_exists(public_path('uploads/' . $package->featured_photo))) {
+                 unlink(public_path('uploads/' . $package->featured_photo));
+           }
+
+             // Uploader la nouvelle photo
+             $final_name = 'package_featured_' . time() . '.' . $request->featured_photo->extension();
+             $request->featured_photo->move(public_path('uploads'), $final_name);
+             $package->featured_photo = $final_name;
+        }
+        if($request->hasFile('banner')) 
         {
             $request->validate([
            
-                'featured_photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
+                'banner' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
             ]);
 
-            unlink(public_path('uploads/'.$destination->featured_photo));
+               // Supprimer l'ancienne bannière si elle existe
+               if ($package->banner && file_exists(public_path('uploads/' . $package->banner))) {
+                  unlink(public_path('uploads/' . $package->banner));
+                }
 
-            $finale_name = 'destination_featured_'.time().'.'.$request->featured_photo->extension();
-            $request->featured_photo->move(public_path('uploads'), $finale_name);
-            $destination->featured_photo = $finale_name;
+            $finale_name1 = 'package_banner_'.time().'.'.$request->banner->extension();
+            $request->banner->move(public_path('uploads'), $finale_name1);
+            $package->banner = $finale_name1;
         }
 
-        $destination->name = $request->name;
-        $destination->slug = $request->slug;
-        $destination->description = $request->description;
-        $destination->country = $request->country;
-        $destination->language = $request->language;
-        $destination->currency = $request->currency;
-        $destination->area = $request->area;
-        $destination->timezone = $request->timezone;
-        $destination->visa_requirement = $request->visa_requirement;
-        $destination->activity = $request->activity;
-        $destination->best_time = $request->best_time;
-        $destination->health_safety = $request->health_safety;
-        $destination->map = $request->map;
+        $package->destination_id = $request->destination_id;
+        $package->name = $request->name;
+        $package->slug = $request->slug;
+        $package->description = $request->description;
+        $package->price = $request->price;
+        $package->old_price = $request->old_price;
+        $package->map = $request->map;
+      
        
-        $destination->save();
+        $package->save();
 
-        return redirect()->route('admin_destination_index')->with('success', 'Destination is Updated Successfully');
+        return redirect()->route('admin_package_index')->with('success', 'Package is Updated Successfully');
     }
 
     public function delete($id) 
     {
-        $total = DestinationPhoto::where('destination_id', $id)->count();
-        if($total > 0) {
-            return redirect()->back()->with('error', 'First Delete All Photos of This Destination');
-        }
-        $total1 = DestinationVideo::where('destination_id', $id)->count();
-        if($total1 > 0) {
-            return redirect()->back()->with('error', 'First Delete All Videos of This Destination');
-        }
-        $destination = Destination::where('id', $id)->first();
-        unlink(public_path('uploads/'.$destination->featured_photo));
+        // $total = DestinationPhoto::where('destination_id', $id)->count();
+        // if($total > 0) {
+        //     return redirect()->back()->with('error', 'First Delete All Photos of This Destination');
+        // }
+        // $total1 = DestinationVideo::where('destination_id', $id)->count();
+        // if($total1 > 0) {
+        //     return redirect()->back()->with('error', 'First Delete All Videos of This Destination');
+        // }
+        $destination = Package::where('id', $id)->first();
+        unlink(public_path('uploads/'.$package->featured_photo));
+        unlink(public_path('uploads/'.$package->banner));
         $destination->delete();
 
-        return redirect()->route('admin_destination_index')->with('success', 'Destination is Deleted Successfully');
+        return redirect()->route('admin_package_index')->with('success', 'Package is Deleted Successfully');
     }
 
 }
