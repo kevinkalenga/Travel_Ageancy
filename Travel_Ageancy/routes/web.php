@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\AdminTeamMemberController;
 use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminDestinationController;
+use App\Http\Controllers\Admin\AdminPackageController;
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\User\UserController;
 
@@ -106,6 +107,20 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/destination-videos/{id}', [AdminDestinationController::class, 'destination_videos'])->name('admin_destination_videos');
     Route::post('/destination-video-submit/{id}', [AdminDestinationController::class, 'destination_video_submit'])->name('admin_destination_video_submit');
     Route::get('/destination-video-delete/{id}', [AdminDestinationController::class, 'destination_video_delete'])->name('admin_destination_video_delete');
+    // Package section
+    Route::get('/package/index', [AdminPackageController::class, 'index'])->name('admin_package_index');
+    Route::get('/package/create', [AdminPackageController::class, 'create'])->name('admin_package_create');
+    Route::post('/package/create', [AdminPackageController::class, 'create_submit'])->name('admin_package_create_submit');
+    Route::get('/package/edit/{id}', [AdminPackageController::class, 'edit'])->name('admin_package_edit');
+    Route::post('/package/edit/{id}', [AdminPackageController::class, 'edit_submit'])->name('admin_package_edit_submit');
+    Route::get('/package/delete/{id}', [AdminPackageController::class, 'delete'])->name('admin_package_delete');
+    Route::get('/package/photos/{id}', [AdminPackageController::class, 'photos'])->name('admin_package_photos');
+    Route::post('/package/photos/{id}', [AdminPackageController::class, 'photos_submit'])->name('admin_package_photos_submit');
+    Route::get('/package/photo/delete/{id}', [AdminPackageController::class, 'photo_delete'])->name('admin_package_photo_delete');
+
+    Route::get('/package/videos/{id}', [AdminPackageController::class, 'videos'])->name('admin_package_videos');
+    Route::post('/package/videos/{id}', [AdminPackageController::class, 'videos_submit'])->name('admin_package_videos_submit');
+    Route::get('/package/video/delete/{id}', [AdminPackageController::class, 'video_delete'])->name('admin_package_video_delete');
     // Team Member section
     Route::get('/team-member/index', [AdminTeamMemberController::class, 'index'])->name('admin_team_member_index');
     Route::get('/team-member/create', [AdminTeamMemberController::class, 'create'])->name('admin_team_member_create');
