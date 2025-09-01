@@ -17,6 +17,7 @@ use App\Models\TeamMember;
 use App\Models\Faq;
 use App\Models\Post;
 use App\Models\Destination;
+use App\Models\Package;
 use App\Models\DestinationPhoto;
 use App\Models\DestinationVideo;
 use App\Models\BlogCategory;
@@ -99,6 +100,12 @@ class FrontController extends Controller
         $destination_videos = DestinationVideo::where('destination_id', $destination->id)->get();
 
          return view('front.destination', compact('destination', 'destination_photos', 'destination_videos'));
+    }
+
+    public function package($slug)
+    {
+        $package = Package::with('destination')->where('slug', $slug)->first();
+        return view('front.package', compact('package'));
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }

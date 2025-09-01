@@ -7,5 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class Package extends Model
 {
     //
-     
+      protected $fillable = [
+        'destination_id',
+        'featured_photo',
+        'banner',
+        'name',
+        'slug',
+        'description',
+        'map',
+        'price',
+        'old_price',
+    ];
+
+    // Relation avec Destination
+    public function destination()
+    {
+        return $this->belongsTo(Destination::class, 'destination_id');
+    }
 }
