@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Amenity;
+
+class AdminAmenityController extends Controller
+{
+    public function index() 
+    {
+        // Show the feature section in the home page
+        $amenities = Amenity::get();
+        return view('admin.amenity.index', compact('amenities'));
+    }
+
+    public function create() 
+    {
+        return view('admin.amenity.create');
+    }
+
+    public function create_submit(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:amenities,name',
+            
+            
+        ]);
+
+       
+
+        $obj = new Amenity();
+        $obj->name = $request->name;
+        $obj->save();
+
+        return redirect()->route('admin_amenity_index')->with('success', 'Amenity is Created Successfully');
+    }
+
+    public function edit($id)
+    {
+        $amenity = Amenity::where('id', $id)->first();
+        return view('admin.amenity.edit', compact('amenity'));
+    }
+
+    public function edit_submit(Request $request, $id)
+    {
+        $obj = Amenity::where('id', $id)->first();  
+        
+        $request->validate([
+            'name' => 'required|unique:amenities,name,'.$id,
+            
+           
+        ]);
+
+        
+        $obj->name = $request->name;
+       
+        
+        $obj->save();
+
+        return redirect()->route('admin_amenity_index')->with('success', 'Amenity is Updated Successfully');
+    }
+
+    public function delete($id) 
+    {
+        $amenity = Amenity::where('id', $id)->first();
+        $amenity->delete();
+
+        return redirect()->route('admin_amenity_index')->with('success', 'Amenity is Deleted Successfully');
+    }
+
+
+}
