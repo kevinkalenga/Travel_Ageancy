@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Destination;
+use App\Models\PackageAmenity;
+use App\Models\Amenity;
 
 class AdminPackageController extends Controller
 {
@@ -140,5 +142,40 @@ class AdminPackageController extends Controller
 
         return redirect()->route('admin_package_index')->with('success', 'Package is Deleted Successfully');
     }
+
+
+    public function package_amenities($id)
+    {
+        $package = Package::where('id', $id)->first();
+        $package_amenities_include = PackageAmenity::with('amenity')->where('package_id', $id)->where('type', 'Include')->get();
+        $package_amenities_exclude = PackageAmenity::with('amenity')->where('package_id', $id)->where('type', 'Exclude')->get();
+        $amenities = Amenity::orderBy('name', 'asc')->get();
+        return view('admin.package.amenities', compact('package', 'package_amenities_include', 'package_amenities_exclude', 'amenities'));
+    }
+
+
+public function package_amenity_submit(Request $request, $id)
+{
+    $total = PackageAmenity::where('package_id', $id)->where('amenity_id', $request->amenity_id)->count();
+     
+    if($total > 0) {
+        return redirect()->back()->with('error', 'This Item is already Inserted');
+    }
+    // Sauvegarde dans la base
+    $obj = new PackageAmenity;
+    $obj->package_id = $id;
+    $obj->amenity_id = $request->amenity_id;
+    $obj->type = $request->type;
+    $obj->save();
+
+    return redirect()->back()->with('success', 'Item inserted avec succès');
+}
+
+public function package_amenity_delete($id)
+{
+    $obj = PackageAmenity::where('id', $id)->first();
+    $obj->delete();
+    return redirect()->back()->with('Success', 'Item is deleted successfully');
+}
 
 }

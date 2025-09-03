@@ -116,6 +116,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/destination-videos/{id}', [AdminDestinationController::class, 'destination_videos'])->name('admin_destination_videos');
     Route::post('/destination-video-submit/{id}', [AdminDestinationController::class, 'destination_video_submit'])->name('admin_destination_video_submit');
     Route::get('/destination-video-delete/{id}', [AdminDestinationController::class, 'destination_video_delete'])->name('admin_destination_video_delete');
+
+    // Package Amenity section 
+    Route::get('/package-amenities/{id}', [AdminPackageController::class, 'package_amenities'])->name('admin_package_amenities');
+    Route::post('/package-amenity-submit/{id}', [AdminPackageController::class, 'package_amenity_submit'])->name('admin_package_amenity_submit');
+    Route::get('/package-amenity-delete/{id}', [AdminPackageController::class, 'package_amenity_delete'])->name('admin_package_amenity_delete');
     // Package section
     Route::get('/package/index', [AdminPackageController::class, 'index'])->name('admin_package_index');
     Route::get('/package/create', [AdminPackageController::class, 'create'])->name('admin_package_create');
