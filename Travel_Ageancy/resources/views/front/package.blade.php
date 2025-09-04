@@ -76,42 +76,24 @@
                                     <h2 class="mt_30">Includes</h2>
                                     <div class="amenity">
                                         <div class="row">
+
+                                          @foreach($package_amenities_include as $item)
                                             <div class="col-lg-3 mb_15">
-                                                <i class="fas fa-check"></i> Swimming Pool
+                                                <i class="fas fa-check"></i> {{$item->amenity->name}}
                                             </div>
-                                            <div class="col-lg-3 mb_15">
-                                                <i class="fas fa-check"></i> Mountain Bike
-                                            </div>
-                                            <div class="col-lg-3 mb_15">
-                                                <i class="fas fa-check"></i> Sightseeing
-                                            </div>
-                                            <div class="col-lg-3 mb_15">
-                                                <i class="fas fa-check"></i> Free Wifi
-                                            </div>
-                                            <div class="col-lg-3 mb_15">
-                                                <i class="fas fa-check"></i> Personal Guide
-                                            </div>
-                                            <div class="col-lg-3 mb_15">
-                                                <i class="fas fa-check"></i> Entrance Fees
-                                            </div>
-                                            <div class="col-lg-3 mb_15">
-                                                <i class="fas fa-check"></i> Air fares
-                                            </div>
-                                            <div class="col-lg-3 mb_15">
-                                                <i class="fas fa-check"></i> Accommodation
-                                            </div>
+                                          @endforeach
+                                           
                                         </div>
                                     </div>
 
                                     <h2 class="mt_30">Excludes</h2>
                                     <div class="amenity">
                                         <div class="row">
+                                           @foreach($package_amenities_exclude as $item)
                                             <div class="col-lg-3 mb_15">
-                                                <i class="fas fa-times"></i> Departure Taxes
+                                                <i class="fas fa-times"></i> {{$item->amenity->name}}
                                             </div>
-                                            <div class="col-lg-3 mb_15">
-                                                <i class="fas fa-times"></i> Festival & Events
-                                            </div>
+                                           @endforeach
                                         </div>
                                     </div>
                                     <!-- // Detail -->

@@ -21,6 +21,9 @@ use App\Models\Package;
 use App\Models\DestinationPhoto;
 use App\Models\DestinationVideo;
 use App\Models\BlogCategory;
+use App\Models\PackageAmenity;
+use App\Models\Amenity;
+
 
 class FrontController extends Controller
 {
@@ -105,7 +108,9 @@ class FrontController extends Controller
     public function package($slug)
     {
         $package = Package::with('destination')->where('slug', $slug)->first();
-        return view('front.package', compact('package'));
+        $package_amenities_include = PackageAmenity::with('amenity')->where('package_id', $package->id)->where('type', 'Include')->get();
+        $package_amenities_exclude = PackageAmenity::with('amenity')->where('package_id', $package->id)->where('type', 'Exclude')->get();
+        return view('front.package', compact('package', 'package_amenities_include', 'package_amenities_exclude'));
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }

@@ -135,10 +135,17 @@ class AdminPackageController extends Controller
         // if($total1 > 0) {
         //     return redirect()->back()->with('error', 'First Delete All Videos of This Destination');
         // }
-        $destination = Package::where('id', $id)->first();
-        unlink(public_path('uploads/'.$package->featured_photo));
-        unlink(public_path('uploads/'.$package->banner));
-        $destination->delete();
+     
+
+
+          $total3 = PackageAmenity::where('package_id', $id)->count();
+          if($total3 > 0) {
+              return redirect()->back()->with('error', 'First Delete All Amenity of This Package');
+          }
+         $package = Package::where('id', $id)->first();
+         unlink(public_path('uploads/'.$package->featured_photo));
+         unlink(public_path('uploads/'.$package->banner));
+        $package->delete();
 
         return redirect()->route('admin_package_index')->with('success', 'Package is Deleted Successfully');
     }
