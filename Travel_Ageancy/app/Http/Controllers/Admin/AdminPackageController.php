@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Destination;
 use App\Models\PackageAmenity;
+use App\Models\PackageItinerary;
 use App\Models\Amenity;
 
 class AdminPackageController extends Controller
@@ -184,5 +185,38 @@ public function package_amenity_delete($id)
     $obj->delete();
     return redirect()->back()->with('Success', 'Item is deleted successfully');
 }
+
+
+
+
+
+public function package_itineraries($id)
+{
+        $package = Package::where('id', $id)->first();
+        $package_itineraries = PackageItinerary::where('package_id', $id)->get();
+        return view('admin.package.itineraries', compact('package', 'package_itineraries'));
+}
+
+
+public function package_itinerary_submit(Request $request, $id)
+{
+    // Sauvegarde dans la base
+    $obj = new PackageItinerary;
+    $obj->package_id = $id;
+    $obj->name = $request->name;
+    $obj->description = $request->description;
+    $obj->save();
+
+    return redirect()->back()->with('success', 'Item inserted avec succès');
+}
+
+public function package_itinerary_delete($id)
+{
+    $obj = PackageItinerary::where('id', $id)->first();
+    $obj->delete();
+    return redirect()->back()->with('Success', 'Item is deleted successfully');
+}
+
+
 
 }

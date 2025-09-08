@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminAmenityController;
 use App\Http\Controllers\Admin\AdminDestinationController;
 use App\Http\Controllers\Admin\AdminPackageController;
+use App\Http\Controllers\Admin\AdminPackageItineraryController;
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\User\UserController;
 
@@ -121,6 +122,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/package-amenities/{id}', [AdminPackageController::class, 'package_amenities'])->name('admin_package_amenities');
     Route::post('/package-amenity-submit/{id}', [AdminPackageController::class, 'package_amenity_submit'])->name('admin_package_amenity_submit');
     Route::get('/package-amenity-delete/{id}', [AdminPackageController::class, 'package_amenity_delete'])->name('admin_package_amenity_delete');
+    // Package Itinerary section (géré par AdminPackageController)
+    Route::get('/package-itineraries/{id}', [AdminPackageController::class, 'package_itineraries'])->name('admin_package_itineraries');
+    Route::post('/package-itinerary-submit/{id}', [AdminPackageController::class, 'package_itinerary_submit'])->name('admin_package_itinerary_submit');
+    Route::get('/package-itinerary-delete/{id}', [AdminPackageController::class, 'package_itinerary_delete'])->name('admin_package_itinerary_delete');
     // Package section
     Route::get('/package/index', [AdminPackageController::class, 'index'])->name('admin_package_index');
     Route::get('/package/create', [AdminPackageController::class, 'create'])->name('admin_package_create');
