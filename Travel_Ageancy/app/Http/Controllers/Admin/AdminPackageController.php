@@ -200,6 +200,12 @@ public function package_itineraries($id)
 
 public function package_itinerary_submit(Request $request, $id)
 {
+    $request->validate([
+       'name' => 'required',
+       'description' => 'required',
+    ]);
+    
+    
     // Sauvegarde dans la base
     $obj = new PackageItinerary;
     $obj->package_id = $id;
