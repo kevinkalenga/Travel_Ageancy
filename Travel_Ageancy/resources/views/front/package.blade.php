@@ -47,9 +47,11 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="tab-3" data-bs-toggle="tab" data-bs-target="#tab-3-pane" type="button" role="tab" aria-controls="tab-3-pane" aria-selected="false">Location</button>
                                 </li>
+                               @if($package_photos->count() > 0 || $package_videos->count() > 0)
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="tab-4" data-bs-toggle="tab" data-bs-target="#tab-4-pane" type="button" role="tab" aria-controls="tab-4-pane" aria-selected="false">Gallery</button>
                                 </li>
+                                @endif
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="tab-5" data-bs-toggle="tab" data-bs-target="#tab-5-pane" type="button" role="tab" aria-controls="tab-5-pane" aria-selected="false">FAQ</button>
                                 </li>
@@ -134,6 +136,7 @@
 
                                 <div class="tab-pane fade" id="tab-4-pane" role="tabpanel" aria-labelledby="tab-4" tabindex="0">
                                     <!-- Gallery -->
+                                  @if($package_photos->count() > 0 )
                                     <h2 class="mt_30">
                                         Photos
                                     </h2>
@@ -151,16 +154,19 @@
                                      
                                         </div>
                                     </div>
+                                   @endif
 
-
+                                 @if($package_videos->count() > 0 )
                                     <h2 class="mt_30">
+                                        <!-- kLuqCtnKr_8 -->
                                         Videos
                                     </h2>
                                     <div class="video-all">
                                         <div class="row">
+                                           @foreach($package_videos as $item)
                                             <div class="col-md-6 col-lg-6">
                                                 <div class="item">
-                                                    <a class="video-button" href="http://www.youtube.com/watch?v=kLuqCtnKr_8">
+                                                    <a class="video-button" href="http://www.youtube.com/watch?v={{$item->video}}">
                                                         <img src="http://img.youtube.com/vi/kLuqCtnKr_8/0.jpg" alt="">
                                                         <div class="icon">
                                                             <i class="far fa-play-circle"></i>
@@ -169,19 +175,11 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-lg-6">
-                                                <div class="item">
-                                                    <a class="video-button" href="http://www.youtube.com/watch?v=HRg1gJi6yqc">
-                                                        <img src="http://img.youtube.com/vi/HRg1gJi6yqc/0.jpg" alt="">
-                                                        <div class="icon">
-                                                            <i class="far fa-play-circle"></i>
-                                                        </div>
-                                                        <div class="bg"></div>
-                                                    </a>
-                                                </div>
-                                            </div>
+                                          @endforeach
+                                           
                                         </div>
                                     </div>
+                                  @endif
                                     <!-- // Gallery -->
                                 </div>
 
