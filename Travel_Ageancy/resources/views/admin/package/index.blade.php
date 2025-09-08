@@ -45,7 +45,7 @@
                                                         <a href="{{route('admin_package_amenities', $package->id)}}" class="btn btn-success">Amenities</a>
                                                         <a href="{{route('admin_package_itineraries', $package->id)}}" class="btn btn-success">Itinerary</a>
                                                         <a href="{{route('admin_package_photos', $package->id)}}" class="btn btn-success">Photo Gallery</a>
-                                                        <a href="#" class="btn btn-success">Video Gallery</a>
+                                                        <a href="{{route('admin_package_videos', $package->id)}}" class="btn btn-success">Video Gallery</a>
                                                         
                                            
                                                      </td>

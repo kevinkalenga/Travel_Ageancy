@@ -9,6 +9,7 @@ use App\Models\Destination;
 use App\Models\PackageAmenity;
 use App\Models\PackageItinerary;
 use App\Models\PackagePhoto;
+use App\Models\PackageVideo;
 use App\Models\Amenity;
 
 class AdminPackageController extends Controller
@@ -129,14 +130,14 @@ class AdminPackageController extends Controller
 
     public function delete($id) 
     {
-        // $total = DestinationPhoto::where('destination_id', $id)->count();
-        // if($total > 0) {
-        //     return redirect()->back()->with('error', 'First Delete All Photos of This Destination');
-        // }
-        // $total1 = DestinationVideo::where('destination_id', $id)->count();
-        // if($total1 > 0) {
-        //     return redirect()->back()->with('error', 'First Delete All Videos of This Destination');
-        // }
+        $total = PackagePhoto::where('package_id', $id)->count();
+        if($total > 0) {
+            return redirect()->back()->with('error', 'First Delete All Photos of This Package');
+        }
+        $total1 = PackageVideo::where('package_id', $id)->count();
+        if($total1 > 0) {
+            return redirect()->back()->with('error', 'First Delete All Videos of This Package');
+        }
      
 
 
@@ -258,7 +259,7 @@ public function package_photo_submit(Request $request, $id)
     return redirect()->back()->with('success', 'Photo insérée avec succès');
 }
 
-public function photo_delete($id)
+public function package_photo_delete($id)
 {
     $package_photo = PackagePhoto::where('id', $id)->first();
     if($package_photo && file_exists(public_path('uploads/'.$package_photo->photo))) {
@@ -267,6 +268,38 @@ public function photo_delete($id)
     $package_photo->delete();
     return redirect()->back()->with('Success', 'Photo is deleted successfully');
 }
+
+
+ public function package_videos($id)
+    {
+        $package = Package::where('id', $id)->first();
+        $package_videos = PackageVideo::where('package_id', $id)->get();
+        return view('admin.package.videos', compact('package', 'package_videos'));
+    }
+
+
+public function package_video_submit(Request $request, $id)
+{
+    $request->validate([
+        'video' => 'required|string', // juste du texte
+    ]);
+
+    $obj = new PackageVideo();
+    $obj->package_id = $id;
+    $obj->video = $request->video; // stocke le lien ou l'ID YouTube
+    $obj->save();
+
+    return redirect()->back()->with('success', 'Video inserted successfully');
+}
+
+
+public function package_video_delete($id)
+{
+    $package_video = PackageVideo::where('id', $id)->first();
+    $package_video->delete();
+    return redirect()->back()->with('Success', 'Video is deleted successfully');
+}
+
 
 
 
