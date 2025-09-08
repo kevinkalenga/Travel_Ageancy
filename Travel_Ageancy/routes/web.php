@@ -122,10 +122,14 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/package-amenities/{id}', [AdminPackageController::class, 'package_amenities'])->name('admin_package_amenities');
     Route::post('/package-amenity-submit/{id}', [AdminPackageController::class, 'package_amenity_submit'])->name('admin_package_amenity_submit');
     Route::get('/package-amenity-delete/{id}', [AdminPackageController::class, 'package_amenity_delete'])->name('admin_package_amenity_delete');
-    // Package Itinerary section (géré par AdminPackageController)
+    // Package Itinerary section 
     Route::get('/package-itineraries/{id}', [AdminPackageController::class, 'package_itineraries'])->name('admin_package_itineraries');
     Route::post('/package-itinerary-submit/{id}', [AdminPackageController::class, 'package_itinerary_submit'])->name('admin_package_itinerary_submit');
     Route::get('/package-itinerary-delete/{id}', [AdminPackageController::class, 'package_itinerary_delete'])->name('admin_package_itinerary_delete');
+    // Package Photos section 
+    Route::get('/package-photos/{id}', [AdminPackageController::class, 'package_photos'])->name('admin_package_photos');
+    Route::post('/package-photo-submit/{id}', [AdminPackageController::class, 'package_photo_submit'])->name('admin_package_photo_submit');
+    Route::get('/package-photo-delete/{id}', [AdminPackageController::class, 'package_photo_delete'])->name('admin_package_photo_delete');
     // Package section
     Route::get('/package/index', [AdminPackageController::class, 'index'])->name('admin_package_index');
     Route::get('/package/create', [AdminPackageController::class, 'create'])->name('admin_package_create');
@@ -133,9 +137,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/package/edit/{id}', [AdminPackageController::class, 'edit'])->name('admin_package_edit');
     Route::post('/package/edit/{id}', [AdminPackageController::class, 'edit_submit'])->name('admin_package_edit_submit');
     Route::get('/package/delete/{id}', [AdminPackageController::class, 'delete'])->name('admin_package_delete');
-    Route::get('/package/photos/{id}', [AdminPackageController::class, 'photos'])->name('admin_package_photos');
-    Route::post('/package/photos/{id}', [AdminPackageController::class, 'photos_submit'])->name('admin_package_photos_submit');
-    Route::get('/package/photo/delete/{id}', [AdminPackageController::class, 'photo_delete'])->name('admin_package_photo_delete');
+     Route::get('/package/photos/{id}', [AdminPackageController::class, 'photos'])->name('admin_package_photos');
+     Route::post('/package/photos/{id}', [AdminPackageController::class, 'photos_submit'])->name('admin_package_photos_submit');
+     Route::get('/package/photo/delete/{id}', [AdminPackageController::class, 'photo_delete'])->name('admin_package_photo_delete');
 
     Route::get('/package/videos/{id}', [AdminPackageController::class, 'videos'])->name('admin_package_videos');
     Route::post('/package/videos/{id}', [AdminPackageController::class, 'videos_submit'])->name('admin_package_videos_submit');

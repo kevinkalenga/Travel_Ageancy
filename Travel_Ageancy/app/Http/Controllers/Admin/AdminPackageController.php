@@ -8,6 +8,7 @@ use App\Models\Package;
 use App\Models\Destination;
 use App\Models\PackageAmenity;
 use App\Models\PackageItinerary;
+use App\Models\PackagePhoto;
 use App\Models\Amenity;
 
 class AdminPackageController extends Controller
@@ -222,6 +223,51 @@ public function package_itinerary_delete($id)
     $obj->delete();
     return redirect()->back()->with('Success', 'Item is deleted successfully');
 }
+
+
+  public function package_photos($id)
+    {
+        $package = Package::where('id', $id)->first();
+        $package_photos = PackagePhoto::where('package_id', $id)->get();
+        return view('admin.package.photos', compact('package', 'package_photos'));
+    }
+public function package_photo_submit(Request $request, $id)
+{
+    // Vérifie qu'un fichier a été sélectionné
+    if (!$request->hasFile('photo')) {
+        return redirect()->back()->with('error', 'Veuillez sélectionner un fichier.');
+    }
+
+    // Validation du fichier
+    $request->validate([
+        'photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
+    ]);
+
+    // Crée un nom unique pour le fichier
+    $finale_name = 'package_' . time() . '.' . $request->photo->extension();
+
+    // Déplace le fichier dans le dossier uploads
+    $request->photo->move(public_path('uploads'), $finale_name);
+
+    // Sauvegarde dans la base
+    $obj = new PackagePhoto;
+    $obj->package_id = $id;
+    $obj->photo = $finale_name;
+    $obj->save();
+
+    return redirect()->back()->with('success', 'Photo insérée avec succès');
+}
+
+public function photo_delete($id)
+{
+    $package_photo = PackagePhoto::where('id', $id)->first();
+    if($package_photo && file_exists(public_path('uploads/'.$package_photo->photo))) {
+       unlink(public_path('uploads/'.$package_photo->photo));
+     }
+    $package_photo->delete();
+    return redirect()->back()->with('Success', 'Photo is deleted successfully');
+}
+
 
 
 
