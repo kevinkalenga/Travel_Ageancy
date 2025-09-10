@@ -10,6 +10,7 @@ use App\Models\PackageAmenity;
 use App\Models\PackageItinerary;
 use App\Models\PackagePhoto;
 use App\Models\PackageVideo;
+use App\Models\PackageFaqs;
 use App\Models\Amenity;
 
 class AdminPackageController extends Controller
@@ -299,6 +300,43 @@ public function package_video_delete($id)
     $package_video->delete();
     return redirect()->back()->with('Success', 'Video is deleted successfully');
 }
+
+
+
+ public function package_faqs($id)
+ {
+        $package = Package::where('id', $id)->first();
+        $package_faqs = PackageFaqs::where('package_id', $id)->get();
+        return view('admin.package.faqs', compact('package', 'package_faqs'));
+ }
+
+
+public function package_faq_submit(Request $request, $id)
+{
+    $request->validate([
+        'question' => 'required', // juste du texte
+        'answer' => 'required',
+    ]);
+
+    $obj = new PackageFaqs;
+    $obj->package_id = $id;
+    $obj->question = $request->question; 
+    $obj->answer = $request->answer; 
+    $obj->save();
+
+    return redirect()->back()->with('success', 'FAQ is inserted successfully');
+}
+
+
+public function package_faq_delete($id)
+{
+    $package_faq = PackageFaqs::where('id', $id)->first();
+    $package_faq->delete();
+    return redirect()->back()->with('Success', 'FAQ is deleted successfully');
+}
+
+
+
 
 
 

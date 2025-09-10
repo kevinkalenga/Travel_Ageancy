@@ -31,7 +31,8 @@
                     <li class="{{ Request::is('admin/destination/*')  ? 'active': '' }}"><a class="nav-link" href="{{route('admin_destination_index')}}"><i class="fas fa-hand-point-right"></i> <span>Destination</span></a></li>
                     <li class="{{ Request::is('admin/package/*') || Request::is('admin/package-itineraries/*') || 
                        Request::is('admin/package-itinerary-*') || Request::is('admin/package-amenities/*')
-                        || Request::is('admin/package-amenity-*') || Request::is('admin/package-photos/*') || Request::is('admin/package-photo-*') ||  Request::is('admin/package-videos/*') || Request::is('admin/package-video-*') ? 'active': '' }}"><a class="nav-link" href="{{route('admin_package_index')}}">
+                        || Request::is('admin/package-amenity-*') || Request::is('admin/package-photos/*') || Request::is('admin/package-photo-*')
+                         ||  Request::is('admin/package-videos/*') || Request::is('admin/package-video-*') ||  Request::is('admin/package-faqs/*') || Request::is('admin/package-faq-*') ? 'active': '' }}"><a class="nav-link" href="{{route('admin_package_index')}}">
                         <i class="fas fa-hand-point-right"></i> <span>Package</span></a></li>
                     <li class="{{ Request::is('admin/amenity/*') ? 'active': '' }}"><a class="nav-link" href="{{route('admin_amenity_index')}}"><i class="fas fa-hand-point-right"></i> <span>Amenity</span></a></li>
 

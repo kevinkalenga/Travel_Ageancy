@@ -149,6 +149,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/package-videos/{id}', [AdminPackageController::class, 'package_videos'])->name('admin_package_videos');
     Route::post('/package-video-submit/{id}', [AdminPackageController::class, 'package_video_submit'])->name('admin_package_video_submit');
     Route::get('/package-video-delete/{id}', [AdminPackageController::class, 'package_video_delete'])->name('admin_package_video_delete');
+    // Package Faqs
+    Route::get('/package-faqs/{id}', [AdminPackageController::class, 'package_faqs'])->name('admin_package_faqs');
+    Route::post('/package-faq-submit/{id}', [AdminPackageController::class, 'package_faq_submit'])->name('admin_package_faq_submit');
+    Route::get('/package-faq-delete/{id}', [AdminPackageController::class, 'package_faq_delete'])->name('admin_package_faq_delete');
 
     // Package
     Route::get('/package/index', [AdminPackageController::class, 'index'])->name('admin_package_index');
