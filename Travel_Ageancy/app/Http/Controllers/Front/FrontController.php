@@ -24,6 +24,7 @@ use App\Models\BlogCategory;
 use App\Models\PackageAmenity;
 use App\Models\PackageItinerary;
 use App\Models\PackagePhoto;
+use App\Models\PackageFaqs;
 use App\Models\PackageVideo;
 use App\Models\Amenity;
 
@@ -116,7 +117,8 @@ class FrontController extends Controller
         $package_itineraries = PackageItinerary::where('package_id', $package->id)->get();
         $package_photos = PackagePhoto::where('package_id', $package->id)->get();
         $package_videos = PackageVideo::where('package_id', $package->id)->get();
-        return view('front.package', compact('package', 'package_amenities_include', 'package_amenities_exclude', 'package_itineraries', 'package_photos', 'package_videos'));
+        $package_faqs = PackageFaqs::where('package_id', $package->id)->get();
+        return view('front.package', compact('package', 'package_amenities_include', 'package_amenities_exclude', 'package_itineraries', 'package_photos', 'package_videos', 'package_faqs'));
     }
      // Page d'inscription
     public function registration() { return view('front.registration'); }

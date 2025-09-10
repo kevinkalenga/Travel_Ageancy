@@ -142,9 +142,17 @@ class AdminPackageController extends Controller
      
 
 
-          $total3 = PackageAmenity::where('package_id', $id)->count();
-          if($total3 > 0) {
+          $total2 = PackageAmenity::where('package_id', $id)->count();
+          if($total2 > 0) {
               return redirect()->back()->with('error', 'First Delete All Amenity of This Package');
+          }
+          $total3 = PackageItinerary::where('package_id', $id)->count();
+          if($total3 > 0) {
+              return redirect()->back()->with('error', 'First Delete All Itineraries of This Package');
+          }
+          $total4 = PackageFaqs::where('package_id', $id)->count();
+          if($total4 > 0) {
+              return redirect()->back()->with('error', 'First Delete All FAQs of This Package');
           }
          $package = Package::where('id', $id)->first();
          unlink(public_path('uploads/'.$package->featured_photo));
