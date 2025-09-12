@@ -27,6 +27,7 @@ use App\Models\PackagePhoto;
 use App\Models\PackageFaqs;
 use App\Models\PackageVideo;
 use App\Models\Amenity;
+use App\Models\Admin;
 
 
 class FrontController extends Controller
@@ -120,6 +121,33 @@ class FrontController extends Controller
         $package_faqs = PackageFaqs::where('package_id', $package->id)->get();
         return view('front.package', compact('package', 'package_amenities_include', 'package_amenities_exclude', 'package_itineraries', 'package_photos', 'package_videos', 'package_faqs'));
     }
+
+      public function enquery_form_submit(Request $request, $id)
+{
+    $package = Package::find($id);
+    $admin = Admin::find(1);
+
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email',
+        'phone' => 'required',
+        'message' => 'required',
+    ]);
+
+    $subject = "Enquiry about: ".$package->name;
+    $message  = "<b>Name:</b> ".$request->name."<br>";
+    $message .= "<b>Email:</b> ".$request->email."<br>";
+    $message .= "<b>Phone:</b> ".$request->phone."<br>";
+    $message .= "<b>Message:</b> ".nl2br($request->message)."<br>";
+
+    \Mail::html($message, function ($m) use ($subject, $admin) {
+        $m->to($admin->email)
+          ->subject($subject);
+    });
+
+    return redirect()->back()->with('success', 'Your enquiry is submitted successfully. We will contact you soon.');
+}
+
      // Page d'inscription
     public function registration() { return view('front.registration'); }
      // Traitement du formulaire d'inscription

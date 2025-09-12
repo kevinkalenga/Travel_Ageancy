@@ -296,18 +296,19 @@
                                     <!-- Enquery -->
                                     <h2 class="mt_30">Ask Your Question</h2>
                                     <div class="enquery-form">
-                                        <form action="" method="post">
+                                        <form action="{{route('enquery_form_submit', $package->id)}}" method="post">
+                                            @csrf
                                             <div class="mb-3">
-                                                <input type="text" class="form-control" placeholder="Full Name">
+                                                <input type="text" class="form-control" placeholder="Full Name" name="name">
                                             </div>
                                             <div class="mb-3">
-                                                <input type="email" class="form-control" placeholder="Email Address">
+                                                <input type="email" class="form-control" placeholder="Email Address" name="email">
                                             </div>
                                             <div class="mb-3">
-                                                <input type="text" class="form-control" placeholder="Phone Number">
+                                                <input type="text" class="form-control" placeholder="Phone Number" name="phone">
                                             </div>
                                             <div class="mb-3">
-                                                <textarea class="form-control h-150" rows="3" placeholder="Message"></textarea>
+                                                <textarea class="form-control h-150" rows="3" placeholder="Message" name="message"></textarea>
                                             </div>
                                             <div class="mb-3">
                                                 <button type="submit" class="btn btn-primary">
