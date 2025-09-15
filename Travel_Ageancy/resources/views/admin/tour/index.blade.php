@@ -37,7 +37,10 @@
                                               @foreach($tours as $tour)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
-                                                     <td></td>
+                                                     <td>
+                                                        {{$tour->package->name}}<br> 
+                                                        <a href="{{route('package', $tour->package->slug)}}" target="_blank">See Detail</a>
+                                                     </td>
                                                     <td>{{$tour->tour_start_date}}</td>
                                                     <td>{{$tour->tour_end_date}}</td>
                                                     <td>{{$tour->tour_booking_date}}</td>
