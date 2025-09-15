@@ -29,7 +29,7 @@ class AdminTourController extends Controller
             'tour_start_date' => 'required',
             'tour_end_date' => 'required',
             'booking_end_date' => 'required',
-            'total_seat' => 'required|numeric',
+            'total_seat' => 'required',
            
         ]);
 
@@ -61,7 +61,7 @@ class AdminTourController extends Controller
             'tour_start_date' => 'required',
             'tour_end_date' => 'required',
             'booking_end_date' => 'required',
-            'total_seat' => 'required|numeric',
+            'total_seat' => 'required',
            
         ]);
 

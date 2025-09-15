@@ -44,7 +44,13 @@
                                                     <td>{{$tour->tour_start_date}}</td>
                                                     <td>{{$tour->tour_end_date}}</td>
                                                     <td>{{$tour->tour_booking_date}}</td>
-                                                    <td>{{$tour->total_seat}}</td>
+                                                    <td>
+                                                        @if($tour->total_seat == -1)
+                                                          Unlimited
+                                                        @else
+                                                         {{$tour->total_seat}}
+                                                        @endif
+                                                    </td>
                                                     
                                                     <td class="pt_10 pb_10">
                                                         
