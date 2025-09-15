@@ -29,7 +29,7 @@ class AdminTourController extends Controller
             'tour_start_date' => 'required',
             'tour_end_date' => 'required',
             'booking_end_date' => 'required',
-            'total_seat' => 'required',
+            'total_seat' => 'required|numeric',
            
         ]);
 
@@ -48,35 +48,41 @@ class AdminTourController extends Controller
 
     public function edit($id)
     {
-        $faq = Faq::where('id', $id)->first();
-        return view('admin.faq.edit', compact('faq'));
+        $tour = Tour::where('id', $id)->first();
+        $packages = Package::orderBy('name', 'asc')->get();
+        return view('admin.tour.edit', compact('tour', 'packages'));
     }
 
     public function edit_submit(Request $request, $id)
     {
-        $obj = Faq::where('id', $id)->first();  
+        $obj = Tour::where('id', $id)->first();  
         
         $request->validate([
-            'question' => 'required',
-            'answer' => 'required',
+            'tour_start_date' => 'required',
+            'tour_end_date' => 'required',
+            'booking_end_date' => 'required',
+            'total_seat' => 'required|numeric',
            
         ]);
 
         
-        $obj->question = $request->question;
-        $obj->answer = $request->answer;
+        $obj->package_id = $request->package_id;
+        $obj->tour_start_date = $request->tour_start_date;
+        $obj->tour_end_date = $request->tour_end_date;
+        $obj->booking_end_date = $request->booking_end_date;
+        $obj->total_seat = $request->total_seat;
         
         $obj->save();
 
-        return redirect()->route('admin_faq_index')->with('success', 'FAQ is Updated Successfully');
+        return redirect()->route('admin_tour_index')->with('success', 'Tour is Updated Successfully');
     }
 
     public function delete($id) 
     {
-        $faq = Faq::where('id', $id)->first();
-        $faq->delete();
+        $obj = Tour::where('id', $id)->first();
+        $obj->delete();
 
-        return redirect()->route('admin_faq_index')->with('success', 'FAQ is Deleted Successfully');
+        return redirect()->route('admin_tour_index')->with('success', 'Tour is Deleted Successfully');
     }
 
 }

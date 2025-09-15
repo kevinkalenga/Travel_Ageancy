@@ -27,6 +27,7 @@ use App\Models\PackagePhoto;
 use App\Models\PackageFaqs;
 use App\Models\PackageVideo;
 use App\Models\Amenity;
+use App\Models\Tour;
 use App\Models\Admin;
 
 
@@ -112,14 +113,15 @@ class FrontController extends Controller
 
     public function package($slug)
     {
-        $package = Package::with('destination')->where('slug', $slug)->first();
+        $package = Package::with('destination')->where('slug', $slug)->firstOrFail();
         $package_amenities_include = PackageAmenity::with('amenity')->where('package_id', $package->id)->where('type', 'Include')->get();
         $package_amenities_exclude = PackageAmenity::with('amenity')->where('package_id', $package->id)->where('type', 'Exclude')->get();
         $package_itineraries = PackageItinerary::where('package_id', $package->id)->get();
         $package_photos = PackagePhoto::where('package_id', $package->id)->get();
         $package_videos = PackageVideo::where('package_id', $package->id)->get();
         $package_faqs = PackageFaqs::where('package_id', $package->id)->get();
-        return view('front.package', compact('package', 'package_amenities_include', 'package_amenities_exclude', 'package_itineraries', 'package_photos', 'package_videos', 'package_faqs'));
+        $tours = Tour::where('package_id', $package->id)->get();
+        return view('front.package', compact('package', 'package_amenities_include', 'package_amenities_exclude', 'package_itineraries', 'package_photos', 'package_videos', 'package_faqs', 'tours'));
     }
 
       public function enquery_form_submit(Request $request, $id)

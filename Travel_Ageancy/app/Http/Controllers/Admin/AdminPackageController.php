@@ -12,6 +12,7 @@ use App\Models\PackagePhoto;
 use App\Models\PackageVideo;
 use App\Models\PackageFaqs;
 use App\Models\Amenity;
+use App\Models\Tour;
 
 class AdminPackageController extends Controller
 {
@@ -153,6 +154,10 @@ class AdminPackageController extends Controller
           $total4 = PackageFaqs::where('package_id', $id)->count();
           if($total4 > 0) {
               return redirect()->back()->with('error', 'First Delete All FAQs of This Package');
+          }
+          $total5 = Tour::where('package_id', $id)->count();
+          if($total5 > 0) {
+              return redirect()->back()->with('error', 'First Delete All Tours of This Package');
           }
          $package = Package::where('id', $id)->first();
          unlink(public_path('uploads/'.$package->featured_photo));

@@ -326,9 +326,10 @@
 
                                     <div class="row">
                                         <div class="col-md-8">
+                                          @foreach($tours as $item)
                                             <h2 class="mt_30">
-                                                <input type="radio" name="tour_id" value="tour_id" checked>
-                                                Tour 1
+                                                <input type="radio" name="tour_id" value="{{$item->id}}" @if($loop->iteration == 1) checked @endif>
+                                                Tour {{$loop->iteration}}
                                             </h2>
                                             <div class="summary">
                                                 <div class="table-responsive">
@@ -337,82 +338,40 @@
                                                             <td><b>Tour Start Date</b></td>
                                                             <td>
                                                                 
-                                                                2025-06-12
+                                                               {{$item->tour_start_date}}
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td><b>Tour End Date</b></td>
                                                             <td>
-                                                                2025-06-18
+                                                                {{$item->tour_end_date}}
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td><b>Booking End Date</b></td>
                                                             <td class="text-danger">
-                                                                2025-06-10
+                                                                {{$item->booking_end_date}}
                                                             </td>
                                                         </tr>
                                                         
                                                         <tr>
                                                             <td><b>Total Seat</b></td>
                                                             <td>
-                                                                20
+                                                               {{$item->total_seat}}
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td><b>Booked Seat</b></td>
                                                             <td>
-                                                                12
+                                                                999999
                                                             </td>
                                                         </tr>
                                                         
                                                     </table>
                                                 </div>
                                             </div>
-                                            <h2 class="mt_30">
-                                                <input type="radio" name="tour_id" value="tour_id">
-                                                Tour 2
-                                            </h2>
-                                            <div class="summary">
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered">
-                                                        <tr>
-                                                            <td><b>Tour Start Date</b></td>
-                                                            <td>
-                                                                
-                                                                2025-09-20
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><b>Tour End Date</b></td>
-                                                            <td>
-                                                               
-                                                                 2025-09-26
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><b>Booking End Date</b></td>
-                                                            <td class="text-danger">
-                                                                
-                                                                 2025-09-15
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><b>Total Seat</b></td>
-                                                            <td>
-                                                                30
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><b>Booked Seat</b></td>
-                                                            <td>
-                                                                5
-                                                            </td>
-                                                        </tr>
-                                                        
-                                                    </table>
-                                                </div>
-                                            </div>
+                                            @endforeach
+                                            
                                         </div>
                                         <div class="col-md-4">
                                             <h2 class="mt_30">Payment</h2>
@@ -443,9 +402,14 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <button type="submit" class="btn btn-primary">Pay Now</button>
+                                                                @if(Auth::guard('web')->check())
+                                                                    <button type="submit" class="btn btn-primary">Pay Now</button>
+                                                                @else
+                                                                  <a class="btn btn-primary" href="{{route('login')}}">Login to Book</a>
+                                                                @endif
                                                             </td>
                                                         </tr>
+                                                       
                                                     </table>
                                                 </div>
                                             </div>
