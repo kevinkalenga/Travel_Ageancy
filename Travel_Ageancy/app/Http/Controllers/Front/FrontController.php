@@ -31,6 +31,7 @@ use App\Models\Tour;
 use App\Models\Booking;
 use App\Models\Admin;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Stripe\StripeClient;
 
 
 class FrontController extends Controller
@@ -126,127 +127,8 @@ class FrontController extends Controller
         return view('front.package', compact('package', 'package_amenities_include', 'package_amenities_exclude', 'package_itineraries', 'package_photos', 'package_videos', 'package_faqs', 'tours'));
     }
 
-    // public function payment(Request $request)
-    // {
-    //     //   dd($request->all());
-          
     
-    
-    
-    
-    
-    // }
-
-      public function payment(Request $request)
-{
-    $user_id = Auth::guard('web')->user()->id;
-    $package = Package::find($request->package_id);
-
-    if ($request->payment_method === 'Paypal') {
-        $total_price = $request->ticket_price * $request->total_person;
-
-        try {
-            $provider = new \Srmklive\PayPal\Services\PayPal;
-            $provider->setApiCredentials(config('paypal'));
-            $provider->getAccessToken();
-
-            $response = $provider->createOrder([
-                "intent" => "CAPTURE",
-                "application_context" => [
-                    "return_url" => route('paypal_success'),
-                    "cancel_url" => route('paypal_cancel'),
-                ],
-                "purchase_units" => [
-                    [
-                        "amount" => [
-                            "currency_code" => "USD",
-                            "value" => $total_price,
-                        ],
-                        "description" => $package->name,
-                    ],
-                ],
-            ]);
-
-            if (isset($response['id']) && $response['id'] != null) {
-                foreach ($response['links'] as $link) {
-                    if ($link['rel'] === 'approve') {
-                        session([
-                            'paypal_order_id' => $response['id'],
-                            'product_name'    => $package->name,
-                            // 'quantity'        => $request->quantity ?? 1,
-                            'total_person'    => $request->total_person,
-                            'package_id'      => $request->package_id,
-                            'tour_id'         => $request->tour_id,
-                            'user_id'         => $user_id,
-                        ]);
-                        return redirect()->away($link['href']);
-                    }
-                }
-            }
-
-            return redirect()->route('paypal_cancel')->with('error', 'Le paiement n’a pas pu être validé.');
-
-
-        } catch (\Exception $e) {
-            dd($e->getMessage()); // Affiche l’erreur pour debug
-        }
-    }
-}
-
-
-public function paypal_success(Request $request)
-{
-    $provider = new PayPalClient;
-    $provider->setApiCredentials(config('paypal'));
-    $provider->getAccessToken();
-
-    $response = $provider->capturePaymentOrder($request->token);
-
-    if (isset($response['status']) && $response['status'] === 'COMPLETED') {
-        $capture = $response['purchase_units'][0]['payments']['captures'][0];
-        $payer   = $response['payer'] ?? [];
-
-        // Crée une nouvelle réservation
-        $order = new Booking();
-        $order->tour_id       = session('tour_id');
-        $order->package_id    = session('package_id');
-        $order->user_id       = session('user_id');
-        $order->total_person  = session('total_person');
-        $order->paid_amount   = $capture['amount']['value'] ?? 0;
-        $order->paid_method   = 'PayPal'; // Correction ici
-        $order->paid_status   = $capture['status'] ?? 'COMPLETED';
-        $order->invoice_no    = time();
-        // $order->payer_name    = trim(($payer['name']['given_name'] ?? '') . ' ' . ($payer['name']['surname'] ?? ''));
-        // $order->payer_email   = $payer['email_address'] ?? null;
-
-        $order->save();
-
-        // Affichage de la page de succès
-        // return view('payment.success', [
-        //     'product'        => session('product_name'),
-        //     'total_person'   => session('total_person'),
-        //     'payment_status' => $order->paid_status,
-        // ]);
-
-        return redirect()->route('user_dashboard')->with('success', 'Paiement réussi !');
-
-    }
-
-    return redirect()->route('paypal_cancel')->with('error', 'Le paiement n’a pas pu être validé.');
-
-}
-
-
-public function paypal_cancel()
-{
-    return redirect()->back()->with('error', 'Payment is cancelled!');
-}
-
-    
-    
-    
-    
-    public function enquery_form_submit(Request $request, $id)
+     public function enquery_form_submit(Request $request, $id)
    {
     $package = Package::find($id);
     $admin = Admin::find(1);
@@ -330,39 +212,7 @@ public function paypal_cancel()
     
    
 
-//     public function login_submit(Request $request)
-// {
-//     $request->validate([
-//         'email' => 'required|email',
-//         'password' => 'required',
-//     ]);
 
-//     $credentials = $request->only('email', 'password');
-
-//     // Test de debug
-//     if (!Auth::attempt($credentials + ['status' => 1])) {
-//         // On regarde pourquoi ça échoue
-//         $user = User::where('email', $request->email)->first();
-        
-//         if (!$user) {
-//             dd('Utilisateur introuvable');
-//         }
-
-//         if (!Hash::check($request->password, $user->password)) {
-//             dd('Mot de passe incorrect');
-//         }
-
-//         if ($user->status != 1) {
-//             dd('Compte inactif');
-//         }
-
-//         dd('Auth::attempt a échoué pour une autre raison');
-//     }
-
-//     // Si login OK
-//     $request->session()->regenerate();
-//     return redirect()->route('user_dashboard')->with('success', 'Login successful!');
-// }
 
    public function login_submit(Request $request)
 {
@@ -465,6 +315,144 @@ public function paypal_cancel()
     return redirect()->route('login')->with('success', 'Password reset is successful. You can login now.');
   }
 
+
+// Méthode de paiement (PayPal & Stripe)
+    public function payment(Request $request)
+    {
+        $user_id = Auth::id();
+        $package = Package::find($request->package_id);
+        $total_price = $request->ticket_price * $request->total_person;
+
+        if ($request->payment_method === 'Paypal') {
+            $provider = new PayPalClient;
+            $provider->setApiCredentials(config('paypal'));
+            $provider->getAccessToken();
+
+            $response = $provider->createOrder([
+                "intent" => "CAPTURE",
+                "application_context" => [
+                    "return_url" => route('paypal_success'),
+                    "cancel_url" => route('paypal_cancel'),
+                ],
+                "purchase_units" => [[
+                    "amount" => [
+                        "currency_code" => "USD",
+                        "value" => $total_price,
+                    ],
+                    "description" => $package->name,
+                ]],
+            ]);
+
+            if (isset($response['id'])) {
+                foreach ($response['links'] as $link) {
+                    if ($link['rel'] === 'approve') {
+                        session([
+                            'paypal_order_id' => $response['id'],
+                            'package_id' => $request->package_id,
+                            'tour_id' => $request->tour_id,
+                            'total_person' => $request->total_person,
+                            'user_id' => $user_id,
+                        ]);
+                        return redirect()->away($link['href']);
+                    }
+                }
+            }
+
+            return redirect()->route('paypal_cancel')->with('error', 'Le paiement n’a pas pu être validé.');
+        }
+
+        if ($request->payment_method === 'Stripe') {
+            $stripe =  new StripeClient(env('STRIPE_TEST_SK'));
+            $session = $stripe->checkout->sessions->create([
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'usd',
+                        'product_data' => ['name' => $package->name],
+                        'unit_amount' => $total_price * 100,
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => route('stripe_success') . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('stripe_cancel'),
+            ]);
+
+            if (isset($session->url)) {
+                session([
+                    'package_id' => $request->package_id,
+                    'tour_id' => $request->tour_id,
+                    'total_person' => $request->total_person,
+                    'user_id' => $user_id,
+                    'price' => $total_price,
+                ]);
+                return redirect($session->url);
+            }
+
+            return redirect()->back()->with('error', 'Impossible de créer la session Stripe.');
+        }
+    }
+
+    // PayPal Success
+    public function paypal_success(Request $request)
+    {
+        $provider = new PayPalClient;
+        $provider->setApiCredentials(config('paypal'));
+        $provider->getAccessToken();
+        $response = $provider->capturePaymentOrder($request->token);
+
+        if (isset($response['status']) && $response['status'] === 'COMPLETED') {
+            $capture = $response['purchase_units'][0]['payments']['captures'][0];
+
+            $order = new Booking();
+            $order->tour_id = session('tour_id');
+            $order->package_id = session('package_id');
+            $order->user_id = session('user_id');
+            $order->total_person = session('total_person');
+            $order->paid_amount = $capture['amount']['value'] ?? 0;
+            $order->paid_method = 'PayPal';
+            $order->paid_status = $capture['status'] ?? 'COMPLETED';
+            $order->invoice_no = time();
+            $order->save();
+
+            return redirect()->route('user_dashboard')->with('success', 'Payment is succeful ! Your reservation has been registered.');
+        }
+
+        return redirect()->route('paypal_cancel')->with('error', 'Payment failed!.');
+    }
+
+    public function paypal_cancel()
+    {
+        return redirect()->back()->with('error', 'Payment cancelled!');
+    }
+
+    // Stripe Success
+    public function stripe_success(Request $request)
+    {
+        $stripe = new StripeClient(env('STRIPE_TEST_SK'));
+        $session = $stripe->checkout->sessions->retrieve($request->session_id);
+
+        if ($session->payment_status === 'paid') {
+            $booking = new Booking();
+            $booking->tour_id = session('tour_id');
+            $booking->package_id = session('package_id');
+            $booking->user_id = session('user_id');
+            $booking->total_person = session('total_person');
+            $booking->paid_amount = session('price');
+            $booking->paid_method = 'Stripe';
+            $booking->paid_status = 'COMPLETED';
+            $booking->invoice_no = time();
+            $booking->save();
+
+            return redirect()->route('user_dashboard')->with('success', 'Payment is succeful! ! Your reservation has been registered.');
+        }
+
+        return redirect()->route('stripe_cancel')->with('error', 'Payment failed.');
+    }
+
+    public function stripe_cancel()
+    {
+        return redirect()->back()->with('error', 'Payment cancelled!');
+    }
   
 
     

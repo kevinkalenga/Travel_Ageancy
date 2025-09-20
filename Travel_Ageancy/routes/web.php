@@ -48,8 +48,11 @@ Route::get('/destination/{slug}', [FrontController::class, 'destination'])->name
 Route::get('/package/{slug}', [FrontController::class, 'package'])->name('package');
 Route::post('/enquery/submit/{id}', [FrontController::class, 'enquery_form_submit'])->name('enquery_form_submit');
 Route::post('/payment', [FrontController::class, 'payment'])->name('payment');
+Route::post('/stripe/payment', [FrontController::class, 'stripePayment'])->name('stripe_payment');
 Route::get('/paypal/success', [FrontController::class, 'paypal_success'])->name('paypal_success');
 Route::get('/paypal/cancel', [FrontController::class, 'paypal_cancel'])->name('paypal_cancel');
+Route::get('/stripe/success', [FrontController::class, 'stripe_success'])->name('stripe_success');
+Route::get('/stripe/cancel', [FrontController::class, 'stripe_cancel'])->name('stripe_cancel');
 
 
 // ===============================
