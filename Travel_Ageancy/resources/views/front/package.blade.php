@@ -324,46 +324,114 @@
                                 <div class="tab-pane fade" id="tab-8-pane" role="tabpanel" aria-labelledby="tab-8" tabindex="0">
                                     <!-- Booking -->
                                          <form action="{{ route('payment') }}" method="POST">
-    @csrf
-    <input type="hidden" name="package_id" value="{{ $package->id }}">
-    <input type="hidden" id="ticketPrice" name="ticket_price" value="{{ $package->price }}">
+                                               @csrf
+                                               <input type="hidden" name="package_id" value="{{ $package->id }}">
+                                               <input type="hidden" id="ticketPrice" name="ticket_price" value="{{ $package->price }}">
 
-    <div class="row">
-        <div class="col-md-8">
-            @foreach($tours as $item)
-                <h2 class="mt-3">
-                    <input type="radio" name="tour_id" value="{{ $item->id }}" @if($loop->first) checked @endif>
-                    Tour {{ $loop->iteration }}
-                </h2>
-                <p>Start: {{ $item->tour_start_date }}</p>
-                <p>End: {{ $item->tour_end_date }}</p>
-                <p>Booking End: <span class="text-danger">{{ $item->booking_end_date }}</span></p>
-            @endforeach
-        </div>
+                                               <div class="row">
+                                                   <div class="col-md-8">
+                                                        @foreach($tours as $item)
+    @php 
+        $total_booked_seats = App\Models\Booking::where('tour_id',$item->id)
+                            ->where('package_id',$package->id)
+                            ->sum('total_person');
 
-        <div class="col-md-4">
-            <h2 class="mt-3">Payment</h2>
+        if($item->total_seat == -1) {
+            $remaining_seats = 'Unlimited';
+        } else {
+            $remaining_seats = $item->total_seat - $total_booked_seats;
+        }
+    @endphp
 
-            <label><b>Number of Persons</b></label>
-            <input type="number" id="numPersons" name="total_person" value="1" min="1" class="form-control mb-2" oninput="calculateTotal()">
-
-            <label><b>Total</b></label>
-            <input type="text" id="totalAmount" class="form-control mb-2" value="${{ $package->price }}" disabled>
-
-            <label><b>Select Payment Method</b></label>
-            <select name="payment_method" class="form-select mb-3">
-                <option value="Paypal">PayPal</option>
-                <option value="Stripe">Stripe</option>
-            </select>
-
-            @if(Auth::check())
-                <button type="submit" class="btn btn-primary w-100">Pay Now</button>
+    <div class="p-3 mb-3 rounded 
+                @if($item->booking_end_date < date('Y-m-d') || ($remaining_seats !== 'Unlimited' && $remaining_seats == 0)) 
+                    bg-light text-muted expired-tour 
+                @else border 
+                @endif">
+        
+        <h2 class="mt-2">
+            @if($item->booking_end_date < date('Y-m-d') || ($remaining_seats !== 'Unlimited' && $remaining_seats == 0))
+                <del>Tour {{ $loop->iteration }}</del>
             @else
-                <a href="{{ route('login') }}" class="btn btn-primary w-100">Login to Book</a>
+                <input type="radio" 
+                       name="tour_id" 
+                       value="{{ $item->id }}" 
+                       @if($loop->first) checked @endif>
+                Tour {{ $loop->iteration }}
             @endif
+        </h2>
+
+        <div class="summary">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <td><b>Tour Start Date</b></td>
+                        <td>{{ $item->tour_start_date }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Tour End Date</b></td>
+                        <td>{{ $item->tour_end_date }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Booking End Date</b></td>
+                        <td class="text-danger">{{ $item->booking_end_date }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Seat</b></td>
+                        <td>
+                            @if($item->total_seat == -1)
+                            Unlimited
+                            @else
+                            {{ $item->total_seat }}
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Booked Seat</b></td>
+                        <td>{{ $total_booked_seats }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Remaining Seat</b></td>
+                        <td>{{ $remaining_seats }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
+
+        @if($item->booking_end_date < date('Y-m-d'))
+            <p class="text-danger fw-bold">❌ Booking closed</p>
+        @elseif($remaining_seats !== 'Unlimited' && $remaining_seats == 0)
+            <p class="text-danger fw-bold">❌ Fully booked</p>
+        @endif
     </div>
-</form>
+@endforeach
+
+                                                       
+                                                   </div>
+
+                                                   <div class="col-md-4">
+                                                       <h2 class="mt-3">Payment</h2>
+
+                                                       <label><b>Number of Persons</b></label>
+                                                       <input type="number" id="numPersons" name="total_person" value="1" min="1" class="form-control mb-2" oninput="calculateTotal()">
+
+                                                       <label><b>Total</b></label>
+                                                       <input type="text" id="totalAmount" class="form-control mb-2" value="${{ $package->price }}" disabled>
+
+                                                       <label><b>Select Payment Method</b></label>
+                                                       <select name="payment_method" class="form-select mb-3">
+                                                           <option value="Paypal">PayPal</option>
+                                                           <option value="Stripe">Stripe</option>
+                                                       </select>
+
+                                                       @if(Auth::check())
+                                                           <button type="submit" class="btn btn-primary w-100">Pay Now</button>
+                                                       @else
+                                                           <a href="{{ route('login') }}" class="btn btn-primary w-100">Login to Book</a>
+                                                       @endif
+                                                   </div>
+                                               </div>
+                                           </form>
 <script>
     function calculateTotal() {
         const ticketPrice = parseFloat(document.getElementById('ticketPrice').value);

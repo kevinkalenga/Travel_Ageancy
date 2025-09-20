@@ -317,80 +317,107 @@ class FrontController extends Controller
 
 
 // Méthode de paiement (PayPal & Stripe)
+   
+
     public function payment(Request $request)
-    {
-        $user_id = Auth::id();
-        $package = Package::find($request->package_id);
-        $total_price = $request->ticket_price * $request->total_person;
+{
+    if(!$request->tour_id) {
+        return redirect()->back()->with('error', 'Please select a tour first!');
+    }
 
-        if ($request->payment_method === 'Paypal') {
-            $provider = new PayPalClient;
-            $provider->setApiCredentials(config('paypal'));
-            $provider->getAccessToken();
+    $tour = Tour::findOrFail($request->tour_id);
+    $total_allowed_seats = $tour->total_seat;
 
-            $response = $provider->createOrder([
-                "intent" => "CAPTURE",
-                "application_context" => [
-                    "return_url" => route('paypal_success'),
-                    "cancel_url" => route('paypal_cancel'),
-                ],
-                "purchase_units" => [[
-                    "amount" => [
-                        "currency_code" => "USD",
-                        "value" => $total_price,
-                    ],
-                    "description" => $package->name,
-                ]],
-            ]);
+    // ✅ Vérification du nombre de places si limité
+    if ($total_allowed_seats != -1) {
+        $total_booked_seats = Booking::where('tour_id', $tour->id)
+            ->where('package_id', $request->package_id)
+            ->sum('total_person');
 
-            if (isset($response['id'])) {
-                foreach ($response['links'] as $link) {
-                    if ($link['rel'] === 'approve') {
-                        session([
-                            'paypal_order_id' => $response['id'],
-                            'package_id' => $request->package_id,
-                            'tour_id' => $request->tour_id,
-                            'total_person' => $request->total_person,
-                            'user_id' => $user_id,
-                        ]);
-                        return redirect()->away($link['href']);
-                    }
-                }
-            }
+        $remaining_seats = $total_allowed_seats - $total_booked_seats;
 
-            return redirect()->route('paypal_cancel')->with('error', 'Le paiement n’a pas pu être validé.');
-        }
-
-        if ($request->payment_method === 'Stripe') {
-            $stripe =  new StripeClient(env('STRIPE_TEST_SK'));
-            $session = $stripe->checkout->sessions->create([
-                'line_items' => [[
-                    'price_data' => [
-                        'currency' => 'usd',
-                        'product_data' => ['name' => $package->name],
-                        'unit_amount' => $total_price * 100,
-                    ],
-                    'quantity' => 1,
-                ]],
-                'mode' => 'payment',
-                'success_url' => route('stripe_success') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => route('stripe_cancel'),
-            ]);
-
-            if (isset($session->url)) {
-                session([
-                    'package_id' => $request->package_id,
-                    'tour_id' => $request->tour_id,
-                    'total_person' => $request->total_person,
-                    'user_id' => $user_id,
-                    'price' => $total_price,
-                ]);
-                return redirect($session->url);
-            }
-
-            return redirect()->back()->with('error', 'Impossible de créer la session Stripe.');
+        if ($request->total_person > $remaining_seats) {
+            return redirect()->back()->with('error', 'Sorry! Only '.$remaining_seats.' seats are available for this tour!');
         }
     }
+
+    $user_id = Auth::id();
+    $package = Package::findOrFail($request->package_id);
+    $total_price = $request->ticket_price * $request->total_person;
+
+    // ✅ Paiement via PayPal
+    if ($request->payment_method === 'Paypal') {
+        $provider = new PayPalClient;
+        $provider->setApiCredentials(config('paypal'));
+        $provider->getAccessToken();
+
+        $response = $provider->createOrder([
+            "intent" => "CAPTURE",
+            "application_context" => [
+                "return_url" => route('paypal_success'),
+                "cancel_url" => route('paypal_cancel'),
+            ],
+            "purchase_units" => [[
+                "amount" => [
+                    "currency_code" => "USD",
+                    "value" => $total_price,
+                ],
+                "description" => $package->name,
+            ]],
+        ]);
+
+        if (isset($response['id'])) {
+            foreach ($response['links'] as $link) {
+                if ($link['rel'] === 'approve') {
+                    session([
+                        'paypal_order_id' => $response['id'],
+                        'package_id' => $request->package_id,
+                        'tour_id' => $request->tour_id,
+                        'total_person' => $request->total_person,
+                        'user_id' => $user_id,
+                    ]);
+                    return redirect()->away($link['href']);
+                }
+            }
+        }
+
+        return redirect()->route('paypal_cancel')->with('error', 'The PayPal payment could not be processed.');
+    }
+
+    // ✅ Paiement via Stripe
+    if ($request->payment_method === 'Stripe') {
+        $stripe = new StripeClient(config('services.stripe.secret'));
+        $session = $stripe->checkout->sessions->create([
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => ['name' => $package->name],
+                    'unit_amount' => $total_price * 100, // Stripe attend des cents
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => route('stripe_success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('stripe_cancel'),
+        ]);
+
+        if (!empty($session->url)) {
+            session([
+                'package_id' => $request->package_id,
+                'tour_id' => $request->tour_id,
+                'total_person' => $request->total_person,
+                'user_id' => $user_id,
+                'price' => $total_price,
+            ]);
+            return redirect($session->url);
+        }
+
+        return redirect()->back()->with('error', 'Unable to create Stripe payment session.');
+    }
+
+    return redirect()->back()->with('error', 'Invalid payment method selected.');
+}
+
 
     // PayPal Success
     public function paypal_success(Request $request)
