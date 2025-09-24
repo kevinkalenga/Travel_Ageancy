@@ -7,11 +7,11 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-header justify-content-between">
-                    <h1>Tours</h1>
+                    <h1>Booking Information</h1>
                     <div>
-                        <a href="{{route('admin_tour_create')}}" class="btn btn-primary">
+                        <a href="{{route('admin_tour_index')}}" class="btn btn-primary">
                             <i class="fas fa-plus"></i>
-                            Add New
+                            Back to Previous
                         </a>
                     </div>
                 </div>
@@ -20,47 +20,50 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                     <div class="table-responsive">
+                                      <div class="table-responsive">
                                         <table class="table table-bordered" id="example1">
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
-                                                    <th>Package Info</th>
-                                                    <th>Tour Start</th>
-                                                    <th>Tour End</th>
-                                                    <th>Booking End</th>
-                                                    <th>Total Seat</th>
-                                                    <th>Booking</th>
+                                                    <th>Invoice No</th>
+                                                    <th>User Info</th>
+                                                    <th>Total Persons</th>
+                                                    <th>Paid Amount</th>
+                                                    <th>Payment Method</th>
+                                                    <th>Payment Status</th>
                                                     <th>Action</th>
                                                     
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                              @foreach($tours as $tour)
+                                              @foreach($all_data as $item)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                      <td>
-                                                        {{$tour->package->name}}<br> 
-                                                        <a href="{{route('package', $tour->package->slug)}}" target="_blank">See Detail</a>
+                                                        {{$item->invoice_no}}
                                                      </td>
-                                                    <td>{{$tour->tour_start_date}}</td>
-                                                    <td>{{$tour->tour_end_date}}</td>
-                                                    <td>{{$tour->tour_booking_date}}</td>
                                                     <td>
-                                                        @if($tour->total_seat == -1)
-                                                          Unlimited
-                                                        @else
-                                                         {{$tour->total_seat}}
-                                                        @endif
+                                                        <strong>Name:</strong>{{$item->user->name}}<br>
+                                                        <strong>Email:</strong>{{$item->user->email}}<br>
+                                                        <strong>Phone:</strong>{{$item->user->phone}}<br>
+                                                        
                                                     </td>
+                                                    <td>{{$item->total_person}}</td>
+                                                    <td>{{$item->paid_amount}}</td>
+                                                    <td>{{$item->paid_method}}</td>
                                                     <td>
-                                                        <a href="{{route('admin_tour_booking',[$tour->id, $tour->package->id])}}" class="btn btn-success btn-sm">Booking Information</a>
+                                                        @if($item->paid_status == "COMPLETED")
+                                                          <span class="badge bg-success">COMPLETED</span>
+                                                        @else 
+                                                         <span class="badge bg-danger">PENDING</span>
+                                                        @endif
+
                                                     </td>
                                                     
                                                     <td class="pt_10 pb_10">
                                                         
-                                                        <a href="{{route('admin_tour_edit', $tour->id)}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                                        <a href="{{route('admin_tour_delete', $tour->id)}}" class="btn btn-danger" onClick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
+                                                        
+                                                        <a href="{{route('admin_tour_booking_delete', $item->id)}}" class="btn btn-danger" onClick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
                                                     </td>
                                                    
                                                 </tr>
@@ -68,7 +71,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                 </div>
                             </div>
                         </div>
                     </div>

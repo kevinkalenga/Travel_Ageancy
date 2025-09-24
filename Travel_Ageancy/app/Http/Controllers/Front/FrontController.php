@@ -399,6 +399,13 @@ class FrontController extends Controller
             'mode' => 'payment',
             'success_url' => route('stripe_success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('stripe_cancel'),
+            'metadata' => [
+            'tour_id'      => $request->tour_id,
+            'package_id'   => $request->package_id,
+            'user_id'      => $user_id,
+            'total_person' => $request->total_person,
+            'price'        => $total_price,
+    ],
         ]);
 
         if (!empty($session->url)) {
@@ -453,28 +460,62 @@ class FrontController extends Controller
     }
 
     // Stripe Success
-    public function stripe_success(Request $request)
-    {
-        $stripe = new StripeClient(env('STRIPE_TEST_SK'));
-        $session = $stripe->checkout->sessions->retrieve($request->session_id);
+    // public function stripe_success(Request $request)
+    // {
+    //     $stripe = new StripeClient(env('STRIPE_TEST_SK'));
+    //     $session = $stripe->checkout->sessions->retrieve($request->session_id);
 
-        if ($session->payment_status === 'paid') {
-            $booking = new Booking();
-            $booking->tour_id = session('tour_id');
-            $booking->package_id = session('package_id');
-            $booking->user_id = session('user_id');
-            $booking->total_person = session('total_person');
-            $booking->paid_amount = session('price');
-            $booking->paid_method = 'Stripe';
-            $booking->paid_status = 'COMPLETED';
-            $booking->invoice_no = time();
-            $booking->save();
+    //     if ($session->payment_status === 'paid') {
+    //         $booking = new Booking();
+    //         $booking->tour_id = session('tour_id');
+    //         $booking->package_id = session('package_id');
+    //         $booking->user_id = session('user_id');
+    //         $booking->total_person = session('total_person');
+    //         $booking->paid_amount = session('price');
+    //         $booking->paid_method = 'Stripe';
+    //         $booking->paid_status = 'COMPLETED';
+    //         $booking->invoice_no = time();
+    //         $booking->save();
 
-            return redirect()->route('user_dashboard')->with('success', 'Payment is succeful! ! Your reservation has been registered.');
-        }
+    //         return redirect()->route('user_dashboard')->with('success', 'Payment is succeful! ! Your reservation has been registered.');
+    //     }
 
-        return redirect()->route('stripe_cancel')->with('error', 'Payment failed.');
+    //     return redirect()->route('stripe_cancel')->with('error', 'Payment failed.');
+    // }
+
+     public function stripe_success(Request $request)
+{
+    // Vérifier que session_id existe bien
+    if (!$request->has('session_id')) {
+        return redirect()->route('stripe_cancel')->with('error', 'Invalid session.');
     }
+
+    // Utiliser toujours la clé définie dans config/services.php
+    $stripe = new StripeClient(config('services.stripe.secret'));
+
+    // Récupérer la session Stripe
+    $session = $stripe->checkout->sessions->retrieve($request->session_id);
+
+    // Vérifier le statut du paiement
+    if ($session->payment_status === 'paid') {
+        // Créer la réservation avec les metadata
+        $booking = new Booking();
+        $booking->tour_id       = $session->metadata->tour_id;
+        $booking->package_id    = $session->metadata->package_id;
+        $booking->user_id       = $session->metadata->user_id;
+        $booking->total_person  = $session->metadata->total_person;
+        $booking->paid_amount   = $session->metadata->price;
+        $booking->paid_method   = 'Stripe';
+        $booking->paid_status   = 'COMPLETED';
+        $booking->invoice_no    = time();
+        $booking->save();
+
+        return redirect()->route('user_dashboard')->with('success', 'Payment is successful! Your reservation has been registered.');
+    }
+
+    return redirect()->route('stripe_cancel')->with('error', 'Payment failed.');
+}
+
 
     public function stripe_cancel()
     {
