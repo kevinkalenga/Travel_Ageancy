@@ -192,7 +192,7 @@
         {{-- Message global --}}
         <script>
             iziToast.show({
-                message: 'Tous les champs sont requis.',
+                message: 'All fields are required.',
                 color: 'red',
                 position: 'topRight',
             });

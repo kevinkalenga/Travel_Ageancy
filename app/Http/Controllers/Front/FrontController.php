@@ -67,6 +67,11 @@ class FrontController extends Controller
     public function team_member($slug)
     {
           $team_member = TeamMember::where('slug', $slug)->first();
+           
+           if (!$team_member) {
+             abort(404, 'Team member not found');
+           }
+          
           return view('front.team_member', compact('team_member')); 
     }
 
@@ -216,22 +221,22 @@ class FrontController extends Controller
 
    public function login_submit(Request $request)
 {
-    // 1️⃣ Validation des données
+    // 1️ Validation des données
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
     ]);
 
-    // 2️⃣ Préparer les identifiants
+    // 2️ Préparer les identifiants
     $credentials = $request->only('email', 'password');
 
-    // 3️⃣ Tenter la connexion en vérifiant que le compte est actif
+    // 3️ Tenter la connexion en vérifiant que le compte est actif
     if (Auth::attempt($credentials + ['status' => 1])) {
         $request->session()->regenerate(); // Sécurise la session
         return redirect()->route('user_dashboard')->with('success', 'Login successful!');
     }
 
-    // 4️⃣ Retour avec erreur si la connexion échoue
+    // 4️ Retour avec erreur si la connexion échoue
     return back()->with('error', 'Email or password is incorrect!')->withInput();
 }
 

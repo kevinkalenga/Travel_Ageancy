@@ -25,7 +25,7 @@ class AdminAuthController extends Controller
         'email' => ['required', 'email'],
         'password' => ['required'],
        ]);
-      //check contain email and pwd of the request   
+      //check containt email and pwd of the request   
        $check = $request->all();
        $data = [
         'email' => $check['email'],

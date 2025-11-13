@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // status so as to hide welcome_items in front
         Schema::create('welcome_items', function (Blueprint $table) {
             $table->id();
             $table->string('heading')->nullable();

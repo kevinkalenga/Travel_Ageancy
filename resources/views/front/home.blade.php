@@ -35,7 +35,7 @@
             </div>
         </div>
 
-@if($welcome_item->status == "Show")
+@if(!empty($welcome_item) && $welcome_item->status == "Show")
 <div class="special pt_70 pb_70">
             <div class="container">
                 <div class="row">

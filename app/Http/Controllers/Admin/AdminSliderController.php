@@ -10,6 +10,7 @@ class AdminSliderController extends Controller
 {
     public function index() 
     {
+        // passe par le model pour acceder à une table
         $sliders = Slider::get();
         return view('admin.slider.index', compact('sliders'));
     }
