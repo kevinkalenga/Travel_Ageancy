@@ -31,6 +31,7 @@
                                                     <th>Paid Amount</th>
                                                     <th>Payment Method</th>
                                                     <th>Payment Status</th>
+                                                    <th>Show Invoice</th>
                                                     <th>Action</th>
                                                     
                                                 </tr>
@@ -59,10 +60,11 @@
                                                         @endif
 
                                                     </td>
+                                                     <td>
+                                                        <a target="_blank" href="{{route('admin_tour_invoice', $item->invoice_no)}}" class="badge bg-primary text-decoration-none">Show Invoice</a>
+                                                     </td>
                                                     
                                                     <td class="pt_10 pb_10">
-                                                        
-                                                        
                                                         <a href="{{route('admin_tour_booking_delete', $item->id)}}" class="btn btn-danger" onClick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
                                                     </td>
                                                    

@@ -8,7 +8,7 @@ class Post extends Model
 {
     public function blog_category() 
     {
-        // this post belongs to blog category
+        // each post belongs to a blog category
         return $this->belongsTo(BlogCategory::class);
     }
 }
