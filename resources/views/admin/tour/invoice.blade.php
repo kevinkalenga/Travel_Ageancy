@@ -53,7 +53,7 @@
                                      </tr>
                                      <tr>
                                         <td>Payment Method: </td>
-                                        <td>{{$booking->payment_method}}</td>
+                                        <td>{{$booking->paid_method}}</td>
                                      </tr>
                                      <tr>
                                         <td>Payment Status: </td>

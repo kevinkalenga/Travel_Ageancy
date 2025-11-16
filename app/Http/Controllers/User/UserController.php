@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
+use App\Models\Booking;
 
 class UserController extends Controller
 {
@@ -18,11 +19,11 @@ class UserController extends Controller
         return view('user.profile');
     }
 
-     public function profile_submit(Request $request)
-{
-    $user = User::where('id', Auth::guard('web')->user()->id)->first();
+    public function profile_submit(Request $request)
+    {
+      $user = User::where('id', Auth::guard('web')->user()->id)->first();
     
-    $request->validate([
+      $request->validate([
         'full_name' => "required",
         'email' => 'required|email|unique:users,email,' . Auth::id(),
         'phone' => "required|string|max:20",
@@ -31,9 +32,9 @@ class UserController extends Controller
         'state' => "required",
         'city' => "required",
         'zip' => "required|string|max:10",
-    ]);
+      ]);
 
-    if($request->photo) {
+      if($request->photo) {
         $request->validate([
             'photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
         ]);
@@ -46,30 +47,37 @@ class UserController extends Controller
         $finale_name = 'user_'.time().'.'.$request->photo->extension();
         $request->photo->move(public_path('uploads'), $finale_name);
         $user->photo = $finale_name;
-    } 
+      } 
 
-    if($request->password != '') {
+      if($request->password != '') {
         $request->validate([
             'password' => 'required',
             'retype_password' => 'required|same:password'
         ]);
         $user->password = bcrypt($request->password);
+      }
+
+       // Mise à jour des autres champs
+       $user->name = $request->full_name;
+       $user->email = $request->email;
+       $user->phone = $request->phone;
+       $user->country = $request->country;
+       $user->address = $request->address;
+       $user->state = $request->state;
+       $user->city = $request->city;
+       $user->zip = $request->zip;
+
+       $user->save();
+
+       return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 
-    // Mise à jour des autres champs
-    $user->name = $request->full_name;
-    $user->email = $request->email;
-    $user->phone = $request->phone;
-    $user->country = $request->country;
-    $user->address = $request->address;
-    $user->state = $request->state;
-    $user->city = $request->city;
-    $user->zip = $request->zip;
-
-    $user->save();
-
-    return redirect()->back()->with('success', 'Profile updated successfully!');
-}
+    public function booking()
+    {
+        $all_data = Booking::with(['tour', 'package'])->where('tour_id', Auth::guard('web')->user()->id)->get();
+        
+       return view('user.booking', compact('all_data'));
+    }
 
   
 }

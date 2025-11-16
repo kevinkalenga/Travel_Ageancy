@@ -3,7 +3,7 @@
                                     <a href="{{route('user_dashboard')}}">Dashboard</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <a href="user-order.html">Orders</a>
+                                    <a href="{{route('user_booking')}}">Booking</a>
                                 </li>
                                 <li class="list-group-item">
                                     <a href="user-wishlist.html">Wishlist</a>

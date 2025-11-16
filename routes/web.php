@@ -60,6 +60,7 @@ Route::get('/stripe/cancel', [FrontController::class, 'stripe_cancel'])->name('s
 // ===============================
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user_dashboard');
+    Route::get('/booking', [UserController::class, 'booking'])->name('user_booking');
     Route::get('/profile', [UserController::class, 'profile'])->name('user_profile');
     Route::post('/profile', [UserController::class, 'profile_submit'])->name('user_profile_submit');
 });
