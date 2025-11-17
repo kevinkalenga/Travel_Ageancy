@@ -32,13 +32,13 @@
                         <div class="row box-items">
                             <div class="col-md-4">
                                 <div class="box1">
-                                    <h4>3</h4>
+                                    <h4>{{$total_completed_orders}}</h4>
                                     <p>Completed Orders</p>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="box2">
-                                    <h4>2</h4>
+                                    <h4>{{$total_pending_orders}}</h4>
                                     <p>Pending Orders</p>
                                 </div>
                             </div>

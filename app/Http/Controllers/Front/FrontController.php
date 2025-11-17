@@ -324,8 +324,8 @@ class FrontController extends Controller
 // Méthode de paiement (PayPal & Stripe)
    
 
-    public function payment(Request $request)
-{
+  public function payment(Request $request)
+  {
     if(!$request->tour_id) {
         return redirect()->back()->with('error', 'Please select a tour first!');
     }
@@ -333,7 +333,7 @@ class FrontController extends Controller
     $tour = Tour::findOrFail($request->tour_id);
     $total_allowed_seats = $tour->total_seat;
 
-    // ✅ Vérification du nombre de places si limité
+     // ✅ Vérification du nombre de places si limité
     if ($total_allowed_seats != -1) {
         $total_booked_seats = Booking::where('tour_id', $tour->id)
             ->where('package_id', $request->package_id)
@@ -346,11 +346,11 @@ class FrontController extends Controller
         }
     }
 
-    $user_id = Auth::id();
-    $package = Package::findOrFail($request->package_id);
-    $total_price = $request->ticket_price * $request->total_person;
+       $user_id = Auth::id();
+       $package = Package::findOrFail($request->package_id);
+       $total_price = $request->ticket_price * $request->total_person;
 
-    // ✅ Paiement via PayPal
+     // ✅ Paiement via PayPal
     if ($request->payment_method === 'Paypal') {
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
@@ -410,7 +410,7 @@ class FrontController extends Controller
             'user_id'      => $user_id,
             'total_person' => $request->total_person,
             'price'        => $total_price,
-    ],
+      ],
         ]);
 
         if (!empty($session->url)) {
@@ -427,8 +427,30 @@ class FrontController extends Controller
         return redirect()->back()->with('error', 'Unable to create Stripe payment session.');
     }
 
-    return redirect()->back()->with('error', 'Invalid payment method selected.');
-}
+    
+
+     // ✅ Paiement via Cach
+
+    if($request->payment_method === 'Cash') {
+        $booking = new Booking();
+        $booking->tour_id = $request->tour_id;
+        $booking->package_id = $request->package_id;
+        $booking->user_id = Auth::id();
+        $booking->total_person = $request->total_person;
+        $booking->paid_amount = 0;
+        $booking->paid_method = 'Cash';
+        $booking->paid_status = 'PENDING'; // 🔥 Paiement en attente
+        $booking->invoice_no = time();
+        $booking->save();
+
+         return redirect()->route('user_dashboard')
+        ->with('success', 'Your reservation has been registered. Please pay at the agency.');
+    }
+
+     return redirect()->back()->with('error', 'Invalid payment method selected.');
+   }
+
+ 
 
 
     // PayPal Success
@@ -464,30 +486,7 @@ class FrontController extends Controller
         return redirect()->back()->with('error', 'Payment cancelled!');
     }
 
-    // Stripe Success
-    // public function stripe_success(Request $request)
-    // {
-    //     $stripe = new StripeClient(env('STRIPE_TEST_SK'));
-    //     $session = $stripe->checkout->sessions->retrieve($request->session_id);
-
-    //     if ($session->payment_status === 'paid') {
-    //         $booking = new Booking();
-    //         $booking->tour_id = session('tour_id');
-    //         $booking->package_id = session('package_id');
-    //         $booking->user_id = session('user_id');
-    //         $booking->total_person = session('total_person');
-    //         $booking->paid_amount = session('price');
-    //         $booking->paid_method = 'Stripe';
-    //         $booking->paid_status = 'COMPLETED';
-    //         $booking->invoice_no = time();
-    //         $booking->save();
-
-    //         return redirect()->route('user_dashboard')->with('success', 'Payment is succeful! ! Your reservation has been registered.');
-    //     }
-
-    //     return redirect()->route('stripe_cancel')->with('error', 'Payment failed.');
-    // }
-
+    
      public function stripe_success(Request $request)
 {
     // Vérifier que session_id existe bien

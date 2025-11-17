@@ -118,4 +118,10 @@ class AdminTourController extends Controller
         return view('admin.tour.invoice', compact('booking'));
     }
 
+    public function tour_booking_approve($id) 
+    {
+       Booking::where('id', $id)->update(['paid_status' => 'COMPLETED']);
+       return redirect()->back()->with('success', 'Booking is Approved Successfully');
+    }
+
 }

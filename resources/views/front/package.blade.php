@@ -422,6 +422,7 @@
                                                        <select name="payment_method" class="form-select mb-3">
                                                            <option value="Paypal">PayPal</option>
                                                            <option value="Stripe">Stripe</option>
+                                                           <option value="Cash">Cash</option>
                                                        </select>
 
                                                        @if(Auth::check())

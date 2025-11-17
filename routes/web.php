@@ -61,6 +61,7 @@ Route::get('/stripe/cancel', [FrontController::class, 'stripe_cancel'])->name('s
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user_dashboard');
     Route::get('/booking', [UserController::class, 'booking'])->name('user_booking');
+    Route::get('/invoice/{invoice_no}', [UserController::class, 'invoice'])->name('user_invoice');
     Route::get('/profile', [UserController::class, 'profile'])->name('user_profile');
     Route::post('/profile', [UserController::class, 'profile_submit'])->name('user_profile_submit');
 });
@@ -204,7 +205,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/tour/delete/{id}', [AdminTourController::class, 'delete'])->name('admin_tour_delete');
     Route::get('/tour/booking/{tour_id}/{package_id}', [AdminTourController::class, 'tour_booking'])->name('admin_tour_booking');
     Route::get('/tour/booking-delete/{id}', [AdminTourController::class, 'tour_booking_delete'])->name('admin_tour_booking_delete');
+    Route::get('/tour/booking-approve/{id}', [AdminTourController::class, 'tour_booking_approve'])->name('admin_tour_booking_approve');
     Route::get('/tour/invoice/{invoice_no}', [AdminTourController::class, 'tour_invoice'])->name('admin_tour_invoice');
+    
 });
 
 
