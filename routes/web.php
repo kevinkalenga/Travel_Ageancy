@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\AdminPackageItineraryController;
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminTourController;
+use App\Http\Controllers\Admin\AdminReviewController;
 
 
 // ===============================
@@ -208,6 +209,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/tour/booking-delete/{id}', [AdminTourController::class, 'tour_booking_delete'])->name('admin_tour_booking_delete');
     Route::get('/tour/booking-approve/{id}', [AdminTourController::class, 'tour_booking_approve'])->name('admin_tour_booking_approve');
     Route::get('/tour/invoice/{invoice_no}', [AdminTourController::class, 'tour_invoice'])->name('admin_tour_invoice');
+
+    // Review
+    Route::get('/review/index', [AdminReviewController::class, 'index'])->name('admin_review_index');
+    Route::get('/review/delete/{id}', [AdminReviewController::class, 'delete'])->name('admin_review_delete');
     
 });
 
