@@ -151,12 +151,12 @@
                                                 <i class="fas fa-plane-departure"></i> {{$item->destination->name}}
                                             </div>
                                             <div class="element-right">
-                                                <i class="fas fa-th-large"></i> 10 Amenities
+                                                <i class="fas fa-th-large"></i> {{$item->package_amenities->count()}} Amenities
                                             </div>
                                         </div>
                                         <div class="element">
                                             <div class="element-left">
-                                                <i class="fas fa-users"></i> 25 Persons
+                                                <i class="fas fa-users"></i> 25 Tours
                                             </div>
                                             <div class="element-right">
                                                 <i class="fas fa-clock"></i> 7 Days

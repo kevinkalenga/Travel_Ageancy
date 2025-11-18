@@ -559,7 +559,7 @@ class FrontController extends Controller
     public function packages(Request $request)
     {
         $destinations = Destination::orderBy('name', 'asc')->get();
-        $packages = Package::with('destination')->get();
+        $packages = Package::with(['destination', 'package_amenities'])->get();
         return view('front.packages', compact('destinations', 'packages'));
     }
 

@@ -51,5 +51,10 @@ class Package extends Model
     {
         return $this->belongsTo(Review::class);
     }
+    public function package_amenities()
+    {
+        // a package should have many amenities
+        return $this->hasMany(PackageAmenity::class);
+    }
     
 }
