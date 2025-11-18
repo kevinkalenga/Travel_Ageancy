@@ -63,6 +63,7 @@ Route::post('/review/submit/', [FrontController::class, 'review_submit'])->name(
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user_dashboard');
     Route::get('/booking', [UserController::class, 'booking'])->name('user_booking');
+    Route::get('/review', [UserController::class, 'review'])->name('user_review');
     Route::get('/invoice/{invoice_no}', [UserController::class, 'invoice'])->name('user_invoice');
     Route::get('/profile', [UserController::class, 'profile'])->name('user_profile');
     Route::post('/profile', [UserController::class, 'profile_submit'])->name('user_profile_submit');
