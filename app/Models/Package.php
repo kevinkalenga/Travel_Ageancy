@@ -44,5 +44,10 @@ class Package extends Model
     {
         return $this->hasMany(Tour::class);
     }
+
+    public function reviews()
+    {
+        return $this->belongsTo(Review::class);
+    }
     
 }

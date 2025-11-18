@@ -252,9 +252,38 @@
                                         <div class="mt_40"></div>
         
                                         <h2>Leave Your Review</h2>
-        
+                                       
+                                       
+                                         @if($errors->any())
+                                          <div class="alert alert-danger">
+                                              <ul>
+                                                  @foreach($errors->all() as $error)
+                                                  <li>{{ $error }}</li>
+                                                  @endforeach
+                                              </ul>
+                                          </div>
+                                        @endif
+                                       
+                                       
+                                       
+                                      @if(Auth::guard('web')->check())
+                                       @php 
+                                        $review_possible = App\Models\Booking::where('package_id', $package->id)->where('user_id', Auth::guard('web')->user()->id)->
+                                        where('paid_status', 'COMPLETED')->count();
+                                       @endphp
+                                       @if($review_possible > 0)
+                                        
+                                         @php 
+                                               App\Models\Review::where('package_id', $package->id)->where
+                                               ('user_id', Auth::guard('web')->user()->id)->count() > 0 ? 
+                                               $reviewed = true : $reviewed = false;
+                                         @endphp
+                                        @if($reviewed == false)
+                                        <form action="{{route('review_submit')}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="package_id" value="{{$package->id}}">
                                         <div class="mb-3">
-                                            <div class="give-review-auto-select">
+                                            <div class="give-review-auto-select star-rating">
                                                 <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
                                                 <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
                                                 <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
@@ -280,12 +309,27 @@
                                                 });
                                             </script>
                                         </div>
+                                        
                                         <div class="mb-3">
-                                            <textarea class="form-control" rows="3" placeholder="Comment"></textarea>
+                                            <textarea class="form-control" rows="3" placeholder="Comment" name="comment" ></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
+                                       </form>
+                                       @else
+                                          <div class="alert alert-danger">
+                                             You have already given the review.
+                                          </div>
+                                        @endif
+                                      @else
+                                        <div class="alert alert-danger">
+                                            You have to book this package to review
+                                        </div>
+                                      @endif
+                                     @else 
+                                      <a href="{{ route('login') }}" class="text-danger text-decoration-underline">Login to Review</a>
+                                     @endif
                                     </div>
                                     <!-- // Review -->
                                 </div>
@@ -428,7 +472,7 @@
                                                        @if(Auth::check())
                                                            <button type="submit" class="btn btn-primary w-100">Pay Now</button>
                                                        @else
-                                                           <a href="{{ route('login') }}" class="btn btn-primary w-100">Login to Book</a>
+                                                           <a href="{{ route('login') }}" class="text-danger text-decoration-underline">Login to Book</a>
                                                        @endif
                                                    </div>
                                                </div>

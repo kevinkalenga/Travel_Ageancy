@@ -30,6 +30,7 @@ use App\Models\Amenity;
 use App\Models\Tour;
 use App\Models\Booking;
 use App\Models\Admin;
+use App\Models\Review;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Stripe\StripeClient;
 
@@ -525,7 +526,24 @@ class FrontController extends Controller
     {
         return redirect()->back()->with('error', 'Payment cancelled!');
     }
-  
+ 
+    public function review_submit(Request $request)
+    {
+          //dd($request->all());
+          $request->validate([
+            'rating' => 'required',
+            'comment' => 'required',
+          ]);
+
+          $obj = new Review;
+          $obj->user_id = Auth::guard('web')->user()->id;
+          $obj->package_id = $request->package_id;
+          $obj->rating = $request->rating;
+          $obj->comment = $request->comment;
+          $obj->save();
+
+          return redirect()->back()->with('success', 'Review is submitted successfully!');
+    }
 
     
 }

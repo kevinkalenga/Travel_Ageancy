@@ -53,6 +53,7 @@ Route::get('/paypal/success', [FrontController::class, 'paypal_success'])->name(
 Route::get('/paypal/cancel', [FrontController::class, 'paypal_cancel'])->name('paypal_cancel');
 Route::get('/stripe/success', [FrontController::class, 'stripe_success'])->name('stripe_success');
 Route::get('/stripe/cancel', [FrontController::class, 'stripe_cancel'])->name('stripe_cancel');
+Route::post('/review/submit/', [FrontController::class, 'review_submit'])->name('review_submit');
 
 
 // ===============================
