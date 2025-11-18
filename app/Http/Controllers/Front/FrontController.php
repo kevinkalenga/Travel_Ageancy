@@ -556,5 +556,12 @@ class FrontController extends Controller
           return redirect()->back()->with('success', 'Review is submitted successfully!');
     }
 
+    public function packages(Request $request)
+    {
+        $destinations = Destination::orderBy('name', 'asc')->get();
+        $packages = Package::with('destination')->get();
+        return view('front.packages', compact('destinations', 'packages'));
+    }
+
     
 }

@@ -46,6 +46,7 @@ Route::get('/post/{slug}', [FrontController::class, 'post'])->name('post');
 Route::get('/category/{slug}', [FrontController::class, 'category'])->name('category');
 Route::get('/destinations', [FrontController::class, 'destinations'])->name('destinations');
 Route::get('/destination/{slug}', [FrontController::class, 'destination'])->name('destination');
+Route::get('/packages', [FrontController::class, 'packages'])->name('packages');
 Route::get('/package/{slug}', [FrontController::class, 'package'])->name('package');
 Route::post('/enquery/submit/{id}', [FrontController::class, 'enquery_form_submit'])->name('enquery_form_submit');
 Route::post('/payment', [FrontController::class, 'payment'])->name('payment');

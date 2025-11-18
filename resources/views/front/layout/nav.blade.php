@@ -25,7 +25,7 @@
                                     <a href="{{route('destinations')}}" class="nav-link">Destinations</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="packages.html" class="nav-link">Packages</a>
+                                    <a href="{{route('packages')}}" class="nav-link">Packages</a>
                                 </li>
                                 <li class="nav-item {{ Route::is('team_members') ? 'active' : '' }}">
                                     <a href="{{route('team_members')}}" class="nav-link">Team</a>
