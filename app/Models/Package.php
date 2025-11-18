@@ -16,6 +16,8 @@ class Package extends Model
         'description',
         'map',
         'price',
+        'total_rating',
+        'total_score',
         'old_price',
     ];
 

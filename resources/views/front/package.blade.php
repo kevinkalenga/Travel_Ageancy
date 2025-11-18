@@ -10,13 +10,24 @@
                         <h3><i class="fas fa-plane-departure"></i> {{$package->destination->name}}</h3>
                         <div class="review">
                             <div class="set">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
+                                    @php 
+                                      $package_rating = $package->total_score/$package->total_rating;
+                                      
+                                    @endphp
+                                    
+                                    @for($i=1; $i<=5; $i++)
+                                        @if($i <= $package_rating)
+                                           <i class="fas fa-star"></i>
+                                        @elseif($i-0.5 <= $package_rating)
+                                           <i class="fas fa-star-half-alt"></i>
+                                        @else 
+                                            <i class="far fa-star"></i>
+                                        @endif
+                                    @endfor
+                                
+                               
                             </div>
-                            <span>(4.2 out of 5)</span>
+                            <span>({{ $package_rating }} out of 5)</span>
                         </div>
                         <div class="price">
                             ${{$package->price}} @if($package->old_price != '')<del>${{$package->old_price}}</del>@endif
@@ -217,36 +228,40 @@
                                     <div class="review-package">
 
                                         <h2>Reviews (2)</h2>
-        
+                                      @foreach($reviews as $item)
                                         <div class="review-package-section">
                                             <div class="review-package-box d-flex justify-content-start">
                                                 <div class="left">
-                                                    <img src="uploads/team-2.jpg" alt="">
+                                                    @if($item->user->photo == '')
+                                                      <img src="{{asset('uploads/default.png')}}" alt="">
+                                                    @else
+                                                      <img src="{{asset('uploads/'.$item->user->photo)}}" alt="">
+                                                    
+                                                    @endif
                                                 </div>
                                                 <div class="right">
-                                                    <div class="name">John Doe</div>
-                                                    <div class="date">September 25, 2022</div>
+                                                    <div class="name">{{$item->user->name}}</div>
+                                                    <div class="date">{{$item->created_at->format('Y-m-d')}}</div>
+                                                    <div class="review mb-2">
+                                                        <div class="set">
+                                                            @for($i=1; $i<=5; $i++)
+                                                              @if($i <= $item->rating)
+                                                                <i class="fas fa-star"></i>
+                                                              @else 
+                                                                <i class="far fa-star"></i>
+                                                               @endif
+                                                            @endfor
+                                                        </div>
+                                                       
+                                                    </div>
                                                     <div class="text">
-                                                        Qui ea oporteat democritum, ad sed minimum offendit expetendis. Idque volumus platonem eos ut, in est verear delectus. Vel ut option adipisci consequuntur. Mei et solum malis detracto, has iuvaret invenire inciderint no. Id est dico nostrud invenire.
+                                                        {!! $item->comment !!}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-        
-                                        <div class="review-package-section">
-                                            <div class="review-package-box d-flex justify-content-start">
-                                                <div class="left">
-                                                    <img src="uploads/team-1.jpg" alt="">
-                                                </div>
-                                                <div class="right">
-                                                    <div class="name">John Doe</div>
-                                                    <div class="date">September 25, 2022</div>
-                                                    <div class="text">
-                                                        Qui ea oporteat democritum, ad sed minimum offendit expetendis. Idque volumus platonem eos ut, in est verear delectus. Vel ut option adipisci consequuntur. Mei et solum malis detracto, has iuvaret invenire inciderint no. Id est dico nostrud invenire.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                      @endforeach
+                                     
         
         
                                         <div class="mt_40"></div>
@@ -284,29 +299,56 @@
                                             <input type="hidden" name="package_id" value="{{$package->id}}">
                                         <div class="mb-3">
                                             <div class="give-review-auto-select star-rating">
-                                                <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
+                                                <!-- <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
                                                 <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
                                                 <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
                                                 <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
-                                                <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"><i class="fas fa-star"></i></label>
+                                                <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"><i class="fas fa-star"></i></label> -->
+                                                <div class="give-review-auto-select star-rating">
+
+                                                    <label  data-value="5" for="star5" title="5 stars"><i class="fas fa-star"></i></label>
+                                                    <input type="radio" id="star5" name="rating" value="5" />
+
+                                                    <label  data-value="4" for="star4" title="4 stars"><i class="fas fa-star"></i></label>
+                                                    <input type="radio" id="star4" name="rating" value="4" />
+
+                                                    <label  data-value="3" for="star3" title="3 stars"><i class="fas fa-star"></i></label>
+                                                    <input type="radio" id="star3" name="rating" value="3" />
+
+                                                    <label  data-value="2" for="star2" title="2 stars"><i class="fas fa-star"></i></label>
+                                                    <input type="radio" id="star2" name="rating" value="2" />
+
+                                                    <label  data-value="1" for="star1" title="1 star"><i class="fas fa-star"></i></label>
+                                                    <input type="radio" id="star1" name="rating" value="1" />
+
+                                                </div>
+
                                             </div>
                                             <script>
-                                                document.addEventListener('DOMContentLoaded', (event) => {
-                                                    const stars = document.querySelectorAll('.star-rating label');
-                                                    stars.forEach(star => {
-                                                        star.addEventListener('click', function() {
-                                                            stars.forEach(s => s.style.color = '#ccc');
-                                                            this.style.color = '#f5b301';
-                                                            let previousStar = this.previousElementSibling;
-                                                            while(previousStar) {
-                                                                if (previousStar.tagName === 'LABEL') {
-                                                                    previousStar.style.color = '#f5b301';
-                                                                }
-                                                                previousStar = previousStar.previousElementSibling;
-                                                            }
-                                                        });
-                                                    });
-                                                });
+                                                document.addEventListener('DOMContentLoaded', () => {
+    const labels = document.querySelectorAll('.star-rating label');
+
+    labels.forEach(label => {
+        label.addEventListener('click', function () {
+            let value = this.dataset.value;
+
+            // Sélectionne l’input correct
+            document.querySelector(`input[name="rating"][value="${value}"]`).checked = true;
+
+            // Reset couleurs
+            labels.forEach(l => l.style.color = '#ccc');
+
+            // Colore toutes les étoiles >= à celle cliquée
+            labels.forEach(l => {
+                if (l.dataset.value <= value) {
+                    l.style.color = '#f5b301';
+                }
+            });
+        });
+    });
+});
+
+
                                             </script>
                                         </div>
                                         
