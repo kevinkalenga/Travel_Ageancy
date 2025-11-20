@@ -587,6 +587,10 @@ class FrontController extends Controller
         if($request->destination_id != '') {
             $packages = $packages->where('destination_id',$request->destination_id);
         }
+        // Search by review
+        if($request->review != 'all') {
+            $packages = $packages->whereRaw('total_score/total_rating = ?', [$request->review]);
+        }
 
         
         $packages = $packages->paginate(6);

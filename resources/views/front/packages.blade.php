@@ -67,13 +67,14 @@
                                 <h2>Filter by Review</h2>
                                 <div class="box">
                                     <div class="form-check form-check-review form-check-review-1">
-                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadiosAll" value="all" checked>
+                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" 
+                                         id="reviewRadiosAll" value="all" @if($form_review == 'all') checked @endif>
                                         <label class="form-check-label" for="reviewRadiosAll">
                                             All
                                         </label>
                                     </div>
                                     <div class="form-check form-check-review">
-                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios1" value="5" checked>
+                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios1" value="5"  @if($form_review == '5') checked @endif>
                                         <label class="form-check-label" for="reviewRadios1">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
@@ -83,32 +84,66 @@
                                         </label>
                                     </div>
                                     <div class="form-check form-check-review">
-                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios2" value="4">
+                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios2" value="4.5"  @if($form_review == '4.5') checked @endif>
                                         <label class="form-check-label" for="reviewRadios2">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
                                         </label>
                                     </div>
                                     <div class="form-check form-check-review">
-                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios3" value="3">
+                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios3" value="4"  @if($form_review == '4') checked @endif>
                                         <label class="form-check-label" for="reviewRadios3">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
                                         </label>
                                     </div>
                                     <div class="form-check form-check-review">
-                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios4" value="2">
+                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios4" value="3"  @if($form_review == '3') checked @endif>
                                         <label class="form-check-label" for="reviewRadios4">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
                                         </label>
                                     </div>
                                     <div class="form-check form-check-review">
-                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios5" value="1">
+                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios5" value="3.5"  @if($form_review == '3.5') checked @endif>
                                         <label class="form-check-label" for="reviewRadios5">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                             <i class="fas fa-star-half-alt"></i>
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-review">
+                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios6" value="2"  @if($form_review == '2') checked @endif>
+                                        <label class="form-check-label" for="reviewRadios6">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-review">
+                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios7" value="2.5"  @if($form_review == '2.5') checked @endif>
+                                        <label class="form-check-label" for="reviewRadios7">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                               <i class="fas fa-star-half-alt"></i>
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-review">
+                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios8" value="1.5"  @if($form_review == '2.5') checked @endif>
+                                        <label class="form-check-label" for="reviewRadios8">
+                                            <i class="fas fa-star"></i>
+                                               <i class="fas fa-star-half-alt"></i>
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-review">
+                                        <input name="review" class="form-check-input" type="radio" name="reviewRadios" id="reviewRadios9" value="1"  @if($form_review == '1') checked @endif>
+                                        <label class="form-check-label" for="reviewRadios9">
                                             <i class="fas fa-star"></i>
                                         </label>
                                     </div>
