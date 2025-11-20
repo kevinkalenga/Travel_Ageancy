@@ -56,5 +56,11 @@ class Package extends Model
         // a package should have many amenities
         return $this->hasMany(PackageAmenity::class);
     }
+
+    public function wishlists()
+    {
+        // a package has many wishlist
+        return $this->hasMany(Wishlist::class);
+    }
     
 }

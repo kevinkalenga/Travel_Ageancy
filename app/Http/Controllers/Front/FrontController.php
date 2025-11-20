@@ -28,6 +28,7 @@ use App\Models\PackageFaqs;
 use App\Models\PackageVideo;
 use App\Models\Amenity;
 use App\Models\Tour;
+use App\Models\Wishlist;
 use App\Models\Booking;
 use App\Models\Admin;
 use App\Models\Review;
@@ -605,6 +606,29 @@ class FrontController extends Controller
         
         return view('front.packages', compact('destinations', 'packages',
          'form_name', 'form_min_price', 'form_max_price', 'form_destination_id', 'form_review'));
+    }
+
+    public function wishlist($package_id) 
+    {
+        if(!Auth::guard('web')->check()) {
+            return redirect()->route('login')->with('error', 'Please login first to add this item to your wishlist!');
+        }
+        // the current user_id logged in
+        $user_id = Auth::guard('web')->user()->id;
+
+        // Check if there is any data(wishlist before)
+        $check = Wishlist::where('user_id', $user_id)->where('package_id', $package_id)->count();
+
+        if($check > 0) {
+            return redirect()->back()->with('error', 'This item is already in your wishlist!');
+        }
+
+        $wishlist = new Wishlist();
+        $wishlist->user_id = $user_id;
+        $wishlist->package_id = $package_id;
+        $wishlist->save();
+
+        return redirect()->back()->with('success', 'Item is added to your wishlist!');
     }
 
     
