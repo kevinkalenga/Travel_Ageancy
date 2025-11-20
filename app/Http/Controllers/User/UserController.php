@@ -10,6 +10,7 @@ use App\Models\Booking;
 use App\Models\Admin;
 use App\Models\Review;
 use App\Models\Wishlist;
+use App\Models\Message;
 
 class UserController extends Controller
 {
@@ -109,6 +110,24 @@ class UserController extends Controller
       $obj = Wishlist::where('id', $id)->first();
       $obj->delete();
       return redirect()->back()->with('success', 'Wishlist item is deleted succefully!');
+    }
+    public function message()
+    {
+      $message_check = Message::where('user_id', Auth::guard('web')->user()->id)->count();
+      return view('user.message', compact('message_check'));
+    }
+    public function message_start()
+    {
+      $message_check = Message::where('user_id', Auth::guard('web')->user()->id)->count();
+
+      if($message_check > 0) {
+        return redirect()->back()->with('error', 'You have already started a conversation');
+      }
+      $obj = new Message;
+      $obj->user_id = Auth::guard('web')->user()->id;
+      $obj->save();
+
+      return redirect()->back();
     }
 
   

@@ -65,4 +65,9 @@ class User extends Authenticatable
         // user has many wishlist
         return $this->hasMany(Wishlist::class);
     }
+    public function message()
+    {
+        // user has many messages
+        return $this->hasMany(Message::class);
+    }
 }

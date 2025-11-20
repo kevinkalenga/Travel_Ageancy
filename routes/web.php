@@ -59,6 +59,7 @@ Route::post('/review/submit/', [FrontController::class, 'review_submit'])->name(
 Route::get('/wishlist/{package_id}', [FrontController::class, 'wishlist'])->name('wishlist');
 
 
+
 // ===============================
 // Dashboard utilisateur (auth middleware pour guard web)
 // =============================== only if the user is authenticate(auth)
@@ -71,6 +72,8 @@ Route::middleware('auth')->prefix('user')->group(function () {
     Route::post('/profile', [UserController::class, 'profile_submit'])->name('user_profile_submit');
     Route::get('/wishlist', [UserController::class, 'wishlist'])->name('user_wishlist');
     Route::get('/wishlist-delete/{id}', [UserController::class, 'wishlist_delete'])->name('user_wishlist_delete');
+    Route::get('/message', [UserController::class, 'message'])->name('message');
+    Route::get('/message-start', [UserController::class, 'message_start'])->name('user_message_start');
 });
 
 
