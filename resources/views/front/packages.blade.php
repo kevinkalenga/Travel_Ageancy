@@ -138,28 +138,49 @@
                                         <h2>
                                             <a href="{{route('package', $item->slug)}}">{{$item->name}}</a>
                                         </h2>
-                                        <div class="review">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            (4 Reviews)
+                                         @if($item->total_score || $item->total_rating)
+                                            <div class="review">
+                                                @php 
+                                                 $rating = $item->total_score/$item->total_rating;
+                                      
+                                                @endphp
+                                    
+                                                @for($i=1; $i<=5; $i++)
+                                                    @if($i <= $rating)
+                                                       <i class="fas fa-star"></i>
+                                                    @elseif($i-0.5 <= $rating)
+                                                       <i class="fas fa-star-half-alt"></i>
+                                                    @else 
+                                                        <i class="far fa-star"></i>
+                                                    @endif
+                                                @endfor
+                                                ({{ optional($item->reviews)->count() ?? 0 }} Reviews)
+
+                                            </div>
+                                         @else
+                                            <div class="review">
+                                              @for($i=1; $i<=5; $i++)
+                                                <i class="far fa-star"></i>
+                                              @endfor
+                                               
+                                                 ({{ optional($item->reviews)->count() ?? 0 }} Reviews)
+                                            </div>
+                                         @endif
+                                        <div class="element">
+                                            <div class="element-left">
+                                                <i class="fas fa-plane-departure"></i> {{$item->destination->name ?? 'N/A'}}
+                                            </div>
+                                            <div class="element-right">
+                                                <i class="fas fa-th-large"></i> {{$item->package_amenities->count() ?? 0 }} Amenities
+                                            </div>
                                         </div>
                                         <div class="element">
                                             <div class="element-left">
-                                                <i class="fas fa-plane-departure"></i> {{$item->destination->name}}
+                                                <i class="fas fa-users"></i> {{$item->tours->count() ?? 0 }} Tours
                                             </div>
                                             <div class="element-right">
-                                                <i class="fas fa-th-large"></i> {{$item->package_amenities->count()}} Amenities
-                                            </div>
-                                        </div>
-                                        <div class="element">
-                                            <div class="element-left">
-                                                <i class="fas fa-users"></i> 25 Tours
-                                            </div>
-                                            <div class="element-right">
-                                                <i class="fas fa-clock"></i> 7 Days
+                                                <i class="fas fa-clock"></i> 
+                                                {{$item->package_itineraries->count()}} Days
                                             </div>
                                         </div>
                                     </div>
@@ -167,29 +188,11 @@
                             </div>
                            @endforeach
                         </div>
-                        <!-- <div class="row">
-                            <div class="col-md-12">
-                                <div class="pagi">
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div> -->
+                       <div class="row">
+                         <div class="col-md-12">
+                            {{$packages->appends($_GET)->links()}}
+                         </div>
+                       </div>
                     </div>
                 </div>
             </div>

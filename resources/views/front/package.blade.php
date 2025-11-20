@@ -33,11 +33,10 @@
                         @else 
                         <div class="review">
                           <div class="set">
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
+                                @for($i=1; $i<=5; $i++)
+                                    <i class="far fa-star"></i>
+                                 @endfor
+                          
                           </div>
                           <span>(No Rating Found)</span>
                         </div>
@@ -323,11 +322,7 @@
                                             <input type="hidden" name="package_id" value="{{$package->id}}">
                                         <div class="mb-3">
                                             <div class="give-review-auto-select star-rating">
-                                                <!-- <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
-                                                <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
-                                                <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
-                                                <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
-                                                <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"><i class="fas fa-star"></i></label> -->
+                                                
                                                 <div class="give-review-auto-select star-rating">
 
                                                     <label  data-value="5" for="star5" title="5 stars"><i class="fas fa-star"></i></label>
@@ -433,6 +428,7 @@
 
                                 <div class="tab-pane fade" id="tab-8-pane" role="tabpanel" aria-labelledby="tab-8" tabindex="0">
                                     <!-- Booking -->
+                                       @if($tours->count() > 0)
                                          <form action="{{ route('payment') }}" method="POST">
                                                @csrf
                                                <input type="hidden" name="package_id" value="{{ $package->id }}">
@@ -441,17 +437,17 @@
                                                <div class="row">
                                                    <div class="col-md-8">
                                                         @foreach($tours as $item)
-    @php 
-        $total_booked_seats = App\Models\Booking::where('tour_id',$item->id)
-                            ->where('package_id',$package->id)
-                            ->sum('total_person');
+                                                         @php 
+                                                             $total_booked_seats = App\Models\Booking::where('tour_id',$item->id)
+                                                                                 ->where('package_id',$package->id)
+                                                                                 ->sum('total_person');
 
-        if($item->total_seat == -1) {
-            $remaining_seats = 'Unlimited';
-        } else {
-            $remaining_seats = $item->total_seat - $total_booked_seats;
-        }
-    @endphp
+                                                             if($item->total_seat == -1) {
+                                                                 $remaining_seats = 'Unlimited';
+                                                             } else {
+                                                                 $remaining_seats = $item->total_seat - $total_booked_seats;
+                                                             }
+                                                         @endphp
 
     <div class="p-3 mb-3 rounded 
                 @if($item->booking_end_date < date('Y-m-d') || ($remaining_seats !== 'Unlimited' && $remaining_seats == 0)) 
@@ -543,6 +539,14 @@
                                                    </div>
                                                </div>
                                            </form>
+                                             @else 
+                                     <div class="alert alert-danger">
+                                        No Tours is Available
+                                     </div>
+                                     @endif
+                                        
+
+
 <script>
     function calculateTotal() {
         const ticketPrice = parseFloat(document.getElementById('ticketPrice').value);
@@ -553,6 +557,7 @@
 </script>
                                 
                                     <!-- // Booking -->
+                                   
                                 </div>
 
                             </div>

@@ -60,7 +60,7 @@ Route::post('/review/submit/', [FrontController::class, 'review_submit'])->name(
 
 // ===============================
 // Dashboard utilisateur (auth middleware pour guard web)
-// ===============================
+// =============================== only if the user is authenticate(auth)
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user_dashboard');
     Route::get('/booking', [UserController::class, 'booking'])->name('user_booking');

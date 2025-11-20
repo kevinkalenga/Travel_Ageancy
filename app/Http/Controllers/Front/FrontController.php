@@ -558,8 +558,26 @@ class FrontController extends Controller
 
     public function packages(Request $request)
     {
+        //  dd($request->all());
+       $form_name = $request->name;
+       $form_min_price = $request->min_price;
+       $form_max_price = $request->max_price;
+       $form_destination_id = $request->destination_id;
+       $form_review = $request->review;
+       
         $destinations = Destination::orderBy('name', 'asc')->get();
-        $packages = Package::with(['destination', 'package_amenities'])->get();
+        $packages = Package::with(['destination', 'package_amenities', 'package_itineraries', 'tours', 'reviews'])
+        ->orderBy('id', 'desc');
+
+        // Search by title
+
+        if($request->name != '') {
+            $packages = $packages->where('name', 'like', '%'.$request->name.'%');
+        }
+        
+        $packages = $packages->paginate(6);
+        
+        
         return view('front.packages', compact('destinations', 'packages'));
     }
 

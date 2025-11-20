@@ -49,7 +49,7 @@ class Package extends Model
 
     public function reviews()
     {
-        return $this->belongsTo(Review::class);
+        return $this->hasMany(Review::class, 'package_id');
     }
     public function package_amenities()
     {
