@@ -46,9 +46,13 @@ class FrontController extends Controller
         $destinations = Destination::orderBy('view_count', 'desc')->get()->take(8);
         $posts = Post::with('blog_category')->orderBy('id', 'desc')->get()->take(3);
         $testimonials = Testimonial::get();
+
+        $destinations = Destination::orderBy('name', 'asc')->get();
+        $packages = Package::with(['destination', 'package_amenities', 'package_itineraries', 'tours', 'reviews'])
+        ->orderBy('id', 'desc')->get()->take(3);
         
         // pass to the front
-        return view('front.home', compact('sliders', 'welcome_item', 'features', 'testimonials', 'posts', 'destinations')); 
+        return view('front.home', compact('sliders', 'welcome_item', 'features', 'testimonials', 'posts', 'destinations', 'packages')); 
     }
      // Page "à propos"
     public function about() 
