@@ -68,7 +68,7 @@
                                 <div class="box">
                                     <div class="form-check form-check-review form-check-review-1">
                                         <input name="review" class="form-check-input" type="radio" name="reviewRadios" 
-                                         id="reviewRadiosAll" value="all" @if($form_review == 'all') checked @endif>
+                                         id="reviewRadiosAll" value="all" @if($form_review == 'all' || $form_review == null) checked @endif>
                                         <label class="form-check-label" for="reviewRadiosAll">
                                             All
                                         </label>

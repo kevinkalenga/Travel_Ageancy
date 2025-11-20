@@ -121,7 +121,10 @@ class FrontController extends Controller
         $destination_photos = DestinationPhoto::where('destination_id', $destination->id)->get();
         $destination_videos = DestinationVideo::where('destination_id', $destination->id)->get();
 
-         return view('front.destination', compact('destination', 'destination_photos', 'destination_videos'));
+        $packages = Package::with(['destination', 'package_amenities', 'package_itineraries', 'tours', 'reviews'])
+        ->orderBy('id', 'desc')->where('destination_id', $destination->id)->get()->take(3);
+
+         return view('front.destination', compact('destination', 'destination_photos', 'destination_videos', 'packages'));
     }
 
     public function package($slug)
@@ -592,7 +595,7 @@ class FrontController extends Controller
             $packages = $packages->where('destination_id',$request->destination_id);
         }
         // Search by review
-        if($request->review != 'all') {
+        if($request->review != 'all' && $request->review != null) {
             $packages = $packages->whereRaw('total_score/total_rating = ?', [$request->review]);
         }
 
