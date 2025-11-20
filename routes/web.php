@@ -69,6 +69,8 @@ Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/invoice/{invoice_no}', [UserController::class, 'invoice'])->name('user_invoice');
     Route::get('/profile', [UserController::class, 'profile'])->name('user_profile');
     Route::post('/profile', [UserController::class, 'profile_submit'])->name('user_profile_submit');
+    Route::get('/wishlist', [UserController::class, 'wishlist'])->name('user_wishlist');
+    Route::get('/wishlist-delete/{id}', [UserController::class, 'wishlist_delete'])->name('user_wishlist_delete');
 });
 
 

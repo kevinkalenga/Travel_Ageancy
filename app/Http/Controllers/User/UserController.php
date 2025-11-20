@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Booking;
 use App\Models\Admin;
 use App\Models\Review;
+use App\Models\Wishlist;
 
 class UserController extends Controller
 {
@@ -95,6 +96,19 @@ class UserController extends Controller
     {
       $reviews = Review::with('package')->where('user_id', Auth::guard('web')->user()->id)->get();
       return view('user.review', compact('reviews'));
+    }
+
+    public function wishlist()
+    {
+      // relation with package
+      $wishlist = Wishlist::with('package')->where('user_id', Auth::guard('web')->user()->id)->get();
+      return view('user.wishlist', compact('wishlist'));
+    }
+    public function wishlist_delete($id)
+    {
+      $obj = Wishlist::where('id', $id)->first();
+      $obj->delete();
+      return redirect()->back()->with('success', 'Wishlist item is deleted succefully!');
     }
 
   
