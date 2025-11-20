@@ -30,7 +30,7 @@
                                 <div class="box">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input type="text" name="name" class="form-control" placeholder="Package Name ...">
+                                            <input type="text" name="name" class="form-control" placeholder="Package Name ..." value="{{$form_name}}">
                                         </div>
                                     </div>
                                 </div>
@@ -40,10 +40,10 @@
                                 <div class="box">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <input type="text" name="min_price" class="form-control" placeholder="Min">
+                                            <input type="text" name="min_price" class="form-control" placeholder="Min"value="{{$form_min_price}}">
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" name="max_price" class="form-control" placeholder="Max">
+                                            <input type="text" name="max_price" class="form-control" placeholder="Max"value="{{$form_max_price}}">
                                         </div>
                                     </div>
                                 </div>
@@ -52,8 +52,9 @@
                                 <h2>Filter by Destination</h2>
                                 <div class="box">
                                     <select name="destination_id" class="form-select">
+                                        <option value="">All</option>
                                         @foreach($destinations as $destination)
-                                           <option value="{{$destination->id}}">
+                                           <option value="{{$destination->id}}" @if($form_destination_id == $destination->id) selected @endif>
                                               {{$destination->name}}
                                            </option>
 

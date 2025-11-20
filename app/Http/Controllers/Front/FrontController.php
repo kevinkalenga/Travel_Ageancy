@@ -574,11 +574,26 @@ class FrontController extends Controller
         if($request->name != '') {
             $packages = $packages->where('name', 'like', '%'.$request->name.'%');
         }
+
+        // Search by price 
+
+        if($request->min_price != '') {
+            $packages = $packages->where('price', '>=',$request->min_price);
+        }
+        if($request->max_price != '') {
+            $packages = $packages->where('price', '<=',$request->max_price);
+        }
+        // Search by destination
+        if($request->destination_id != '') {
+            $packages = $packages->where('destination_id',$request->destination_id);
+        }
+
         
         $packages = $packages->paginate(6);
         
         
-        return view('front.packages', compact('destinations', 'packages'));
+        return view('front.packages', compact('destinations', 'packages',
+         'form_name', 'form_min_price', 'form_max_price', 'form_destination_id', 'form_review'));
     }
 
     
