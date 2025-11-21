@@ -11,6 +11,8 @@ use App\Models\Admin;
 use App\Models\Review;
 use App\Models\Wishlist;
 use App\Models\Message;
+use App\Models\MessageComment;
+use App\Mail\Websitemail;
 
 class UserController extends Controller
 {
@@ -113,8 +115,13 @@ class UserController extends Controller
     }
     public function message()
     {
+      
       $message_check = Message::where('user_id', Auth::guard('web')->user()->id)->count();
-      return view('user.message', compact('message_check'));
+      $message = Message::where('user_id', Auth::guard('web')->user()->id)->first();
+
+      $message_comment = MessageComment::where('message_id', $message->id)->orderBy('id', 'desc')->get();
+      
+      return view('user.message', compact('message_check', 'message_comment'));
     }
     public function message_start()
     {
@@ -128,6 +135,37 @@ class UserController extends Controller
       $obj->save();
 
       return redirect()->back();
+    }
+
+    public function message_submit(Request $request) 
+    {
+       
+      $request->validate([
+        'comment' => 'required',
+      ]);
+      
+      $message = Message::where('user_id', Auth::guard('web')->user()->id)->first();
+
+       $obj = new MessageComment;
+       $obj->message_id = $message->id;
+       $obj->sender_id = Auth::guard('web')->user()->id;
+       $obj->type = "User";
+       $obj->comment = $request->comment;
+       $obj->save();
+
+        $message_link = '';
+       $subject = "New User Message";
+        $message = "Please click on the following link to see the new message from the user :<br>
+        <a href='{$message_link}'>Verify Email</a>";
+
+        $admin_data = Admin::where('id', 1)->first();
+        
+         // Envoyer le mail
+        \Mail::to($admin_data->email)->send(new Websitemail($subject,$message));
+       
+       
+       
+       return redirect()->back()->with('success', 'Message is sent successfully!');
     }
 
   
