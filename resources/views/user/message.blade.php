@@ -31,7 +31,7 @@
                    @if($message_check)
                      <div class="col-lg-5 col-md-12">
                         <h3>All Messages</h3>
-                       @foreach($message_comment as $item) 
+                       @forelse($message_comment as $item) 
                          @php  
                           if($item->type == 'User') {
                             $sender_data = App\Models\User::where('id', $item->sender_id)->first();
@@ -43,11 +43,15 @@
                         <div class="message-item @if($item->type == 'Admin') message-item-admin-border @endif">
                             <div class="message-top">
                                 <div class="left">
-                                    <img src="{{asset('uploads/'.$sender_data->photo)}}" alt="">
+                                     @if($sender_data->photo != '')
+                                       <img src="{{asset('uploads/'.$sender_data->photo)}}" alt="">
+                                     @else 
+                                       <img src="{{asset('uploads/default.png')}}" alt="">
+                                     @endif
                                 </div>
                                 <div class="right">
-                                    <h4>{{$sender_data->name}}</h4>
-                                    <h5>{{$item->type}}</h5>
+                                    <h4>{{$sender_data->name}} @if($item->type == 'Admin') (Admin) @endif</h4>
+                                    
                                     <div class="date-time">{{$item->created_at->format('Y-m-d H:i A')}}</div>
                                 </div>
                             </div>
@@ -57,24 +61,12 @@
                                 </p>
                             </div>
                         </div>
-                       @endforeach 
-                        <!-- <div class="message-item">
-                            <div class="message-top">
-                                <div class="left">
-                                    <img src="uploads/team-1.jpg" alt="">
-                                </div>
-                                <div class="right">
-                                    <h4>Smith Brent</h4>
-                                    <h5>User</h5>
-                                    <div class="date-time">2024-08-20 08:12:43 AM</div>
-                                </div>
-                            </div>
-                            <div class="message-bottom">
-                                <p>I forgot to tell one thing. Can you please allow some toys for my son in this tour? It will be very much helpful if you allow.</p>
-                            </div>
-                        </div> -->
+                       @empty
+                          <div class="alert alert-danger">
+                             No message found
+                          </div>
 
-                        
+                       @endforelse
 
                      </div>
 

@@ -236,7 +236,7 @@ thead tr th {
     width: 96.8594px!important;
     height: 36px!important;
 }
-.navbar .nav-link.nav-link-user img {
+.navbar .nav-link.nav-link-admin img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -289,10 +289,10 @@ img.template-preview {
     line-height: 2.5em;
     text-indent: 3.25em;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    -webkit-admin-select: none;
+    -moz-admin-select: none;
+    -ms-admin-select: none;
+    admin-select: none;
 }
 
 .funkyradio input[type="radio"]:empty ~ label:before,
@@ -475,4 +475,53 @@ hr.invoice-above-table {
 html::-webkit-scrollbar {
   display: none;
 }
+
+
+ .message-item {
+    margin-bottom: 30px;
+    background: #fff;
+    border: 1px solid #cecece;
+}
+ .message-item .message-top {
+    background: #f2f2f2;
+    padding: 15px;
+}
+ .message-item .message-top .left {
+    display: inline-block;
+}
+ .message-item .message-top .left img {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #cecece;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+ .message-item .message-top .right {
+    display: inline-block;
+    vertical-align: middle;
+}
+ .message-item .message-top .right h4 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 20px;
+}
+ .message-item .message-top .right h5 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-size: 15px;
+    font-weight: 400;
+}
+ .message-item .message-top .right .date-time {
+    font-size: 14px;
+    color: #9e9e9e;
+}
+ .message-item .message-bottom {
+    padding: 15px;
+}
+.message-item-admin-border {
+    border-left-color:#0663fc;
+    border-left-width: 5px;
+}
+
 

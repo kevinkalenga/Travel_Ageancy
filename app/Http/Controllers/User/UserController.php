@@ -119,7 +119,15 @@ class UserController extends Controller
       $message_check = Message::where('user_id', Auth::guard('web')->user()->id)->count();
       $message = Message::where('user_id', Auth::guard('web')->user()->id)->first();
 
-      $message_comment = MessageComment::where('message_id', $message->id)->orderBy('id', 'desc')->get();
+       if (!$message) {
+            // pas de message → pas de commentaires
+            $message_comment = collect(); 
+        } else {
+            $message_comment = MessageComment::where('message_id', $message->id)
+                                    ->orderBy('id', 'desc')
+                                    ->get();
+        }
+    
       
       return view('user.message', compact('message_check', 'message_comment'));
     }
@@ -153,10 +161,10 @@ class UserController extends Controller
        $obj->comment = $request->comment;
        $obj->save();
 
-        $message_link = '';
+        $message_link = route('admin_message_detail', $message->id);
        $subject = "New User Message";
         $message = "Please click on the following link to see the new message from the user :<br>
-        <a href='{$message_link}'>Verify Email</a>";
+        <a href='{$message_link}'>Click Here</a>";
 
         $admin_data = Admin::where('id', 1)->first();
         

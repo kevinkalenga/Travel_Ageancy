@@ -21,6 +21,7 @@ use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminTourController;
 use App\Http\Controllers\Admin\AdminReviewController;
+use App\Http\Controllers\Admin\AdminUserController;
 
 
 // ===============================
@@ -222,6 +223,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // Review
     Route::get('/review/index', [AdminReviewController::class, 'index'])->name('admin_review_index');
     Route::get('/review/delete/{id}', [AdminReviewController::class, 'delete'])->name('admin_review_delete');
+
+     // User Section 
+    Route::get('/message', [AdminUserController::class, 'message'])->name('admin_message');
+    Route::get('/message-detail/{id}', [AdminUserController::class, 'message_detail'])->name('admin_message_detail');
+    Route::post('/message-submit/{id}', [AdminUserController::class, 'message_submit'])->name('admin_message_submit');
     
 });
 
