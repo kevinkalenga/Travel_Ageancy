@@ -58,6 +58,8 @@ Route::get('/stripe/success', [FrontController::class, 'stripe_success'])->name(
 Route::get('/stripe/cancel', [FrontController::class, 'stripe_cancel'])->name('stripe_cancel');
 Route::post('/review/submit/', [FrontController::class, 'review_submit'])->name('review_submit');
 Route::get('/wishlist/{package_id}', [FrontController::class, 'wishlist'])->name('wishlist');
+Route::post('/subscriber-submit', [FrontController::class, 'subscriber_submit'])->name('subscriber_submit');
+Route::get('/subscriber-verify/{email}/{token}', [FrontController::class, 'subscriber_verify'])->name('subscriber_verify');
 
 
 

@@ -29,6 +29,7 @@ use App\Models\PackageVideo;
 use App\Models\Amenity;
 use App\Models\Tour;
 use App\Models\Wishlist;
+use App\Models\Subscriber;
 use App\Models\Booking;
 use App\Models\Admin;
 use App\Models\Review;
@@ -629,6 +630,55 @@ class FrontController extends Controller
         $wishlist->save();
 
         return redirect()->back()->with('success', 'Item is added to your wishlist!');
+    }
+
+    public function subscriber_submit(Request $request)
+    {
+      $request->validate([
+         'email' => 'required|email',
+      ]);
+
+       
+          // ✅ Check if email already exists
+          $existing = Subscriber::where('email', $request->email)->first();
+            if($existing) {
+               return redirect()->back()->with('error', 'This email is already subscribed!');
+            }
+      
+    
+       $token = hash('sha256', $request->email . time()); // safer unique token
+
+       $obj = new Subscriber;
+       $obj->email = $request->email;
+       $obj->token = $token;
+       $obj->status = 'pending';
+       $obj->save();
+
+       $verification_link = route('subscriber_verify', ['email' =>urlencode($request->email), 'token'=>$token]);
+
+       $subject = 'Subscriber Verification';
+       $message = 'Please click the following link to verify your email address as subscriber:<br>
+         <a href="'.$verification_link.'">Verify Email</a>';
+
+         \Mail::to($request->email)->send(new Websitemail($subject, $message)); 
+
+         return redirect()->back()->with('success', 'You are subscribed successfully. Please check your email to confirm the verification link.');
+
+    }
+
+    public function subscriber_verify($email, $token) 
+    {
+        $email = urldecode($email); // decode URL-encoded email
+        $subscriber = Subscriber::where('token', $token)->where('email', $email)->first();
+        if(!$subscriber) {
+            return redirect()->route('home');
+        }
+
+        $subscriber->token = '';
+        $subscriber->status = 'active';
+        $subscriber->save(); 
+        return redirect()->route('home')->with('success', 'Your email is verified. You are subscribed now.');
+
     }
 
     

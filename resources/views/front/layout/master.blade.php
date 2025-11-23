@@ -138,9 +138,10 @@
                                 To get the latest news from our website, please
                                 subscribe us here:
                             </p>
-                            <form action="" method="post">
+                            <form action="{{route('subscriber_submit')}}" method="post">
+                                @csrf
                                 <div class="form-group">
-                                    <input type="text" name="" class="form-control" placeholder="Email Address">
+                                    <input type="text" name="email" class="form-control" placeholder="Email Address">
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" class="btn btn-primary" value="Subscribe Now">
@@ -157,7 +158,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="copyright">
-                            Copyright &copy; 2024, TripSummit. All Rights Reserved.
+                            Copyright &copy; 2025, TripSummit. All Rights Reserved.
                         </div>
                     </div>
                 </div>
