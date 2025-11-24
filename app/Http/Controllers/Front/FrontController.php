@@ -31,6 +31,7 @@ use App\Models\Tour;
 use App\Models\Wishlist;
 use App\Models\Subscriber;
 use App\Models\HomeItems;
+use App\Models\AboutItems;
 use App\Models\Booking;
 use App\Models\Admin;
 use App\Models\Review;
@@ -55,6 +56,7 @@ class FrontController extends Controller
         ->orderBy('id', 'desc')->get()->take(3);
 
         $home_item = HomeItems::where('id', 1)->first();
+        $about_item = AboutItems::where('id', 1)->first();
         
         // pass to the front
         return view('front.home', compact('sliders', 'welcome_item', 'features', 'testimonials', 'posts', 'destinations', 'packages', 'home_item')); 
@@ -64,8 +66,9 @@ class FrontController extends Controller
     { 
         $welcome_item = WelcomeItem::where('id', 1)->first();
         $features = Feature::get();
-        $counter_item = CounterItem::where('id', 1)->first();;
-        return view('front.about', compact('welcome_item', 'features', 'counter_item')); 
+        $counter_item = CounterItem::where('id', 1)->first();
+        $about_item = AboutItems::where('id', 1)->first();
+        return view('front.about', compact('welcome_item', 'features', 'counter_item', 'about_item')); 
     }
 
     public function team_members() 

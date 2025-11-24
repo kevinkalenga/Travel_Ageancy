@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\AdminTourController;
 use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminSubscriberController;
+use App\Http\Controllers\Admin\AdminAboutItemController;
 
 
 // ===============================
@@ -240,9 +241,12 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/subscriber/delete/{id}', [AdminSubscriberController::class, 'subscriber_delete'])->name('admin_subscriber_delete');
 
 
-    // Counter
+    // Home Item Section
     Route::get('/home-item/index', [AdminHomeItemController::class, 'index'])->name('admin_home_item_index');
     Route::post('/home-item/update', [AdminHomeItemController::class, 'update'])->name('admin_home_item_update');
+    // About Item Section
+    Route::get('/about-item/index', [AdminAboutItemController::class, 'index'])->name('admin_about_item_index');
+    Route::post('/about-item/update', [AdminAboutItemController::class, 'update'])->name('admin_about_item_update');
 
     
     

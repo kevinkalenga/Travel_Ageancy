@@ -55,7 +55,7 @@
 
         
 
-
+@if($about_item->feature_status == "Show")
         <div class="why-choose pt_70">
             <div class="container">
                 <div class="row">
@@ -78,6 +78,7 @@
                 </div>
             </div>
         </div>
+@endif
 
   @if($counter_item->status == 'Show')
         <div class="counter-section pt_70 pb_70">
