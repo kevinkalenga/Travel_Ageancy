@@ -45,6 +45,8 @@
                         <i class="fas fa-hand-point-right"></i> <span>Package</span></a></li>
                     <li class="{{ Request::is('admin/amenity/*') ? 'active': '' }}"><a class="nav-link" href="{{route('admin_amenity_index')}}"><i class="fas fa-hand-point-right"></i> <span>Amenity</span></a></li>
 
+                     <li class="{{ Request::is('admin/home-item/index')  ? 'active': '' }}"><a class="nav-link" href="{{route('admin_home_item_index')}}"><i class="fas fa-hand-point-right"></i> <span>Home Page Item</span></a></li>
+
                      <li class="nav-item dropdown {{ Request::is('admin/subscribers') || Request::is('admin/subscriber/send-email') ? 'active': '' }}">
                         <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i><span>Subscriber Section</span></a>
                         <ul class="dropdown-menu">

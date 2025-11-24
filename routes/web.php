@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminFeatureController;
 use App\Http\Controllers\Admin\AdminFaqController;
 use App\Http\Controllers\Admin\AdminBlogCategoryController;
 use App\Http\Controllers\Admin\AdminCounterItemController;
+use App\Http\Controllers\Admin\AdminHomeItemController;
 use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\AdminTeamMemberController;
 use App\Http\Controllers\Admin\AdminPostController;
@@ -124,7 +125,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // Counter
     Route::get('/counter-item/index', [AdminCounterItemController::class, 'index'])->name('admin_counter_item_index');
     Route::post('/counter-item/update', [AdminCounterItemController::class, 'update'])->name('admin_counter_item_update');
-
+    
     // Testimonial
     Route::get('/testimonial/index', [AdminTestimonialController::class, 'index'])->name('admin_testimonial_index');
     Route::get('/testimonial/create', [AdminTestimonialController::class, 'create'])->name('admin_testimonial_create');
@@ -237,6 +238,12 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/subscriber/send-email', [AdminSubscriberController::class, 'send_email'])->name('admin_subscriber_send_email');
     Route::post('/subscriber-send-email/submit', [AdminSubscriberController::class, 'send_email_submit'])->name('admin_subscriber_send_email_submit');
     Route::get('/subscriber/delete/{id}', [AdminSubscriberController::class, 'subscriber_delete'])->name('admin_subscriber_delete');
+
+
+    // Counter
+    Route::get('/home-item/index', [AdminHomeItemController::class, 'index'])->name('admin_home_item_index');
+    Route::post('/home-item/update', [AdminHomeItemController::class, 'update'])->name('admin_home_item_update');
+
     
     
 });
