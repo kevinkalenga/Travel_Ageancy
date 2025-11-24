@@ -30,6 +30,7 @@ use App\Models\Amenity;
 use App\Models\Tour;
 use App\Models\Wishlist;
 use App\Models\Subscriber;
+use App\Models\HomeItems;
 use App\Models\Booking;
 use App\Models\Admin;
 use App\Models\Review;
@@ -52,9 +53,11 @@ class FrontController extends Controller
         $destinations = Destination::orderBy('name', 'asc')->get();
         $packages = Package::with(['destination', 'package_amenities', 'package_itineraries', 'tours', 'reviews'])
         ->orderBy('id', 'desc')->get()->take(3);
+
+        $home_item = HomeItems::where('id', 1)->first();
         
         // pass to the front
-        return view('front.home', compact('sliders', 'welcome_item', 'features', 'testimonials', 'posts', 'destinations', 'packages')); 
+        return view('front.home', compact('sliders', 'welcome_item', 'features', 'testimonials', 'posts', 'destinations', 'packages', 'home_item')); 
     }
      // Page "à propos"
     public function about() 

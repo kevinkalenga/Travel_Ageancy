@@ -70,15 +70,15 @@
 </div>
 @endif
 
-
+@if($home_item->destination_status == 'Show')
         <div class="destination pt_70 pb_70">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="heading">
-                            <h2>Popular Destinations</h2>
+                            <h2>{{$home_item->destination_heading}}</h2>
                             <p>
-                                Explore our most popular travel destinations around the world
+                                {{$home_item->destination_subheading}}
                             </p>
                         </div>
                     </div>
@@ -111,9 +111,10 @@
                 </div>
             </div>
         </div>
+    @endif
 
 
-
+@if($home_item->feature_status == 'Show')
         <div class="why-choose pt_70">
             <div class="container">
                 <div class="row">
@@ -135,17 +136,18 @@
                 </div>
             </div>
         </div>
+@endif
 
 
-
+@if($home_item->package_status == 'Show')
         <div class="package pt_70 pb_70">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="heading">
-                            <h2>Latest Packages</h2>
+                            <h2>{{$home_item->package_heading}}</h2>
                             <p>
-                                Explore our latest popular travel packages around the world
+                                {{$home_item->package_subheading}}
                             </p>
                         </div>
                     </div>
@@ -229,18 +231,18 @@
                 </div>
             </div>
         </div>
+@endif
 
 
-
-
-        <div class="testimonial pt_70 pb_70" style="background-image: url({{asset('uploads/testimonial-bg.jpg')}})">
+@if($home_item->testimonial_status == 'Show')
+        <div class="testimonial pt_70 pb_70" style="background-image: url({{asset('uploads/'.$home_item->testimonial_background)}})">
             <div class="bg"></div>
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2 class="main-header">Client Testimonials</h2>
+                        <h2 class="main-header">{{$home_item->testimonial_heading}}</h2>
                         <h3 class="sub-header">
-                            See what our clients have to say about their experience with us
+                            {{$home_item->testimonial_subheading}}
                         </h3>
                     </div>
                 </div>
@@ -271,17 +273,17 @@
                 </div>
             </div>
         </div>
+@endif
 
-
-
+@if($home_item->blog_status == 'Show')
         <div class="blog pt_70">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="heading">
-                            <h2>Latest News</h2>
+                            <h2>{{$home_item->blog_heading}}</h2>
                             <p>
-                                Check out the latest news and updates from our blog post
+                                {{$home_item->blog_subheading}}
                             </p>
                         </div>
                     </div>
@@ -312,7 +314,7 @@
                 </div>
             </div>
         </div>
-
+@endif
 
 
 @endsection
