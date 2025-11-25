@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CounterItemSeeder::class,
             HomeItemSeeder::class,
             AboutItemSeeder::class,
+            ContactItemSeeder::class,
         ]);
 
         // Si tu veux générer des utilisateurs factices :

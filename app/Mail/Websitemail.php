@@ -39,7 +39,17 @@ class Websitemail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email',
+            view: 'email', // la vue Blade
+             with: [
+                'body' => $this->body, // <--le contenu 
+            ],
+        );
+    }
+
+    public function build()
+    {
+        return $this->html(
+            view('email', ['body' => $this->body, 'subject' => $this->subject])->render()
         );
     }
 

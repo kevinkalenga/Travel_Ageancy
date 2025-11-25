@@ -174,7 +174,7 @@
 
 
     {{-- Gestion des messages et validations --}}
-@if($errors->any())
+<!-- @if($errors->any())
     @php
         // Détection du formulaire
         $loginFields = ['email', 'password'];
@@ -210,15 +210,28 @@
             </script>
         @endforeach
     @endif
+@endif -->
+
+@if($errors->any())
+<script>
+    @foreach ($errors->all() as $error)
+        iziToast.error({
+            title: 'Error',
+            message: '{{ $error }}',
+            position: 'topRight'
+        });
+    @endforeach
+</script>
 @endif
+
 
 {{-- Message de succès --}}
 @if(session('success'))
 <script>
-    iziToast.show({
+    iziToast.success({
+        title: 'Success',
         message: '{{ session("success") }}',
-        color: 'green',
-        position: 'topRight',
+        position: 'topRight'
     });
 </script>
 @endif
@@ -226,10 +239,10 @@
 {{-- Message d'erreur flash --}}
 @if(session('error'))
 <script>
-    iziToast.show({
+    iziToast.error({
+        title: 'Error',
         message: '{{ session("error") }}',
-        color: 'red',
-        position: 'topRight',
+        position: 'topRight'
     });
 </script>
 @endif

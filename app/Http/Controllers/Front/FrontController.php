@@ -32,6 +32,7 @@ use App\Models\Wishlist;
 use App\Models\Subscriber;
 use App\Models\HomeItems;
 use App\Models\AboutItems;
+use App\Models\ContactItem;
 use App\Models\Booking;
 use App\Models\Admin;
 use App\Models\Review;
@@ -70,6 +71,43 @@ class FrontController extends Controller
         $about_item = AboutItems::where('id', 1)->first();
         return view('front.about', compact('welcome_item', 'features', 'counter_item', 'about_item')); 
     }
+
+    // Page de contact 
+    public function contact()
+    {
+        $contact_item = ContactItem::where('id', 1)->first();
+        return view('front.contact', compact('contact_item'));
+    }
+    public function contact_submit(Request $request)
+    {
+        
+
+       $request->validate([
+        'name'   => 'required',
+        'email'  => 'required|email',
+        'comment'=> 'required',
+       ]);
+
+       $admin = Admin::find(1);
+    //    dd($admin->mail);
+
+        // Prevent error if admin email is missing
+        if (!$admin || empty($admin->email)) {
+            return back()->withErrors('Admin email is not configured in the database.');
+        }
+
+        $subject = "Contact Form Message";
+
+        $message  = "<b>Name:</b><br>".$request->name."<br><br>";
+        $message .= "<b>Email:</b><br>".$request->email."<br><br>";
+        $message .= "<b>Comment:</b><br>".nl2br($request->comment)."<br><br>";
+
+        \Mail::to($admin->email)->send(new Websitemail($subject, $message));
+
+
+        return redirect()->back()->with('success', 'Your message is submitted successfully. We will contact you soon.');
+    }
+
 
     public function team_members() 
     {

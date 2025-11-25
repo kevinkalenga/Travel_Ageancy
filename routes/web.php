@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminSubscriberController;
 use App\Http\Controllers\Admin\AdminAboutItemController;
+use App\Http\Controllers\Admin\AdminContactItemController;
 
 
 // ===============================
@@ -32,6 +33,8 @@ use App\Http\Controllers\Admin\AdminAboutItemController;
 // ===============================
 Route::get('/', [FrontController::class, 'home'])->name('home');
 Route::get('/about', [FrontController::class, 'about'])->name('about');
+Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
+Route::post('/contact/submit', [FrontController::class, 'contact_submit'])->name('contact_submit');
 Route::get('/team-members', [FrontController::class, 'team_members'])->name('team_members');
 Route::get('/team-member/{slug}', [FrontController::class, 'team_member'])->name('team_member');
 Route::get('/registration', [FrontController::class, 'registration'])->name('registration');
@@ -247,6 +250,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // About Item Section
     Route::get('/about-item/index', [AdminAboutItemController::class, 'index'])->name('admin_about_item_index');
     Route::post('/about-item/update', [AdminAboutItemController::class, 'update'])->name('admin_about_item_update');
+    // Contact Item Section
+    Route::get('/contact-item/index', [AdminContactItemController::class, 'index'])->name('admin_contact_item_index');
+    Route::post('/contact-item/update', [AdminContactItemController::class, 'update'])->name('admin_contact_item_update');
 
     
     
