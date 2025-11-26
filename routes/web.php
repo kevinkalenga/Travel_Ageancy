@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminSubscriberController;
 use App\Http\Controllers\Admin\AdminAboutItemController;
 use App\Http\Controllers\Admin\AdminContactItemController;
+use App\Http\Controllers\Admin\AdminTermPrivacyItemController;
 
 
 // ===============================
@@ -253,6 +254,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // Contact Item Section
     Route::get('/contact-item/index', [AdminContactItemController::class, 'index'])->name('admin_contact_item_index');
     Route::post('/contact-item/update', [AdminContactItemController::class, 'update'])->name('admin_contact_item_update');
+    // Term and Privacy section
+    Route::get('/term-privacy-item/index', [AdminTermPrivacyItemController::class, 'index'])->name('admin_term_privacy_item_index');
+    Route::post('/term-privacy-item/update', [AdminTermPrivacyItemController::class, 'update'])->name('admin_term_privacy_item_update');
 
     
     

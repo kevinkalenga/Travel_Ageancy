@@ -48,6 +48,7 @@
                      <li class="{{ Request::is('admin/home-item/index')  ? 'active': '' }}"><a class="nav-link" href="{{route('admin_home_item_index')}}"><i class="fas fa-hand-point-right"></i> <span>Home Page Item</span></a></li>
                      <li class="{{ Request::is('admin/about-item/index')  ? 'active': '' }}"><a class="nav-link" href="{{route('admin_about_item_index')}}"><i class="fas fa-hand-point-right"></i> <span>About Page Item</span></a></li>
                      <li class="{{ Request::is('admin/contact-item/index')  ? 'active': '' }}"><a class="nav-link" href="{{route('admin_contact_item_index')}}"><i class="fas fa-hand-point-right"></i> <span>Contact Page Item</span></a></li>
+                     <li class="{{ Request::is('admin/term-privacy-item/index')  ? 'active': '' }}"><a class="nav-link" href="{{route('admin_term_privacy_item_index')}}"><i class="fas fa-hand-point-right"></i> <span>Term and Privacy Page Item</span></a></li>
 
                      <li class="nav-item dropdown {{ Request::is('admin/subscribers') || Request::is('admin/subscriber/send-email') ? 'active': '' }}">
                         <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i><span>Subscriber Section</span></a>
