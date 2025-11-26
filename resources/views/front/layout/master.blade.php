@@ -79,10 +79,10 @@
                         <div class="item pb_50">
                             <h2 class="heading">Important Pages</h2>
                             <ul class="useful-links">
-                                <li><a href="index.html"><i class="fas fa-angle-right"></i> Home</a></li>
-                                <li><a href="destinations.html"><i class="fas fa-angle-right"></i> Destinations</a></li>
-                                <li><a href="packages.html"><i class="fas fa-angle-right"></i> Packages</a></li>
-                                <li><a href="blog.html"><i class="fas fa-angle-right"></i> Blog</a></li>
+                                <li><a href="{{route('home')}}"><i class="fas fa-angle-right"></i> Home</a></li>
+                                <li><a href="{{route('destinations')}}"><i class="fas fa-angle-right"></i> Destinations</a></li>
+                                <li><a href="{{route('packages')}}"><i class="fas fa-angle-right"></i> Packages</a></li>
+                                <li><a href="{{route('blog')}}"><i class="fas fa-angle-right"></i> Blog</a></li>
                             </ul>
                         </div>
                     </div>
@@ -90,10 +90,10 @@
                         <div class="item pb_50">
                             <h2 class="heading">Useful Links</h2>
                             <ul class="useful-links">
-                                <li><a href="faq.html"><i class="fas fa-angle-right"></i> FAQ</a></li>
-                                <li><a href="terms.html"><i class="fas fa-angle-right"></i> Terms of Use</a></li>
-                                <li><a href="privacy.html"><i class="fas fa-angle-right"></i> Privacy Policy</a></li>
-                                <li><a href="contact.html"><i class="fas fa-angle-right"></i> Contact</a></li>
+                                <li><a href="{{route('faq')}}"><i class="fas fa-angle-right"></i> FAQ</a></li>
+                                <li><a href="{{route('terms')}}"><i class="fas fa-angle-right"></i> Terms of Use</a></li>
+                                <li><a href="{{route('privacy')}}"><i class="fas fa-angle-right"></i> Privacy Policy</a></li>
+                                <li><a href="{{route('contact')}}"><i class="fas fa-angle-right"></i> Contact</a></li>
                             </ul>
                         </div>
                     </div>

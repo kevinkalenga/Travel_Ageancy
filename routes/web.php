@@ -67,6 +67,8 @@ Route::post('/review/submit/', [FrontController::class, 'review_submit'])->name(
 Route::get('/wishlist/{package_id}', [FrontController::class, 'wishlist'])->name('wishlist');
 Route::post('/subscriber-submit', [FrontController::class, 'subscriber_submit'])->name('subscriber_submit');
 Route::get('/subscriber-verify/{email}/{token}', [FrontController::class, 'subscriber_verify'])->name('subscriber_verify');
+Route::get('/terms-of-use', [FrontController::class, 'terms'])->name('terms');
+Route::get('/privacy-policy', [FrontController::class, 'privacy'])->name('privacy');
 
 
 

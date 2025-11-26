@@ -33,6 +33,7 @@ use App\Models\Subscriber;
 use App\Models\HomeItems;
 use App\Models\AboutItems;
 use App\Models\ContactItem;
+use App\Models\TermPrivacyItem;
 use App\Models\Booking;
 use App\Models\Admin;
 use App\Models\Review;
@@ -723,6 +724,17 @@ class FrontController extends Controller
         $subscriber->save(); 
         return redirect()->route('home')->with('success', 'Your email is verified. You are subscribed now.');
 
+    }
+
+    public function terms() 
+    {
+        $term_privacy_item = TermPrivacyItem::where('id', 1)->first();
+        return view('front.terms', compact('term_privacy_item'));
+    }
+    public function privacy() 
+    {
+        $term_privacy_item = TermPrivacyItem::where('id', 1)->first();
+        return view('front.privacy', compact('term_privacy_item'));
     }
 
     
