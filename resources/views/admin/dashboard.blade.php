@@ -22,10 +22,10 @@
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
-                                    <h4>Total News Categories</h4>
+                                    <h4>Total Sliders</h4>
                                 </div>
                                 <div class="card-body">
-                                    12
+                                    {{$total_slider}}
                                 </div>
                             </div>
                         </div>
@@ -37,10 +37,10 @@
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
-                                    <h4>Total News</h4>
+                                    <h4>Total Testimonials</h4>
                                 </div>
                                 <div class="card-body">
-                                    122
+                                    {{$total_testimonial}}
                                 </div>
                             </div>
                         </div>
@@ -52,10 +52,100 @@
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
+                                    <h4>Total Team Members</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{$team_members}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-success">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Posts</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{$total_posts}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-dark">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Destinations</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{$total_destinations}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-info">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Packages</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{$total_packages}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-info">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
                                     <h4>Total Users</h4>
                                 </div>
                                 <div class="card-body">
-                                    45
+                                    {{$total_users}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-success">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Subscriber</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{$total_subscribers}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-dark">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Tour</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{$total_tours}}
                                 </div>
                             </div>
                         </div>
