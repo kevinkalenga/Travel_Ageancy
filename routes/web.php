@@ -239,6 +239,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/user/create', [AdminUserController::class, 'user_create'])->name('admin_user_create');
     Route::post('/user/create', [AdminUserController::class, 'user_create_submit'])->name('admin_user_create_submit');
     Route::get('/users', [AdminUserController::class, 'users'])->name('admin_users');
+    Route::get('/user/edit/{id}', [AdminUserController::class, 'user_edit'])->name('admin_user_edit');
+    Route::post('/user/edit/{id}', [AdminUserController::class, 'user_edit_submit'])->name('admin_user_edit_submit');
+    Route::get('/user/delete/{id}', [AdminUserController::class, 'user_delete'])->name('admin_user_delete');
     Route::get('/message', [AdminUserController::class, 'message'])->name('admin_message');
     Route::get('/message-detail/{id}', [AdminUserController::class, 'message_detail'])->name('admin_message_detail');
     Route::post('/message-submit/{id}', [AdminUserController::class, 'message_submit'])->name('admin_message_submit');

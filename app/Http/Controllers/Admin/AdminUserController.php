@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Message;
+use App\Models\Review;
+use App\Models\Wishlist;
+use App\Models\Booking;
 use App\Models\MessageComment;
 use App\Mail\Websitemail;
 
@@ -56,6 +59,114 @@ class AdminUserController extends Controller
 
         return redirect()->route('admin_users')->with('success', 'User is Created Successfully');
     }
+    
+    
+    public function user_edit($id)
+    {
+        $user = User::where('id', $id)->first();
+        return view('admin.user.user_edit', compact('user'));
+    }
+    
+    
+    
+    public function user_edit_submit(Request $request, $id)
+    {
+        $obj = User::where('id', $id)->first();  
+        
+         $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'phone' => 'required',
+            'country' => 'required',
+            'address' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'zip' => 'required',
+            
+        ]);
+
+        if($request->hasFile('photo')) 
+        {
+            $request->validate([
+           
+                'photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
+            ]);
+
+            unlink(public_path('uploads/'.$obj->photo));
+
+            $finale_name = 'user_'.time().'.'.$request->photo->extension();
+            $request->photo->move(public_path('uploads'), $finale_name);
+            $obj->photo = $finale_name;
+        }
+
+        if ($request->password != '') {
+           $obj->password = bcrypt($request->password);
+        }
+
+        $obj->name = $request->name;
+        $obj->email = $request->email;
+        $obj->phone = $request->phone;
+        $obj->country = $request->country;
+        $obj->address = $request->address;
+        $obj->state = $request->state;
+        $obj->city = $request->city;
+        $obj->zip = $request->zip;
+        $obj->status = $request->status;
+        $obj->save();
+
+        return redirect()->route('admin_users')->with('success', 'User is Updated Successfully');
+    }
+
+    public function user_delete($id) 
+    {
+         
+        
+        
+         $total = Review::where('user_id', $id)->count();
+        
+        if($total > 0) {
+            return redirect()->back()->with('error', 'User can not be deleted because he has some reviews');
+        }
+        
+        
+        $total1 = Message::where('user_id', $id)->count();
+
+        if($total1 > 0) {
+            return redirect()->back()->with('error', 'User can not be deleted because he has some Messages');
+        }
+        
+        $total2 = Wishlist::where('user_id', $id)->count();
+
+        if($total2 > 0) {
+            return redirect()->back()->with('error', 'User can not be deleted because he has some wishlist');
+        }
+        
+        $total3 = Booking::where('user_id', $id)->count();
+
+        if($total3 > 0) {
+            return redirect()->back()->with('error', 'User can not be deleted because he has some booking');
+        }
+        
+        
+       
+       
+        $obj = User::where('id', $id)->first();
+        $photoPath = public_path('uploads/' . $obj->photo);
+        
+
+        // Supprimer seulement si ce n’est PAS un dossier
+        if (!empty($obj->photo) && file_exists($photoPath) && is_file($photoPath)) {
+            unlink($photoPath);
+        }
+        
+        
+        $obj->delete();
+
+        return redirect()->route('admin_users')->with('success', 'User is Deleted Successfully');
+    }
+
+    
+    
     
     
     public function message()
