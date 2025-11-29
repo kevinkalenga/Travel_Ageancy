@@ -11,6 +11,53 @@ use App\Mail\Websitemail;
 
 class AdminUserController extends Controller
 {
+    public function users()
+    {
+      $users = User::get();
+      return view('admin.user.users', compact('users'));
+    }
+  
+    public function user_create()
+    {
+      return view('admin.user.user_create');
+    }
+    
+    public function user_create_submit(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'phone' => 'required',
+            'country' => 'required',
+            'address' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'zip' => 'required',
+            'password' => 'required',
+            'photo' => ['image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
+        ]);
+
+        $finale_name = 'user_'.time().'.'.$request->photo->extension();
+        $request->photo->move(public_path('uploads'), $finale_name);
+
+        $obj = new User();
+        $obj->name = $request->name;
+        $obj->email = $request->email;
+        $obj->phone = $request->phone;
+        $obj->country = $request->country;
+        $obj->address = $request->address;
+        $obj->state = $request->state;
+        $obj->city = $request->city;
+        $obj->zip = $request->zip;
+        $obj->password = $request->password;
+        $obj->photo = $finale_name;
+         $obj->status = $request->status;
+        $obj->save();
+
+        return redirect()->route('admin_users')->with('success', 'User is Created Successfully');
+    }
+    
+    
     public function message()
     {
         // message has the relation with the user
