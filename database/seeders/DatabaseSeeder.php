@@ -13,13 +13,14 @@ class DatabaseSeeder extends Seeder
     {
         // Appel de tous les seeders nécessaires
         $this->call([
-            AdminSeeder::class,
-            WelcomeItemSeeder::class,
-            CounterItemSeeder::class,
-            HomeItemSeeder::class,
-            AboutItemSeeder::class,
-            ContactItemSeeder::class,
-            TermPrivacyItemSeeder::class,
+            // AdminSeeder::class,
+            // WelcomeItemSeeder::class,
+            // CounterItemSeeder::class,
+            // HomeItemSeeder::class,
+            // AboutItemSeeder::class,
+            // ContactItemSeeder::class,
+            // TermPrivacyItemSeeder::class,
+            SettingSeeder::class,
         ]);
 
         // Si tu veux générer des utilisateurs factices :

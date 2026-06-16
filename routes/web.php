@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\AdminSubscriberController;
 use App\Http\Controllers\Admin\AdminAboutItemController;
 use App\Http\Controllers\Admin\AdminContactItemController;
 use App\Http\Controllers\Admin\AdminTermPrivacyItemController;
+use App\Http\Controllers\Admin\AdminSettingController;
 
 
 // ===============================
@@ -265,6 +266,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // Term and Privacy section
     Route::get('/term-privacy-item/index', [AdminTermPrivacyItemController::class, 'index'])->name('admin_term_privacy_item_index');
     Route::post('/term-privacy-item/update', [AdminTermPrivacyItemController::class, 'update'])->name('admin_term_privacy_item_update');
+    // Setting Section
+    Route::get('/setting/index', [AdminSettingController::class, 'index'])->name('admin_setting_index');
+    Route::post('/setting/update', [AdminSettingController::class, 'update'])->name('admin_setting_update');
 
     
     

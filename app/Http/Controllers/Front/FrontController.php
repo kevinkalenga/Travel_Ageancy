@@ -53,7 +53,7 @@ class FrontController extends Controller
         $posts = Post::with('blog_category')->orderBy('id', 'desc')->get()->take(3);
         $testimonials = Testimonial::get();
 
-        $destinations = Destination::orderBy('name', 'asc')->get();
+        // $destinations = Destination::orderBy('name', 'asc')->get();
         $packages = Package::with(['destination', 'package_amenities', 'package_itineraries', 'tours', 'reviews'])
         ->orderBy('id', 'desc')->get()->take(3);
 
@@ -189,31 +189,31 @@ class FrontController extends Controller
     }
 
     
-     public function enquery_form_submit(Request $request, $id)
-   {
-    $package = Package::find($id);
-    $admin = Admin::find(1);
+    public function enquery_form_submit(Request $request, $id)
+    {
+        $package = Package::find($id);
+        $admin = Admin::find(1);
 
-    $request->validate([
-        'name' => 'required',
-        'email' => 'required|email',
-        'phone' => 'required',
-        'message' => 'required',
-    ]);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'message' => 'required',
+        ]);
 
-    $subject = "Enquiry about: ".$package->name;
-    $message  = "<b>Name:</b> ".$request->name."<br>";
-    $message .= "<b>Email:</b> ".$request->email."<br>";
-    $message .= "<b>Phone:</b> ".$request->phone."<br>";
-    $message .= "<b>Message:</b> ".nl2br($request->message)."<br>";
+        $subject = "Enquiry about: ".$package->name;
+        $message  = "<b>Name:</b> ".$request->name."<br>";
+        $message .= "<b>Email:</b> ".$request->email."<br>";
+        $message .= "<b>Phone:</b> ".$request->phone."<br>";
+        $message .= "<b>Message:</b> ".nl2br($request->message)."<br>";
 
-    \Mail::html($message, function ($m) use ($subject, $admin) {
-        $m->to($admin->email)
-          ->subject($subject);
-    });
+        \Mail::html($message, function ($m) use ($subject, $admin) {
+            $m->to($admin->email)
+            ->subject($subject);
+        });
 
-    return redirect()->back()->with('success', 'Your enquiry is submitted successfully. We will contact you soon.');
-}
+        return redirect()->back()->with('success', 'Your enquiry is submitted successfully. We will contact you soon.');
+    }
 
      // Page d'inscription
     public function registration() { return view('front.registration'); }
@@ -276,25 +276,25 @@ class FrontController extends Controller
 
 
    public function login_submit(Request $request)
-{
-    // 1️ Validation des données
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+   {
+        // 1️ Validation des données
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-    // 2️ Préparer les identifiants
-    $credentials = $request->only('email', 'password');
+        // 2️ Préparer les identifiants
+        $credentials = $request->only('email', 'password');
 
-    // 3️ Tenter la connexion en vérifiant que le compte est actif
-    if (Auth::attempt($credentials + ['status' => 1])) {
-        $request->session()->regenerate(); // Sécurise la session
-        return redirect()->route('user_dashboard')->with('success', 'Login successful!');
+        // 3️ Tenter la connexion en vérifiant que le compte est actif
+        if (Auth::attempt($credentials + ['status' => 1])) {
+            $request->session()->regenerate(); // Sécurise la session
+            return redirect()->route('user_dashboard')->with('success', 'Login successful!');
+        }
+
+        // 4️ Retour avec erreur si la connexion échoue
+        return back()->with('error', 'Email or password is incorrect!')->withInput();
     }
-
-    // 4️ Retour avec erreur si la connexion échoue
-    return back()->with('error', 'Email or password is incorrect!')->withInput();
-}
 
 
 
