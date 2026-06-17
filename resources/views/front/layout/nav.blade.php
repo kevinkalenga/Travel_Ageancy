@@ -2,7 +2,7 @@
             <!-- Menu For Mobile Device -->
             <div class="mobile-nav">
                 <a href="{{route('home')}}" class="logo">
-                    <img src="{{asset('uploads/'.$setting->fivecon)}}" alt="">
+                    <img src="{{ asset('uploads/' . ($setting->fivecon ?? 'default.png')) }}" alt="">
                 </a>
             </div>
 
