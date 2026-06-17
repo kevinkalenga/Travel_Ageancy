@@ -2,7 +2,7 @@ FROM php:8.3-cli
 
 WORKDIR /app
 
-# Dépendances système
+# System dependencies + PHP extensions
 RUN apt-get update && apt-get install -y \
     git unzip zip curl \
     libzip-dev \
@@ -10,9 +10,10 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libonig-dev \
+    libicu-dev \
     nodejs npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql zip mbstring gd
+    && docker-php-ext-install pdo pdo_mysql zip mbstring gd intl
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -20,15 +21,20 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copier le projet
 COPY . .
 
-# PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Installer dépendances PHP (SAFE MODE)
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader
 
-# Frontend build (IMPORTANT mais déjà safe)
+# Frontend
 RUN npm install
 RUN npm run build
 
-# Cache Laravel
-RUN php artisan config:cache
+# Laravel cache (safe)
+RUN php artisan config:clear
+RUN php artisan config:cache || true
 RUN php artisan route:cache || true
 RUN php artisan view:cache || true
 
