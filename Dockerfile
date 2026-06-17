@@ -34,10 +34,14 @@ RUN npm install
 RUN npm run build
 
 # Laravel cache (safe)
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+RUN npm install
+RUN npm run build || true
+
 RUN php artisan config:clear
+RUN php artisan cache:clear || true
 RUN php artisan config:cache || true
-RUN php artisan route:cache || true
-RUN php artisan view:cache || true
 
 # Permissions
 RUN chmod -R 775 storage bootstrap/cache
