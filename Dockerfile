@@ -2,7 +2,7 @@ FROM php:8.3-cli
 
 WORKDIR /app
 
-# System dependencies + PHP extensions
+# Dependencies
 RUN apt-get update && apt-get install -y \
     git unzip zip curl \
     libzip-dev \
@@ -18,27 +18,17 @@ RUN apt-get update && apt-get install -y \
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copier le projet
+# Code
 COPY . .
 
-# Installer dépendances PHP (SAFE MODE)
-RUN composer install \
-    --no-dev \
-    --no-interaction \
-    --prefer-dist \
-    --optimize-autoloader
+# Install backend
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
-# Frontend
-RUN npm install -g vite
+# Install frontend
 RUN npm install
 RUN npm run build
 
 # Laravel cache (safe)
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
-
-RUN npm install
-RUN npm run build || true
-
 RUN php artisan config:clear
 RUN php artisan cache:clear || true
 RUN php artisan config:cache || true
