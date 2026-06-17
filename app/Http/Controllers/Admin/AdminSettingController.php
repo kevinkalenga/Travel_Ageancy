@@ -53,6 +53,22 @@ class AdminSettingController extends Controller
 
             $obj->fivecon = $finale_name_1;
         }
+        if ($request->hasFile('banner')) {
+
+            $request->validate([
+                'banner' => ['image', 'mimes:jpg,jpeg,png,gif,webp', 'max:2048'],
+            ]);
+
+            if (!empty($obj->banner) && file_exists(public_path('uploads/'.$obj->banner))) {
+                unlink(public_path('uploads/'.$obj->banner));
+            }
+
+            $finale_name_2 = 'banner_'.time().'.'.$request->banner->extension();
+
+            $request->banner->move(public_path('uploads'), $finale_name_2);
+
+            $obj->banner = $finale_name_2;
+        }
         
         $obj->top_bar_phone = $request->top_bar_phone;
         $obj->top_bar_email = $request->top_bar_email;

@@ -42,6 +42,18 @@
                                                     </div>
                                                 </div>
                                            </div>
+                                           <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Existing Banner</label>
+                                                    <div><img src="{{asset('uploads/'.$setting->banner)}}" alt="logo" class="w_200"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Change Banner</label>
+                                                    <div>
+                                                        <input type="file" name="banner">
+                                                    </div>
+                                                </div>
+                                           </div>
                                         </div>
                                        
                                         <div class="mb-3">

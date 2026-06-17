@@ -1,5 +1,12 @@
 @extends('front.layout.master')
 
+@php 
+
+$setting = App\Models\Setting::where('id', 1)->first();
+
+@endphp
+
+
 @section('main_content') 
 
         <div class="page-top page-top-package" style="background-image: url({{asset('uploads/'.$package->banner)}})">
