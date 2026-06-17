@@ -137,15 +137,15 @@ $setting = App\Models\Setting::where('id', 1)->first();
                             ))
                                 <ul class="social">
                                     @if($setting->facebook)
-                                        <li><a href="{{ $setting->facebook }}"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href="{{ $setting->facebook ?? '' }}"><i class="fab fa-facebook-f"></i></a></li>
                                     @endif
 
                                     @if($setting->twitter)
-                                        <li><a href="{{ $setting->twitter }}"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="{{ $setting->twitter ?? '' }}"><i class="fab fa-twitter"></i></a></li>
                                     @endif
 
                                     @if($setting->youtube)
-                                        <li><a href="{{ $setting->youtube }}"><i class="fab fa-youtube"></i></a></li>
+                                        <li><a href="{{ $setting->youtube ?? '' }}"><i class="fab fa-youtube"></i></a></li>
                                     @endif
                                 </ul>
                             @endif
