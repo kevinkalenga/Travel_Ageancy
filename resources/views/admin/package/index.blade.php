@@ -42,11 +42,11 @@
                                                         {{$package->name}}
                                                      </td>
                                                      <td>
-                                                        <a href="{{route('admin_package_amenities', $package->id)}}" class="btn btn-success">Amenities</a>
-                                                        <a href="{{route('admin_package_itineraries', $package->id)}}" class="btn btn-success">Itinerary</a>
-                                                        <a href="{{route('admin_package_photos', $package->id)}}" class="btn btn-success">Photo Gallery</a>
-                                                        <a href="{{route('admin_package_videos', $package->id)}}" class="btn btn-success">Video Gallery</a>
-                                                        <a href="{{route('admin_package_faqs', $package->id)}}" class="btn btn-success">FAQ</a>
+                                                        <a href="{{route('admin_package_amenities', $package->id)}}" class="btn btn-success mb-1">Amenities</a>
+                                                        <a href="{{route('admin_package_itineraries', $package->id)}}" class="btn btn-success mb-1">Itinerary</a>
+                                                        <a href="{{route('admin_package_photos', $package->id)}}" class="btn btn-success mb-1">Photo Gallery</a>
+                                                        <a href="{{route('admin_package_videos', $package->id)}}" class="btn btn-success mb-1">Video Gallery</a>
+                                                        <a href="{{route('admin_package_faqs', $package->id)}}" class="btn btn-success mb-1">FAQ</a>
                                                         
                                            
                                                      </td>
