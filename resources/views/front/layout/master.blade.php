@@ -52,8 +52,8 @@ $setting = App\Models\Setting::where('id', 1)->first();
                 <div class="row">
                     <div class="col-md-6 left-side">
                         <ul>
-                            <li class="phone-text"><i class="fas fa-phone"></i> {{$setting->top_bar_phone}}</li>
-                            <li class="email-text"><i class="fas fa-envelope"></i> {{$setting->top_bar_email}}</li>
+                            <li class="phone-text"><i class="fas fa-phone"></i> {{$setting->top_bar_phone ?? ''}}</li>
+                            <li class="email-text"><i class="fas fa-envelope"></i> {{$setting->top_bar_email ?? ''}}</li>
                         </ul>
                     </div>
                     <div class="col-md-6 right-side">
@@ -113,20 +113,20 @@ $setting = App\Models\Setting::where('id', 1)->first();
                                     <i class="fas fa-map-marker-alt"></i>
                                 </div>
                                 <div class="right">
-                                    {{$setting->footer_address}}
+                                    {{$setting->footer_address ?? ''}}
                                 </div>
                             </div>
                             <div class="list-item">
                                 <div class="left">
                                     <i class="fas fa-phone"></i>
                                 </div>
-                                <div class="right">{{$setting->footer_email}}</div>
+                                <div class="right">{{$setting->footer_email ?? ''}}</div>
                             </div>
                             <div class="list-item">
                                 <div class="left">
                                     <i class="fas fa-envelope"></i>
                                 </div>
-                                <div class="right">{{$setting->footer_phone}}</div>
+                                <div class="right">{{$setting->footer_phone ?? ''}}</div>
                             </div>
                             @if($setting->facebook != '' || $setting->twitter != '' || $setting->youtube != '' || 
                              $setting->linkedin != '' || $setting->instagram != '')
