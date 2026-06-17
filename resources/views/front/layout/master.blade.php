@@ -128,23 +128,24 @@ $setting = App\Models\Setting::where('id', 1)->first();
                                 </div>
                                 <div class="right">{{$setting->footer_phone ?? ''}}</div>
                             </div>
-                            @if($setting->facebook != '' || $setting->twitter != '' || $setting->youtube != '' || 
-                             $setting->linkedin != '' || $setting->instagram != '')
+                             @if($setting && (
+                                $setting->facebook || 
+                                $setting->twitter || 
+                                $setting->youtube || 
+                                $setting->linkedin || 
+                                $setting->instagram
+                            ))
                                 <ul class="social">
-                                    @if($setting->facebook != '')
-                                        <li><a href="{{$setting->facebook}}"><i class="fab fa-facebook-f"></i></a></li>
+                                    @if($setting->facebook)
+                                        <li><a href="{{ $setting->facebook }}"><i class="fab fa-facebook-f"></i></a></li>
                                     @endif
-                                    @if($setting->twitter != '')
-                                        <li><a href="{{$setting->twitter}}"><i class="fab fa-twitter"></i></a></li>
+
+                                    @if($setting->twitter)
+                                        <li><a href="{{ $setting->twitter }}"><i class="fab fa-twitter"></i></a></li>
                                     @endif
-                                    @if($setting->youtube != '')
-                                        <li><a href="{{$setting->youtube}}"><i class="fab fa-youtube"></i></a></li>
-                                    @endif
-                                    @if($setting->linkedin != '')
-                                        <li><a href="{{$setting->linkedin}}"><i class="fab fa-linkedin-in"></i></a></li>
-                                    @endif
-                                    @if($setting->instagram != '')
-                                        <li><a href="{{$setting->instagram}}"><i class="fab fa-instagram"></i></a></li>
+
+                                    @if($setting->youtube)
+                                        <li><a href="{{ $setting->youtube }}"><i class="fab fa-youtube"></i></a></li>
                                     @endif
                                 </ul>
                             @endif
