@@ -54,6 +54,16 @@ class AdminSettingController extends Controller
             $obj->fivecon = $finale_name_1;
         }
         
+        $obj->top_bar_phone = $request->top_bar_phone;
+        $obj->top_bar_email = $request->top_bar_email;
+        $obj->footer_address = $request->footer_address;
+        $obj->footer_phone = $request->footer_phone;
+        $obj->facebook = $request->facebook;
+        $obj->twitter = $request->twitter;
+        $obj->youtube = $request->youtube;
+        $obj->linkedin = $request->linkedin;
+        $obj->instagram = $request->instagram;
+        $obj->copyright = $request->copyright;
        
         $obj->save();
 

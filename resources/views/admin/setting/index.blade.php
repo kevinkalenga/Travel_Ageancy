@@ -44,6 +44,66 @@
                                            </div>
                                         </div>
                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Top Bar Phone</label>
+                                            <input type="text" name="top_bar_phone" class="form-control" value="{{$setting->top_bar_phone}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Top Bar Email</label>
+                                            <input type="text" name="top_bar_email" class="form-control" value="{{$setting->top_bar_email}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Footer Address</label>
+                                            <input type="text" name="footer_address" class="form-control" value="{{$setting->footer_address}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Footer Address</label>
+                                            <input type="text" name="footer_address" class="form-control" value="{{$setting->footer_address}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Footer Phone</label>
+                                            <input type="text" name="footer_phone" class="form-control" value="{{$setting->footer_phone}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Footer Email</label>
+                                            <input type="text" name="footer_email" class="form-control" value="{{$setting->footer_email}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Facebook</label>
+                                            <input type="text" name="facebook" class="form-control" value="{{$setting->facebook}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Twitter</label>
+                                            <input type="text" name="twitter" class="form-control" value="{{$setting->twitter}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Youtube</label>
+                                            <input type="text" name="youtube" class="form-control" value="{{$setting->youtube}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Linkedin</label>
+                                            <input type="text" name="linkedin" class="form-control" value="{{$setting->linkedin}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Instagram</label>
+                                            <input type="text" name="instagram" class="form-control" value="{{$setting->instagram}}">
+                                            
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Copyright</label>
+                                            <input type="text" name="copyright" class="form-control" value="{{$setting->copyright}}">
+                                            
+                                        </div>
                                        
                                       
                                                                     
