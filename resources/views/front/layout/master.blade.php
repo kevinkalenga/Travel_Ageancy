@@ -179,7 +179,7 @@ $setting = App\Models\Setting::where('id', 1)->first();
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="copyright">
-                            {{$setting->copyright}}
+                            {{$setting->copyright ?? ''}}
                         </div>
                     </div>
                 </div>
