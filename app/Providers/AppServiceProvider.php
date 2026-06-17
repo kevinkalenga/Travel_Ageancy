@@ -22,10 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        paginator::useBootstrap();
+        Paginator::useBootstrap();
 
-        URL::forceScheme('https');
-
-        view()->share('setting', Setting::find(1) ?? new Setting());
+        if (env('APP_ENV') === 'production') {
+          URL::forceScheme('https');
+        }
     }
 }
