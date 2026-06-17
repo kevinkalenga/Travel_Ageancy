@@ -70,7 +70,7 @@
 </div>
 @endif
 
-@if($home_item->destination_status == 'Show')
+@if($home_item && $home_item->destination_status == 'Show')
         <div class="destination pt_70 pb_70">
             <div class="container">
                 <div class="row">
@@ -114,7 +114,7 @@
     @endif
 
 
-@if($home_item->feature_status == 'Show')
+@if($home_item && $home_item->feature_status == 'Show')
         <div class="why-choose pt_70">
             <div class="container">
                 <div class="row">
@@ -139,7 +139,7 @@
 @endif
 
 
-@if($home_item->package_status == 'Show')
+@if($home_item && $home_item->package_status == 'Show')
         <div class="package pt_70 pb_70">
             <div class="container">
                 <div class="row">
@@ -234,7 +234,7 @@
 @endif
 
 
-@if($home_item->testimonial_status == 'Show')
+@if($home_item && $home_item->testimonial_status == 'Show')
         <div class="testimonial pt_70 pb_70" style="background-image: url({{asset('uploads/'.$home_item->testimonial_background)}})">
             <div class="bg"></div>
             <div class="container">
